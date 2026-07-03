@@ -1,28 +1,11 @@
 {
-  "$schema": "https://mintlify.com/docs.json",
-  "name": "AWS Cloud Practitioner Complete Guide",
+  "projectType": "general",
+  "projectName": "AWS Cloud Practitioner Complete Guide",
+  "projectDescription": "A comprehensive self-contained Spanish-language study guide for the AWS Certified Cloud Practitioner (CLF-C02) exam, covering all four exam domains with practice exams, study schedules, and quick-reference materials.",
   "theme": "maple",
-  "colors": {
-    "primary": "#8c949c",
-    "light": "#252d3d",
-    "dark": "#cdcfd3"
-  },
-  "favicon": "https://media.brand.dev/297513c8-dbdb-42c4-a657-1310b5e96e96.png",
-  "logo": {
-    "light": "https://media.brand.dev/a0d22cc5-f3d0-4c82-bd17-fd6bbdfcb2dc.png",
-    "dark": "https://media.brand.dev/a0d22cc5-f3d0-4c82-bd17-fd6bbdfcb2dc.png"
-  },
-  "navbar": {
-    "primary": {
-      "type": "github",
-      "href": "https://github.com/roxsross/aws-cloud-practitioner-complete-guide"
-    }
-  },
-  "footer": {
-    "socials": {
-      "github": "https://github.com/roxsross/aws-cloud-practitioner-complete-guide"
-    }
-  },
+  "primaryColor": "#8c949c",
+  "lightColor": "#252d3d",
+  "darkColor": "#cdcfd3",
   "navigation": {
     "tabs": [
       {
@@ -105,5 +88,27 @@
         ]
       }
     ]
-  }
+  },
+  "keyFeatures": [
+    "100% self-contained study guide requiring no external resources",
+    "Full coverage of all four CLF-C02 exam domains",
+    "Three flexible study plans (4-week, 8-week, 12-week)",
+    "Three full practice exams with answers",
+    "Quick-reference cheat sheets, glossary, and exam tips",
+    "Real-world analogies and practical scenarios",
+    "Cross-referenced topics for easy navigation",
+    "Final preparation checklist and day-of-exam strategies"
+  ],
+  "publicApiSurface": [
+    "Domain 1: Cloud Concepts (24% of exam)",
+    "Domain 2: Security and Compliance (30% of exam)",
+    "Domain 3: Technology and Cloud Services (34% of exam)",
+    "Domain 4: Billing, Pricing, and Support (12% of exam)",
+    "Practice Exam 1, 2, and 3",
+    "Service Cheat Sheet",
+    "Exam Tips",
+    "Glossary",
+    "Study Schedules (4-week, 8-week, 12-week)",
+    "Progress Checklist"
+  ]
 }

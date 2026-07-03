@@ -1,0 +1,235 @@
+---
+title: "AWS Support Plans: Basic, Developer, Business & Enterprise"
+sidebarTitle: "Support Plans"
+description: "Compare all five AWS Support Plans — costs, response times, Trusted Advisor access, TAM availability, and which plan the CLF-C02 exam tests most heavily."
+---
+
+Every AWS account comes with some level of support, but the depth of that support varies dramatically depending on which plan you choose. AWS offers five support tiers designed to match the criticality of your workloads — from a free plan suitable for exploration and learning, to a dedicated-TAM Enterprise plan for mission-critical production environments. Knowing the differences between these plans, including which ones include 24/7 phone support and which ones provide a Technical Account Manager (TAM), is a frequently tested topic on the CLF-C02 exam.
+
+<Note>
+  All AWS support plans — including the free Basic plan — include access to AWS documentation, whitepapers, re:Post community forums, and the AWS Personal Health Dashboard at no additional cost.
+</Note>
+
+## Plan Comparison at a Glance
+
+| Feature | Basic | Developer | Business | Enterprise On-Ramp | Enterprise |
+|---|---|---|---|---|---|
+| **Monthly Cost** | Free | $29 or 3% of usage | $100 or 10–3% of usage | $5,500 or 10% of usage | $15,000 or 10–3% of usage |
+| **Best For** | Learning / personal | Dev & test | Production workloads | Business-critical scale | Mission-critical |
+| **Technical Support Cases** | ❌ | ✅ (email, biz hours) | ✅ (24/7 phone, chat, email) | ✅ (24/7 phone, chat, email) | ✅ (24/7 phone, chat, email) |
+| **Trusted Advisor Checks** | 7 core checks | 7 core checks | Full suite | Full suite | Full suite |
+| **Business-Critical Response** | — | — | &lt; 1 hour | &lt; 30 minutes | &lt; 15 minutes |
+| **Technical Account Manager** | ❌ | ❌ | ❌ | Pool of TAMs | Dedicated TAM |
+| **Support API Access** | ❌ | ❌ | ✅ | ✅ | ✅ |
+| **Third-Party Software Support** | ❌ | ❌ | ✅ | ✅ | ✅ |
+
+## Detailed Plan Breakdown
+
+<Tabs>
+  <Tab title="Basic (Free)">
+    ### Basic Support — Included with Every AWS Account
+
+    The Basic plan is automatically included with every AWS account at no charge. It provides self-service resources and limited automated insights but no access to human technical support.
+
+    **What's Included:**
+    - Access to AWS documentation, technical guides, whitepapers, and re:Post community forums
+    - **AWS Trusted Advisor:** 7 core checks (security-focused — IAM use, MFA on root, public S3 buckets, public EBS/RDS snapshots, unrestricted security group ports, service limits)
+    - **AWS Health Dashboard (Personal Health Dashboard):** Personalized alerts about AWS service events that may affect your specific resources
+    - Billing and account support via the AWS Support Center
+
+    **What's NOT Included:**
+    - No technical support cases — you cannot open a ticket with a Cloud Support engineer
+    - No phone, chat, or email access to AWS technical staff
+    - No architectural guidance or best-practice reviews
+
+    **Best For:** Exploration, learning, free-tier experiments, and non-production personal projects.
+  </Tab>
+  <Tab title="Developer ($29/mo)">
+    ### Developer Support
+
+    **Cost:** $29/month or 3% of monthly AWS usage — whichever is greater.
+
+    Developer Support adds email-based access to Cloud Support Associates during **business hours** (generally 8 AM–6 PM in the customer's local time zone).
+
+    **Response Times:**
+    | Case Severity | Target Response |
+    |---|---|
+    | General guidance | &lt; 24 business hours |
+    | System impaired | &lt; 12 business hours |
+
+    **What's Included (beyond Basic):**
+    - Business hours email access to Cloud Support Associates
+    - **One primary contact** authorized to open support cases (additional contacts are not included)
+    - General architectural guidance — recommendations on how to use AWS services for your use case
+    - Client-side diagnostic tools
+    - **Trusted Advisor:** Same 7 core checks as Basic
+
+    **What's NOT Included:**
+    - No phone or chat support
+    - No 24/7 availability — support is business-hours only
+    - No full Trusted Advisor suite
+    - No third-party software support
+
+    **Best For:** Individual developers, small teams in active development, non-production testing environments where overnight response times are acceptable.
+  </Tab>
+  <Tab title="Business ($100/mo)">
+    ### Business Support
+
+    **Cost:** $100/month or a sliding percentage of monthly AWS usage (10% of first $10K, 7% of $10K–$80K, 5% of $80K–$250K, 3% of $250K+) — whichever is greater.
+
+    Business Support is the minimum recommended plan for **production workloads**. It introduces 24/7 multi-channel access to Cloud Support Engineers.
+
+    **Response Times:**
+    | Case Severity | Target Response |
+    |---|---|
+    | General guidance | &lt; 24 hours |
+    | System impaired | &lt; 12 hours |
+    | Production system impaired | &lt; 4 hours |
+    | Production system down | **&lt; 1 hour** |
+
+    **What's Included (beyond Developer):**
+    - **24/7 phone, email, and chat** access to Cloud Support Engineers
+    - **Unlimited contacts** can open support cases
+    - **Full Trusted Advisor** — all checks across Cost Optimization, Performance, Security, Fault Tolerance, and Service Limits pillars
+    - **AWS Support API** — programmatically create/manage cases and retrieve Trusted Advisor results
+    - **Contextual architectural guidance** based on your specific use case
+    - **Third-party software support** (assistance with common software running on AWS, e.g., Linux, Windows, databases)
+    - Infrastructure Event Management available for an additional fee
+
+    **Best For:** Any production environment, SaaS applications, e-commerce platforms, internal business-critical systems.
+  </Tab>
+  <Tab title="Enterprise On-Ramp ($5,500/mo)">
+    ### Enterprise On-Ramp Support
+
+    **Cost:** $5,500/month or 10% of monthly AWS usage — whichever is greater.
+
+    Enterprise On-Ramp bridges the gap between Business and full Enterprise support. It adds proactive guidance and faster critical response times for companies scaling toward enterprise workloads.
+
+    **Response Times:**
+    | Case Severity | Target Response |
+    |---|---|
+    | General guidance | &lt; 24 hours |
+    | System impaired | &lt; 12 hours |
+    | Production system impaired | &lt; 4 hours |
+    | Production system down | &lt; 1 hour |
+    | Business-critical system down | **&lt; 30 minutes** |
+
+    **What's Included (beyond Business):**
+    - Access to a **pool of Technical Account Managers (TAMs)** — not a dedicated individual, but a team of TAMs who provide proactive recommendations and reviews
+    - **Infrastructure Event Management** (included, not an add-on)
+    - **AWS Well-Architected Reviews** — formal reviews of your architecture against AWS best practices
+    - Proactive programs including concierge-style access to billing and account support
+    - Operational reviews and recommendations
+
+    **Best For:** Growing companies with production and business-critical workloads that need proactive guidance and a faster critical-incident response than Business provides.
+  </Tab>
+  <Tab title="Enterprise ($15,000/mo)">
+    ### Enterprise Support
+
+    **Cost:** $15,000/month or a sliding percentage of monthly AWS usage (10% of first $150K, 7% of $150K–$500K, 5% of $500K–$1M, 3% of $1M+) — whichever is greater.
+
+    Enterprise Support is AWS's flagship support offering — designed for organizations running mission-critical infrastructure where any downtime has severe business consequences.
+
+    **Response Times:**
+    | Case Severity | Target Response |
+    |---|---|
+    | General guidance | &lt; 24 hours |
+    | System impaired | &lt; 12 hours |
+    | Production system impaired | &lt; 4 hours |
+    | Production system down | &lt; 1 hour |
+    | Business/mission-critical system down | **&lt; 15 minutes** |
+
+    **What's Included (beyond Enterprise On-Ramp):**
+    - **Dedicated Technical Account Manager (TAM)** — a named AWS expert who deeply understands your architecture, business goals, and operational needs
+    - **Concierge Support Team** — specialized assistance for billing, account management, and AWS best practices
+    - **Infrastructure Event Management** — proactive planning and real-time support for planned events like product launches and migrations
+    - **Training credits** and access to AWS training resources
+    - **White-glove case routing** — critical cases escalated to the most experienced support engineers
+    - **Executive Business Reviews** — periodic reviews with AWS leadership
+
+    **Best For:** Large enterprises, financial institutions, healthcare organizations, and any workload where even minutes of downtime translate to significant financial or reputational impact.
+  </Tab>
+</Tabs>
+
+## AWS Trusted Advisor Deep Dive
+
+Trusted Advisor is available to all plans but the depth of checks differs significantly.
+
+<Accordion title="7 Core Checks — Basic & Developer Plans">
+  The 7 core checks are exclusively security-focused and available to all accounts at no cost:
+
+  1. **S3 Bucket Permissions** — Flags publicly accessible S3 buckets
+  2. **Security Groups — Specific Ports Unrestricted** — Identifies overly permissive inbound rules (e.g., 0.0.0.0/0 on port 22 or 3389)
+  3. **IAM Use** — Checks whether IAM is in active use (vs. using root credentials)
+  4. **MFA on Root Account** — Flags if multi-factor authentication is not enabled on the root user
+  5. **Amazon EBS Public Snapshots** — Identifies EBS snapshots marked as public
+  6. **Amazon RDS Public Snapshots** — Identifies RDS snapshots marked as public
+  7. **Service Limits** — Checks usage against AWS service quotas for a small subset of critical services
+</Accordion>
+
+<Accordion title="Full Suite — Business, Enterprise On-Ramp & Enterprise Plans">
+  Business and Enterprise plans unlock hundreds of additional checks across five pillars:
+
+  - **Cost Optimization (~50+ checks):** Idle EC2 instances, underutilized EBS volumes, unassociated Elastic IPs, low-utilization RDS instances, RI purchase recommendations
+  - **Performance (~40+ checks):** CloudFront content delivery optimization, EC2-to-EBS throughput optimization, high-utilization EC2 instances
+  - **Security (~60+ checks):** Exposed access keys, CloudTrail logging status, route table over-permissiveness, weak IAM password policies
+  - **Fault Tolerance (~10+ checks):** EBS snapshots not taken recently, RDS not in Multi-AZ, ELB cross-zone load balancing disabled, Auto Scaling group health checks
+  - **Service Limits (100+ checks):** Current usage vs. soft limits across nearly all AWS services
+</Accordion>
+
+## AWS Personal Health Dashboard
+
+Available on **all support plans**, the Personal Health Dashboard provides a personalized view of the health of AWS services and infrastructure that is specifically relevant to your account.
+
+<CardGroup cols={2}>
+  <Card title="Proactive Notifications" icon="bell">
+    Receive alerts about AWS scheduled maintenance, hardware retirements, and service degradations that could affect resources in your specific account and region — not just generic service status.
+  </Card>
+  <Card title="Remediation Guidance" icon="wrench">
+    When an event affects your resources, the dashboard provides recommended remediation steps tailored to your specific configuration, such as which instances to migrate before a hardware retirement.
+  </Card>
+  <Card title="Event Log" icon="clock-rotate-left">
+    Review a full history of past events that affected your account, useful for post-incident reviews and compliance reporting.
+  </Card>
+  <Card title="Integration Options" icon="plug">
+    Integrate with Amazon EventBridge to trigger automated runbooks, Lambda functions, or SNS notifications whenever a health event matches your account.
+  </Card>
+</CardGroup>
+
+## Exam-Focused Quick Reference
+
+The CLF-C02 exam tests support plan knowledge through scenario-based questions. Use these anchors:
+
+<Accordion title="Key Facts the Exam Tests Most Often">
+  - **Which plan includes 24/7 phone support?** → **Business, Enterprise On-Ramp, and Enterprise** (Developer is email only, business hours)
+  - **Which plan includes a dedicated TAM?** → **Enterprise** (Enterprise On-Ramp has access to a pool of TAMs, not a dedicated one)
+  - **Which plan is the minimum for full Trusted Advisor?** → **Business**
+  - **Which plan provides the fastest critical response?** → **Enterprise** (&lt; 15 minutes for business/mission-critical)
+  - **What is available on all plans for free?** → Documentation, re:Post forums, AWS Health Dashboard, and the 7 core Trusted Advisor checks
+  - **Which plan requires no purchase to access?** → **Basic** (included with every account automatically)
+</Accordion>
+
+<Tip>
+  On the exam, when a question mentions a "dedicated TAM," that always points to **Enterprise support**. When a question describes 24/7 phone support as a requirement, the minimum qualifying plan is **Business**. These two anchors eliminate most wrong answers.
+</Tip>
+
+## Choosing the Right Plan: Decision Framework
+
+<Steps>
+  <Step title="Is the workload in production?">
+    If yes, you need at minimum **Business Support** for 24/7 multi-channel access and the 1-hour critical response SLA. Developer support's business-hours-only email coverage is insufficient for production incidents.
+  </Step>
+  <Step title="Do you need full Trusted Advisor?">
+    If cost optimization checks, performance recommendations, and comprehensive security checks are important, **Business** is the minimum plan.
+  </Step>
+  <Step title="Is downtime measured in millions of dollars per hour?">
+    If yes, evaluate **Enterprise On-Ramp** (30-minute critical response + TAM pool) or **Enterprise** (15-minute critical response + dedicated TAM) based on the scale and complexity of your environment.
+  </Step>
+  <Step title="Do you need strategic AWS guidance?">
+    If you want a dedicated technical partner who attends your architectural reviews, helps plan migrations, and advocates for your needs inside AWS, you need **Enterprise Support** with its dedicated TAM.
+  </Step>
+</Steps>
+
+<Warning>
+  Choosing a support plan based solely on minimizing the monthly fee is a false economy. Calculate the actual cost of one hour of production downtime for your workload, then compare it to the annual cost difference between support tiers. In most production scenarios, Business Support more than pays for itself in a single major incident averted.
+</Warning>

@@ -1,0 +1,177 @@
+---
+title: "AWS CLF-C02 Exam Overview: Format, Domains & Scoring"
+sidebarTitle: "Exam Overview"
+description: "Everything you need to know about the AWS CLF-C02 exam — 65 questions, 90 minutes, a 700/1000 passing score, four domains, $100 cost, and no prerequisites required."
+---
+
+The **AWS Certified Cloud Practitioner (CLF-C02)** is Amazon Web Services' foundational certification, designed to validate broad cloud fluency rather than deep technical specialization. It tests your ability to explain core cloud concepts, describe the AWS global infrastructure, identify key services across compute, storage, networking, and databases, articulate the AWS security and compliance model, and interpret AWS pricing and support options. No prior AWS experience or technical background is required — this is intentionally AWS's entry point for anyone beginning their cloud journey, and a passing score of 700 out of 1000 reflects a solid foundational understanding rather than expert-level mastery.
+
+<Note>
+  The CLF-C02 is the current version of the AWS Cloud Practitioner exam (updated 2023). If you are registering for the exam today, you are taking the CLF-C02. All content in this guide is aligned to its official objectives. Refer to the [AWS Certification page](https://aws.amazon.com/certification/certified-cloud-practitioner/) for the latest scheduling and registration details.
+</Note>
+
+## Exam At a Glance
+
+The table below captures every logistical detail you need before registering. There are no surprises on exam day if you know these numbers cold.
+
+| **Detail** | **Information** |
+|---|---|
+| **Exam Code** | CLF-C02 |
+| **Duration** | 90 minutes |
+| **Question Format** | Multiple choice (one correct answer) and multiple response (two or more correct answers) |
+| **Number of Questions** | 65 scored questions (plus up to 15 unscored pilot questions that do not affect your result) |
+| **Passing Score** | 700 out of 1000 |
+| **Exam Cost** | $100 USD |
+| **Certification Validity** | 3 years from the date you pass |
+| **Prerequisites** | None — no prior AWS experience or other certifications required |
+| **Delivery** | Pearson VUE testing center or online proctored at home |
+| **Languages Available** | English, Japanese, Korean, Simplified Chinese, Traditional Chinese, Bahasa Indonesia, Spanish (Spain), Spanish (Latin America), French, German, Italian, Portuguese (Brazil) |
+
+<Tip>
+  AWS provides a **50% exam voucher discount** for eligible students and teachers through the AWS Educate program, and organizations can purchase exam vouchers in bulk at a discount through AWS Training and Certification. Check your eligibility before registering at full price.
+</Tip>
+
+## The Four Exam Domains
+
+The CLF-C02 is divided into four scored domains. Each domain carries a specific percentage weight, which directly determines how many questions you will see on that topic. Understanding these weights helps you allocate study time strategically — Domain 3 (Technology & Services) carries the most weight at 34%, followed by Domain 2 (Security & Compliance) at 30%.
+
+<Accordion title="Domain 1: Cloud Concepts — 24%">
+
+**Approximate questions: ~16 out of 65**
+
+Domain 1 establishes the conceptual foundation that every other domain builds upon. You need to understand *why* cloud computing exists, *how* it differs from traditional on-premises IT, and *what* the core deployment and service models mean in practice.
+
+**Key topics tested:**
+- **What is cloud computing?** — On-demand delivery of IT resources over the internet with pay-as-you-go pricing
+- **Six advantages of cloud computing** — Trade capital expense for variable expense, benefit from massive economies of scale, stop guessing capacity, increase speed and agility, stop spending money running and maintaining data centers, go global in minutes
+- **Cloud deployment models** — Public cloud (AWS-managed), private cloud (on-premises), and hybrid cloud (combination of both)
+- **Cloud service models** — Infrastructure as a Service (IaaS), Platform as a Service (PaaS), and Software as a Service (SaaS), and the customer responsibility boundaries for each
+- **AWS Global Infrastructure** — Regions (geographic areas with multiple data centers), Availability Zones (isolated data centers within a Region), and Edge Locations (used for content delivery via Amazon CloudFront)
+- **Well-Architected Framework** — The six pillars: Operational Excellence, Security, Reliability, Performance Efficiency, Cost Optimization, and Sustainability
+
+**Study time:** ~15 hours | **Domain pages:** [Cloud Concepts](/cloud-concepts/what-is-cloud)
+
+</Accordion>
+
+<Accordion title="Domain 2: Security and Compliance — 30%">
+
+**Approximate questions: ~20 out of 65**
+
+Security is the second-largest domain by weight and arguably the most conceptually dense. AWS's security model is built around shared responsibility, and the exam expects you to draw clear boundaries between what AWS secures and what you, the customer, are responsible for.
+
+**Key topics tested:**
+- **Shared Responsibility Model** — AWS is responsible for security *of* the cloud (hardware, software, networking, and facilities); customers are responsible for security *in* the cloud (data, identity, access configuration, application security)
+- **AWS Identity and Access Management (IAM)** — Users, groups, roles, and policies; the principle of least privilege; root account security
+- **Multi-Factor Authentication (MFA)** — How MFA works and when AWS recommends or requires it
+- **Security services** — AWS Shield (DDoS protection), AWS WAF (web application firewall), Amazon GuardDuty (threat detection), AWS CloudTrail (API activity logging), Amazon Inspector (vulnerability assessments), AWS Macie (sensitive data discovery in S3)
+- **Data protection** — Encryption at rest and in transit, AWS Key Management Service (KMS), AWS Certificate Manager
+- **Compliance programs** — SOC 1/2/3, PCI DSS, HIPAA, ISO certifications, and how AWS Artifact provides access to compliance documentation
+- **AWS Organizations** — Multi-account management, Service Control Policies (SCPs), and consolidated billing
+
+**Study time:** ~20 hours | **Domain pages:** [Security & Compliance](/security-compliance/shared-responsibility)
+
+</Accordion>
+
+<Accordion title="Domain 3: Technology and Cloud Services — 34%">
+
+**Approximate questions: ~22 out of 65**
+
+The largest domain by weight, Domain 3 covers the breadth of AWS services. The exam does not require deep technical configuration knowledge — it tests whether you can identify the *right service for the right use case* and understand the core characteristics that differentiate similar services.
+
+**Key topics tested:**
+
+- **Compute services** — Amazon EC2 (virtual servers), instance types and purchasing options (On-Demand, Reserved, Spot, Dedicated), Amazon Lambda (serverless functions), Amazon ECS and EKS (container orchestration), AWS Elastic Beanstalk (managed application deployment)
+- **Storage services** — Amazon S3 (object storage), S3 storage classes (Standard, Intelligent-Tiering, Glacier), Amazon EBS (block storage for EC2), Amazon EFS (managed file storage), AWS Storage Gateway
+- **Networking services** — Amazon VPC (private network in the cloud), subnets, security groups and network ACLs, Amazon Route 53 (DNS), Amazon CloudFront (CDN), AWS Direct Connect, AWS VPN
+- **Database services** — Amazon RDS (managed relational databases: MySQL, PostgreSQL, Aurora, etc.), Amazon DynamoDB (NoSQL), Amazon ElastiCache (in-memory caching), Amazon Redshift (data warehousing)
+- **Application integration** — Amazon SQS (message queuing), Amazon SNS (push notifications and pub/sub), Amazon EventBridge, AWS Step Functions
+- **Developer and management tools** — AWS CloudFormation (infrastructure as code), AWS CloudWatch (monitoring and logging), AWS Trusted Advisor, AWS Systems Manager, AWS Config
+- **Migration and transfer** — AWS Migration Hub, AWS Database Migration Service (DMS), AWS Snowball (physical data transfer)
+- **Artificial intelligence and machine learning** — Amazon Rekognition (image/video analysis), Amazon Comprehend (NLP), Amazon Polly (text-to-speech), Amazon Lex (chatbots), Amazon SageMaker (ML model training and deployment)
+
+**Study time:** ~25 hours | **Domain pages:** [Technology & Services](/technology-services/compute-services)
+
+</Accordion>
+
+<Accordion title="Domain 4: Billing, Pricing, and Support — 12%">
+
+**Approximate questions: ~8 out of 65**
+
+The smallest domain by weight, Domain 4 is nonetheless important because billing and pricing questions appear throughout the exam in scenario form. Understanding how AWS charges for services — and how to control and estimate those charges — rounds out your cloud literacy.
+
+**Key topics tested:**
+- **AWS pricing fundamentals** — Pay-as-you-go, pay less when you reserve, pay less with more usage (volume discounts), free tier offerings
+- **EC2 purchasing options** — On-Demand (no commitment, highest cost), Reserved Instances (1- or 3-year commitment, up to 72% savings), Savings Plans (flexible commitment), Spot Instances (spare capacity, up to 90% savings), Dedicated Hosts (physical server dedication for licensing compliance)
+- **Cost management tools** — AWS Cost Explorer (visualize and analyze spending), AWS Budgets (set spending and usage alerts), AWS Cost and Usage Report (detailed billing data), AWS Pricing Calculator (estimate costs before deployment)
+- **AWS Organizations and consolidated billing** — Combining multiple accounts into one payer account, sharing Reserved Instance and Savings Plan benefits across accounts
+- **AWS Support plans** — Basic (free, AWS documentation and forums), Developer ($29/month, one technical contact), Business ($100/month, 24/7 phone support, Trusted Advisor full checks), Enterprise On-Ramp ($5,500/month), Enterprise ($15,000/month, dedicated Technical Account Manager)
+- **AWS Marketplace** — Finding, buying, and deploying third-party software on AWS
+
+**Study time:** ~10 hours | **Domain pages:** [Billing & Support](/billing-support/pricing-models)
+
+</Accordion>
+
+## Domain Weight Summary
+
+The chart below shows at a glance how the four domains compare by exam weight. Plan your study time proportionally — spend the most time on Domain 3, followed by Domain 2.
+
+| **Domain** | **Weight** | **~Questions** | **Recommended Study Hours** |
+|---|---|---|---|
+| Domain 1: Cloud Concepts | 24% | ~16 | ~15 hours |
+| Domain 2: Security and Compliance | 30% | ~20 | ~20 hours |
+| Domain 3: Technology and Cloud Services | 34% | ~22 | ~25 hours |
+| Domain 4: Billing, Pricing, and Support | 12% | ~8 | ~10 hours |
+| **Total** | **100%** | **65** | **~70 hours** |
+
+## Target Audience
+
+AWS designed the CLF-C02 to be genuinely accessible. The following profiles are explicitly mentioned in the official exam guide as ideal candidates:
+
+<CardGroup cols={2}>
+  <Card title="IT Professionals" icon="laptop-code" href="/study-plans">
+    Developers, sysadmins, and network engineers beginning their AWS journey who need a formal credential to accompany their technical skill-building.
+  </Card>
+  <Card title="Business Leaders" icon="briefcase" href="/study-plans">
+    Managers, project managers, product owners, and executives who work alongside cloud engineering teams and need foundational AWS literacy to participate in technical and financial decisions.
+  </Card>
+  <Card title="Students" icon="graduation-cap" href="/study-plans">
+    Computer science, information systems, and business technology students pursuing their first cloud certification as a career differentiator before entering the job market.
+  </Card>
+  <Card title="Career Changers" icon="arrow-right-arrow-left" href="/study-plans">
+    Professionals transitioning from non-technical fields — finance, healthcare, marketing, legal — who want to establish cloud credibility and open doors to roles in cloud operations, sales, or architecture.
+  </Card>
+</CardGroup>
+
+## What to Expect on Exam Day
+
+<Steps>
+  <Step title="Check In Early">
+    Whether testing at a Pearson VUE center or online, arrive or log in at least 15 minutes early. Online proctored exams require a system check, ID verification, and a workspace scan via webcam. Testing centers require government-issued photo ID.
+  </Step>
+  <Step title="Understand the Question Format">
+    Multiple-choice questions have four answer options with exactly one correct answer. Multiple-response questions explicitly state how many answers to select (e.g., "Select TWO"). Read the stem carefully — the number of correct answers is always stated explicitly for multiple-response questions.
+  </Step>
+  <Step title="Flag and Return">
+    You can flag questions for review and return to them before submitting. If a question stumps you, mark it, move on, and return at the end. Never leave a question blank — there is no penalty for wrong answers on the CLF-C02, so always choose your best guess.
+  </Step>
+  <Step title="Manage Your Time">
+    90 minutes for 65 questions gives you about 83 seconds per question. Most questions are shorter, scenario-based prompts. Budget roughly 60 minutes for your first pass, leaving 30 minutes for flagged questions and final review.
+  </Step>
+  <Step title="Receive Preliminary Results">
+    A preliminary pass/fail result is displayed on screen immediately after you submit at a testing center. The official scored result (with your numeric score) appears in your AWS Certification account within five business days.
+  </Step>
+</Steps>
+
+<Warning>
+  AWS does **not** publish the official passing score for individual question categories — only the overall 700/1000 threshold. Do not aim for 70% in each domain independently; your total score across all 65 questions determines your outcome. A strong performance in Domain 3 can offset a weaker result in Domain 4.
+</Warning>
+
+## Scoring and Passing
+
+The CLF-C02 uses a scaled scoring model ranging from 100 to 1000. The passing score is **700**. Scaled scoring means your raw number of correct answers is converted to account for slight variations in question difficulty across different exam versions — a 700 on one version is equivalent in difficulty to a 700 on another.
+
+On practice exams, aim for a consistent score of **750 or higher** before booking your real exam date. A buffer above 700 accounts for test-day nerves and the natural variance between practice question banks and the real exam item pool.
+
+<Info>
+  After passing, your certification is valid for **3 years**. AWS sends renewal reminders as your expiration date approaches. You can recertify by passing the same exam again, by passing any higher-level AWS certification (Associate or Professional level), or through AWS's recertification exam program.
+</Info>

@@ -1,0 +1,160 @@
+---
+title: "AWS Networking Services: VPC, CloudFront & Route 53"
+sidebarTitle: "Networking"
+description: "Learn AWS networking fundamentals — VPC architecture, subnets, security groups, NACLs, CloudFront CDN, Route 53 DNS, Direct Connect, and Elastic Load Balancing for CLF-C02."
+---
+
+AWS networking services give you complete control over your cloud network topology — from defining private IP address ranges and routing rules inside a Virtual Private Cloud, to distributing content globally via CloudFront edge locations and routing DNS queries with Route 53. A solid understanding of VPC architecture, the difference between security groups and network ACLs, and the available connectivity options is essential for the CLF-C02 exam.
+
+<CardGroup cols={2}>
+  <Card title="Amazon VPC" icon="network-wired">
+    Isolated virtual network with full control over subnets, routing, and security
+  </Card>
+  <Card title="Amazon CloudFront" icon="globe">
+    Global CDN with 400+ edge locations for ultra-low-latency content delivery
+  </Card>
+  <Card title="Amazon Route 53" icon="map-pin">
+    Highly available managed DNS with health checks and multiple routing policies
+  </Card>
+  <Card title="Elastic Load Balancing" icon="scale-balanced">
+    Automatically distribute traffic across EC2, containers, Lambda, and IP targets
+  </Card>
+</CardGroup>
+
+## Core Networking Services
+
+<Accordion title="Amazon VPC (Virtual Private Cloud)">
+  Amazon VPC lets you provision a **logically isolated network** within the AWS Cloud where you can launch AWS resources in a virtual network that you define. You have complete control over your virtual networking environment, including selection of your own IP address range, creation of subnets, and configuration of route tables and network gateways.
+
+  ### Subnets
+  - **Public Subnet** — A subnet whose route table contains a route to an Internet Gateway. Resources here can receive inbound traffic from the internet (e.g., web servers, load balancers).
+  - **Private Subnet** — No direct route to the internet. Resources here (e.g., databases, application servers) communicate outbound through a NAT Gateway.
+
+  ### VPC Components
+
+  | Component | Purpose |
+  |-----------|---------|
+  | **Internet Gateway (IGW)** | Connects a VPC to the public internet (bidirectional) |
+  | **NAT Gateway** | Allows private subnet instances to initiate outbound internet traffic while blocking inbound |
+  | **Route Tables** | Define where network traffic is directed; each subnet must be associated with one |
+  | **Security Groups** | Stateful, instance-level virtual firewall — allow rules only |
+  | **Network ACLs (NACLs)** | Stateless, subnet-level firewall — both allow and deny rules |
+  | **VPC Peering** | Private, direct network connection between two VPCs (same or different accounts/regions) |
+  | **VPC Endpoints** | Private connection to AWS services (e.g., S3, DynamoDB) without traversing the internet |
+
+  ### VPC Endpoints
+  VPC Endpoints eliminate the need for an Internet Gateway, NAT device, or VPN connection to access supported AWS services. There are two types:
+  - **Gateway Endpoints** — For S3 and DynamoDB (free)
+  - **Interface Endpoints** (AWS PrivateLink) — For most other AWS services (hourly charge)
+</Accordion>
+
+<Accordion title="Amazon CloudFront">
+  Amazon CloudFront is AWS's **Content Delivery Network (CDN)**. It accelerates the delivery of static and dynamic web content, APIs, video streams, and applications by caching copies of content at **400+ globally distributed edge locations**, bringing data closer to your end users and reducing latency.
+
+  ### How CloudFront Works
+  1. A user requests content (e.g., an image or video)
+  2. CloudFront routes the request to the nearest **edge location**
+  3. If the content is cached, it is delivered immediately (cache hit)
+  4. If not cached, CloudFront fetches from the **origin** (S3, EC2, ALB, or custom HTTP server) and caches it for future requests
+
+  ### Key Features
+  - **Origins**: S3 buckets, EC2 instances, Application Load Balancers, on-premises HTTP servers
+  - **HTTPS/TLS** support with custom SSL certificates via AWS Certificate Manager
+  - **DDoS protection** automatically via AWS Shield Standard (included at no extra cost)
+  - **Lambda@Edge / CloudFront Functions** — Run custom logic at edge locations (A/B testing, request rewriting, auth)
+  - **Signed URLs / Signed Cookies** — Restrict access to private content
+
+  CloudFront is commonly used to accelerate static websites hosted on S3, protect API Gateway endpoints, and deliver live or on-demand streaming video worldwide.
+</Accordion>
+
+<Accordion title="Amazon Route 53">
+  Amazon Route 53 is a highly available, scalable **Domain Name System (DNS)** web service. It translates human-readable domain names (e.g., `www.example.com`) into IP addresses. Route 53 also supports **domain registration** and **health checks** for DNS-based failover.
+
+  ### DNS Routing Policies
+
+  | Policy | Description | Use Case |
+  |--------|-------------|----------|
+  | **Simple** | Returns a single resource | Single-server setups |
+  | **Weighted** | Splits traffic by percentage across resources | A/B testing, gradual rollouts |
+  | **Latency-based** | Routes to the region with lowest latency | Global applications |
+  | **Failover** | Active/passive: routes to standby if primary fails | Disaster recovery |
+  | **Geolocation** | Routes based on user's geographic location | Regulatory compliance, localization |
+  | **Geoproximity** | Routes based on proximity with optional traffic bias | Fine-grained geographic routing |
+  | **Multi-Value Answer** | Returns multiple healthy records | Simple load balancing |
+
+  ### Health Checks
+  Route 53 can monitor the health of your endpoints (web servers, email servers, etc.) and automatically route traffic away from unhealthy resources when failover routing is configured.
+</Accordion>
+
+<Accordion title="AWS Direct Connect">
+  AWS Direct Connect establishes a **dedicated, private network connection** between your on-premises data center and AWS — bypassing the public internet entirely. This provides more consistent network performance, lower latency, and reduced bandwidth costs for high-volume data transfers.
+
+  ### Key Benefits
+  - **Consistent performance** — No contention with public internet traffic
+  - **Reduced bandwidth costs** — Lower data transfer costs compared to internet-based transfer
+  - **Private connectivity** — Data does not traverse the public internet
+  - Connection speeds from **50 Mbps to 100 Gbps**
+
+  ### When to Use Direct Connect
+  - High-throughput workloads (large data transfers, backups)
+  - Real-time data feeds requiring consistent latency
+  - Compliance requirements mandating that data not traverse the public internet
+  - Hybrid cloud architectures with frequent on-premises-to-AWS communication
+</Accordion>
+
+<Accordion title="AWS VPN">
+  AWS provides two managed VPN services for encrypted connectivity between your network and AWS:
+
+  ### Site-to-Site VPN
+  Creates an **encrypted IPSec tunnel** over the public internet between your on-premises network (or data center) and your AWS VPC. It is faster and cheaper to set up than Direct Connect, but subject to internet variability.
+
+  - Uses a **Virtual Private Gateway** on the AWS side and a **Customer Gateway** on the on-premises side
+  - Supports BGP for dynamic routing
+  - Setup time: minutes to hours
+
+  ### AWS Client VPN
+  A managed, client-based VPN service that lets **individual remote users** securely connect to AWS or on-premises networks from any location using an OpenVPN-based client.
+
+  <Info>
+    Direct Connect vs VPN: Direct Connect is the preferred option when consistent performance and high bandwidth are required. AWS Site-to-Site VPN is a faster-to-deploy, lower-cost alternative for moderate-bandwidth or backup connectivity scenarios.
+  </Info>
+</Accordion>
+
+<Accordion title="Elastic Load Balancing (ELB)">
+  Elastic Load Balancing **automatically distributes incoming application traffic** across multiple targets — such as EC2 instances, containers, Lambda functions, and IP addresses — in one or more Availability Zones.
+
+  ### Load Balancer Types
+
+  | Type | Layer | Protocol | Best For |
+  |------|-------|----------|----------|
+  | **Application Load Balancer (ALB)** | Layer 7 | HTTP / HTTPS / gRPC | Web apps, microservices, path/host-based routing |
+  | **Network Load Balancer (NLB)** | Layer 4 | TCP / UDP / TLS | Extreme performance, static IP, low latency |
+  | **Gateway Load Balancer (GWLB)** | Layer 3 | IP | Third-party virtual appliances (firewalls, IDS) |
+
+  ### ALB Advanced Routing
+  ALBs support content-based routing rules: route `/api/*` to one target group and `/images/*` to another. They also support **weighted target groups** for canary deployments and integrate natively with AWS WAF for web application security.
+</Accordion>
+
+## Security Groups vs Network ACLs
+
+| Feature | Security Groups | Network ACLs |
+|---------|----------------|--------------|
+| **Level** | Instance (ENI) | Subnet |
+| **State** | **Stateful** — return traffic automatically allowed | **Stateless** — must explicitly allow both inbound and outbound |
+| **Rule Types** | Allow rules only | Both allow and deny rules |
+| **Rule Evaluation** | All rules evaluated together | Rules evaluated in number order (lowest first) |
+| **Default Behavior** | Deny all inbound; allow all outbound | Allow all inbound and outbound |
+| **Association** | Applied to individual instances | Applied to all instances in a subnet |
+
+<Note>
+  A common exam scenario: if traffic is blocked, the question will test whether you know that **Security Groups** handle instance-level filtering and **NACLs** handle subnet-level filtering. Always check both layers when troubleshooting connectivity.
+</Note>
+
+<Tip>
+  **Key networking distinctions to memorize:**
+  - **Security Groups are stateful** — if you allow inbound traffic on port 443, the response traffic is automatically permitted outbound
+  - **NACLs are stateless** — you must add explicit allow rules for both directions (inbound and outbound)
+  - **NAT Gateway** allows private instances to reach the internet outbound; it does NOT allow inbound connections from the internet
+  - **VPC Peering** is not transitive — if VPC A peers with B and B peers with C, A cannot reach C through B
+  - **Direct Connect** provides private, dedicated bandwidth; **VPN** is encrypted but shares public internet infrastructure
+</Tip>

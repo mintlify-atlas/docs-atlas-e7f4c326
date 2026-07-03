@@ -1,0 +1,235 @@
+---
+title: "AWS Shared Responsibility Model: Who Secures What"
+sidebarTitle: "Shared Responsibility"
+description: "Understand how AWS and customers divide security duties — covering infrastructure, data, IAM, OS patches, and how responsibility shifts by service type."
+---
+
+The AWS Shared Responsibility Model is the single most important security concept for the CLF-C02 exam. It establishes a clear boundary between what AWS protects and what you, the customer, are responsible for securing. Getting this boundary wrong in production can leave critical gaps — and getting it wrong on the exam costs you points.
+
+<Warning>
+  This is one of the most tested topics on the CLF-C02 exam. Expect **3–5 questions** directly or indirectly referencing the Shared Responsibility Model. Study this page carefully.
+</Warning>
+
+## The Core Principle
+
+AWS divides security into two zones:
+
+- **AWS is responsible for "security OF the cloud"** — the physical infrastructure, hardware, and managed services that power AWS itself.
+- **You are responsible for "security IN the cloud"** — everything you put into AWS and how you configure it.
+
+Think of it like renting an apartment in a luxury building. The building owner secures the lobby, stairwells, elevators, and electrical systems. You secure your own unit — your locks, your guests, your belongings. Neither party can skip their side of the deal.
+
+---
+
+## AWS Responsibilities: Security OF the Cloud
+
+AWS owns and operates the global infrastructure that underlies every service. Their responsibilities include:
+
+<CardGroup cols={2}>
+  <Card title="Physical Infrastructure" icon="building">
+    Data centers with controlled physical access, environmental controls, power redundancy, fire suppression, and secure hardware disposal.
+  </Card>
+  <Card title="Hardware & Networking" icon="server">
+    Physical servers, storage devices, network switches, routers, and the backbone connectivity between AWS regions and Availability Zones.
+  </Card>
+  <Card title="Hypervisor & Host OS" icon="microchip">
+    The virtualization layer beneath EC2 instances — AWS patches and secures the host operating system and hypervisor that your VMs run on.
+  </Card>
+  <Card title="Managed Service Platforms" icon="gear">
+    For services like RDS, Lambda, and DynamoDB, AWS manages the underlying software stack, operating system, and runtime patching.
+  </Card>
+</CardGroup>
+
+---
+
+## Customer Responsibilities: Security IN the Cloud
+
+Everything you deploy on top of AWS infrastructure is your responsibility:
+
+<CardGroup cols={2}>
+  <Card title="Customer Data" icon="database">
+    Classifying, encrypting, and protecting your data — in transit and at rest. AWS does not encrypt your data by default.
+  </Card>
+  <Card title="Identity & Access Management" icon="lock">
+    Creating IAM users, groups, and roles with least-privilege permissions. Managing MFA, access keys, and password policies.
+  </Card>
+  <Card title="OS Patches (IaaS)" icon="shield">
+    On EC2, you own the guest operating system. Applying security patches, hardening the OS, and managing vulnerabilities is entirely your job.
+  </Card>
+  <Card title="Application Security" icon="code">
+    Securing the code you deploy — protecting against SQL injection, XSS, and other application-level vulnerabilities.
+  </Card>
+  <Card title="Network Configuration" icon="network-wired">
+    Configuring Security Groups, Network ACLs, VPC routing, and firewall rules that control traffic to your resources.
+  </Card>
+  <Card title="Encryption Choices" icon="key">
+    Deciding what to encrypt, selecting encryption keys via KMS or CloudHSM, and managing certificate lifecycles.
+  </Card>
+</CardGroup>
+
+---
+
+## AWS vs. Customer Responsibility at a Glance
+
+| Responsibility Area | AWS | Customer |
+|---|---|---|
+| Physical data center security | ✅ | ❌ |
+| Hardware lifecycle management | ✅ | ❌ |
+| Hypervisor patching | ✅ | ❌ |
+| Host OS patching (managed services) | ✅ | ❌ |
+| Guest OS patching (EC2) | ❌ | ✅ |
+| Application code security | ❌ | ✅ |
+| IAM users, roles & permissions | ❌ | ✅ |
+| Data encryption (in transit & at rest) | ❌ | ✅ |
+| Security group & firewall configuration | ❌ | ✅ |
+| Customer data classification | ❌ | ✅ |
+| Patch management (shared controls) | 🤝 Infra | 🤝 Guest OS |
+| Awareness & training | 🤝 AWS staff | 🤝 Your team |
+
+---
+
+## How Responsibility Shifts Across Service Types
+
+The boundary is not fixed — it moves depending on whether you are using IaaS, PaaS, or SaaS.
+
+<Tabs>
+  <Tab title="IaaS — EC2">
+    **Infrastructure as a Service** gives you the most control and the most responsibility.
+
+    **AWS manages:**
+    - Physical server hardware and data center
+    - Hypervisor and host OS beneath the VM
+    - Network infrastructure (routers, switches)
+
+    **You manage:**
+    - Guest operating system (Windows, Linux, etc.)
+    - OS patches and security updates
+    - Application runtime, frameworks, and code
+    - Security groups and firewall rules
+    - Encryption of EBS volumes and data in transit
+    - IAM roles and access controls
+
+    **Real example:** An EC2 instance running a web server on Amazon Linux 2. AWS never touches the Linux kernel inside that VM — patching `/usr/bin/openssl` and applying kernel security updates is your responsibility.
+  </Tab>
+  <Tab title="PaaS — RDS">
+    **Platform as a Service** shifts OS and platform management to AWS.
+
+    **AWS manages:**
+    - Underlying OS and database engine patching (e.g., MySQL, PostgreSQL)
+    - Automated backups infrastructure
+    - High-availability replication
+    - Physical hardware and hypervisor
+
+    **You manage:**
+    - Database user accounts and permissions
+    - Encryption-at-rest settings (enabled at creation)
+    - Security group rules controlling DB access
+    - Network placement (VPC and subnets)
+    - Application queries and connection credentials
+
+    **Real example:** An RDS MySQL instance. AWS patches MySQL automatically during your maintenance window. You never SSH into the database server — but you absolutely control who can connect and with what privileges.
+  </Tab>
+  <Tab title="SaaS — WorkMail">
+    **Software as a Service** — AWS handles almost everything.
+
+    **AWS manages:**
+    - Application software, updates, and infrastructure
+    - Host OS and runtime security
+    - Network security and data center operations
+
+    **You manage:**
+    - User accounts and access provisioning
+    - Data classification and acceptable-use policies
+    - Client-side device security
+    - Monitoring usage for compliance
+
+    **Real example:** Amazon WorkMail for corporate email. AWS patches the mail server software; you decide which employees have mailboxes and what email retention policies apply.
+  </Tab>
+</Tabs>
+
+---
+
+## Three Categories of Security Controls
+
+<Accordion title="Inherited Controls (AWS only)">
+  These are controls you fully inherit from AWS — no action required on your part.
+
+  - **Physical security** of data centers: badge access, biometrics, security cameras, 24/7 guards
+  - **Environmental controls**: power redundancy, cooling, fire suppression
+  - **Hardware decommissioning**: secure wiping and destruction of retired storage media
+  - **Network backbone**: physical routing hardware and inter-region connectivity
+
+  You get the benefit of these automatically by using AWS.
+</Accordion>
+
+<Accordion title="Shared Controls (Both AWS and Customer)">
+  Both parties have distinct but complementary responsibilities.
+
+  **Patch management:**
+  - AWS patches infrastructure, hypervisors, and managed service platforms
+  - You patch guest OSes (EC2), application dependencies, and custom code
+
+  **Configuration management:**
+  - AWS configures its own physical and virtual infrastructure securely
+  - You configure your operating systems, databases, and applications
+
+  **Awareness and training:**
+  - AWS trains its own workforce on security procedures
+  - You train your developers, admins, and users
+</Accordion>
+
+<Accordion title="Customer-Specific Controls (You only)">
+  These are entirely your responsibility and AWS has no role in them.
+
+  - **Zone selection**: choosing which AWS Regions to operate in for data residency
+  - **VPC design**: subnet layout, route tables, NAT gateways
+  - **Security group rules**: allowing and blocking specific ports and CIDR ranges
+  - **Server-side encryption**: choosing KMS keys and enabling encryption per resource
+  - **Client-side encryption**: encrypting data before it ever reaches AWS
+  - **Application authorization logic**: what your users can do within your app
+</Accordion>
+
+---
+
+## Common Misconceptions
+
+<Warning>
+  **Myth: "AWS handles all security in the cloud."**
+  Reality: AWS secures the infrastructure. Misconfigured S3 buckets, overly permissive IAM policies, and unpatched EC2 instances are all customer-side failures — and they are among the most common causes of cloud security breaches.
+</Warning>
+
+<Note>
+  **Myth: "SaaS means zero customer responsibility."**
+  Reality: Even with SaaS offerings like Amazon WorkSpaces or WorkMail, you are still responsible for user access management, data classification, and client-device security.
+</Note>
+
+---
+
+## Quick Reference: Exam Scenarios
+
+<Steps>
+  <Step title="EC2 OS patching">
+    **Question type:** "A company runs web servers on EC2. Who is responsible for patching the OS?"  
+    **Answer:** The **customer**. EC2 is IaaS — you own the guest OS.
+  </Step>
+  <Step title="RDS database engine patching">
+    **Question type:** "A company uses RDS for PostgreSQL. Who patches the database engine?"  
+    **Answer:** **AWS**. RDS is PaaS — AWS manages the engine and host OS.
+  </Step>
+  <Step title="Lambda runtime patching">
+    **Question type:** "Who is responsible for patching the runtime environment for Lambda functions?"  
+    **Answer:** **AWS**. Lambda is fully managed — AWS owns the execution environment.
+  </Step>
+  <Step title="S3 bucket access controls">
+    **Question type:** "Who is responsible for ensuring an S3 bucket is not publicly accessible?"  
+    **Answer:** The **customer**. You configure bucket policies, ACLs, and Block Public Access settings.
+  </Step>
+  <Step title="Data center physical access">
+    **Question type:** "Who is responsible for preventing unauthorized physical access to AWS data centers?"  
+    **Answer:** **AWS**. Physical security of facilities is always AWS's responsibility.
+  </Step>
+</Steps>
+
+<Tip>
+  **Exam shortcut:** When a question describes a security concern, ask yourself — "Is this a physical or hypervisor-level concern?" If yes, it's AWS. "Is this a software, data, or configuration concern?" If yes, it's the customer.
+</Tip>

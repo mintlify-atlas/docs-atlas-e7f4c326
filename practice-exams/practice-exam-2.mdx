@@ -1,0 +1,290 @@
+---
+title: "AWS Cloud Practitioner Practice Exam 2: Services Focus"
+sidebarTitle: "Practice Exam 2"
+description: "Deepen your AWS CLF-C02 readiness with 20 service-focused questions on EC2 pricing, storage, networking, databases, and cost tools in ~30 minutes."
+---
+
+This second practice exam shifts the focus toward **AWS services in depth**. You will encounter questions about global infrastructure, compute pricing models, storage types, database options, networking components, and cost management tools. The exam contains **20 questions** spanning all four CLF-C02 domains and is designed to take approximately **30 minutes**. As before, answer all questions before checking your results by expanding each accordion.
+
+<Note>
+  This exam introduces several services not covered in Practice Exam 1. If you encounter an unfamiliar service, make note of it and review the Technology & Services domain of this guide before sitting for the real exam.
+</Note>
+
+## Exam Instructions
+
+<Steps>
+  <Step title="Prepare Your Answer Sheet">
+    Number a sheet of paper from 1 to 20. Write your answer (A, B, C, or D) next to each number before revealing any answers.
+  </Step>
+  <Step title="Time Yourself">
+    Set a 30-minute timer. The real exam allows about 83 seconds per question. Practicing under time pressure builds the muscle memory you need on exam day.
+  </Step>
+  <Step title="Reveal and Score">
+    Once time is up (or you've answered all 20), open each accordion and compare your answers. Tally your score out of 20.
+  </Step>
+  <Step title="Identify Patterns">
+    Note which domains or service categories gave you the most trouble. Those are your priority review areas before Practice Exam 3.
+  </Step>
+</Steps>
+
+---
+
+## Domain 1: Cloud Concepts (5 Questions)
+
+<Accordion title="Question 1: An AWS Region consists of multiple isolated locations within a geographic area. What are these isolated locations called?">
+  **Options:**
+  - A) Edge Locations
+  - B) Availability Zones
+  - C) Regional Clusters
+  - D) Data Center Pods
+
+  **Correct Answer: B) Availability Zones**
+
+  **Explanation:** An **Availability Zone (AZ)** is one or more discrete data centers within an AWS Region, each with redundant power, networking, and connectivity. AZs within a Region are physically separated but interconnected with high-bandwidth, low-latency networking. Deploying across multiple AZs provides fault tolerance — if one AZ fails, your application continues running in the others. **Edge Locations** are separate from AZs; they are used by services like Amazon CloudFront to cache content closer to end users worldwide.
+</Accordion>
+
+<Accordion title="Question 2: What is the difference between elasticity and scalability in the context of cloud computing?">
+  **Options:**
+  - A) Elasticity means adding more servers permanently; scalability means adding them temporarily
+  - B) Scalability refers to the ability to handle increased load; elasticity refers to automatically scaling in and out to match demand
+  - C) They are synonyms and mean the same thing in AWS documentation
+  - D) Elasticity applies only to storage services; scalability applies only to compute services
+
+  **Correct Answer: B) Scalability refers to the ability to handle increased load; elasticity refers to automatically scaling in and out to match demand**
+
+  **Explanation:** **Scalability** is the ability of a system to handle increased workloads, either by scaling vertically (upgrading to larger instances) or horizontally (adding more instances). **Elasticity** is the ability to automatically provision and de-provision resources in near real-time to precisely match the current demand — scaling out when load increases and scaling back in when it drops. Elasticity prevents both over-provisioning and under-provisioning. AWS services like Auto Scaling Groups provide elasticity on top of scalability.
+</Accordion>
+
+<Accordion title="Question 3: How many AWS Regions does an Edge Location belong to?">
+  **Options:**
+  - A) Edge Locations belong to a specific AWS Region
+  - B) Edge Locations are independent of Regions and exist in a global network separate from the Regional infrastructure
+  - C) Each Edge Location belongs to exactly two Regions for redundancy
+  - D) Edge Locations are the same as Availability Zones
+
+  **Correct Answer: B) Edge Locations are independent of Regions and exist in a global network separate from the Regional infrastructure**
+
+  **Explanation:** **Edge Locations** (also called Points of Presence) are AWS data center sites used by services like Amazon CloudFront, AWS Shield, and Route 53 to serve content and route traffic closer to end users. They are geographically distributed worldwide — with over 450 locations — and operate independently from the main Regional infrastructure. A city might have an Edge Location but no full AWS Region. This distinction is frequently tested on the CLF-C02 exam.
+</Accordion>
+
+<Accordion title="Question 4: A company runs a batch processing workload every weekend that can be interrupted and restarted without issue. Which EC2 pricing model offers the greatest cost savings for this use case?">
+  **Options:**
+  - A) On-Demand Instances
+  - B) Reserved Instances (Standard, 3-year term)
+  - C) Spot Instances
+  - D) Dedicated Instances
+
+  **Correct Answer: C) Spot Instances**
+
+  **Explanation:** **Spot Instances** allow you to bid for unused EC2 capacity at discounts of up to 90% compared to On-Demand pricing. The trade-off is that AWS can reclaim Spot Instances with a two-minute warning when the capacity is needed elsewhere. This makes Spot Instances ideal for fault-tolerant, flexible, interruptible workloads — such as batch processing, data analysis, image rendering, or CI/CD pipelines — that can be paused and resumed. The weekend batch job described is a textbook Spot Instance use case.
+</Accordion>
+
+<Accordion title="Question 5: AWS Compute Optimizer analyzes your workload metrics and provides recommendations to improve performance and reduce costs. Which metric does it primarily analyze?">
+  **Options:**
+  - A) Monthly billing data from AWS Cost Explorer
+  - B) Historical CPU utilization, memory usage, and network I/O from CloudWatch
+  - C) IAM policy attachments and unused permissions
+  - D) S3 access patterns and storage class assignments
+
+  **Correct Answer: B) Historical CPU utilization, memory usage, and network I/O from CloudWatch**
+
+  **Explanation:** **AWS Compute Optimizer** uses machine learning to analyze historical utilization metrics collected by Amazon CloudWatch — including CPU utilization, memory utilization (if the CloudWatch agent is installed), and network throughput. Based on this data, it recommends optimal EC2 instance types, Auto Scaling group configurations, and Lambda function memory settings. The goal is to identify over-provisioned (wasteful) or under-provisioned (performance-risky) resources. It is free to use and supports EC2, Lambda, EBS, and ECS on Fargate.
+</Accordion>
+
+---
+
+## Domain 2: Security & Compliance (6 Questions)
+
+<Accordion title="Question 6: What is an IAM Role, and when should it be used instead of an IAM User?">
+  **Options:**
+  - A) An IAM Role is a named collection of policies applied to a specific person; use it for all human users
+  - B) An IAM Role is an identity with permission policies that can be assumed by AWS services, applications, or users from another account, without needing long-term credentials
+  - C) An IAM Role is the same as an IAM Group but limited to a single policy
+  - D) An IAM Role is only used for cross-account billing consolidation
+
+  **Correct Answer: B) An IAM Role is an identity with permission policies that can be assumed by AWS services, applications, or users from another account, without needing long-term credentials**
+
+  **Explanation:** An **IAM Role** is an AWS identity that carries permissions but has no permanent username/password or static access keys. Instead, it issues **temporary security credentials** when assumed. Common use cases include: granting an EC2 instance permission to access S3 (EC2 Instance Profile), allowing a Lambda function to write to DynamoDB, enabling cross-account access, or federating corporate identity providers (SSO). Using roles is more secure than embedding IAM User access keys in applications because credentials rotate automatically.
+</Accordion>
+
+<Accordion title="Question 7: What is the difference between AWS Shield Standard and AWS Shield Advanced?">
+  **Options:**
+  - A) AWS Shield Standard protects only EC2; AWS Shield Advanced protects all AWS services
+  - B) AWS Shield Standard provides automatic DDoS protection for all AWS customers at no extra charge; AWS Shield Advanced adds enhanced detection, 24/7 DDoS response team access, and cost protection, for a fee
+  - C) AWS Shield Standard requires manual activation in the AWS console; AWS Shield Advanced activates automatically
+  - D) They are the same product with different marketing names
+
+  **Correct Answer: B) AWS Shield Standard provides automatic DDoS protection for all AWS customers at no extra charge; AWS Shield Advanced adds enhanced detection, 24/7 DDoS response team access, and cost protection, for a fee**
+
+  **Explanation:** **AWS Shield Standard** is automatically included for all AWS customers at no additional cost. It protects against the most common network and transport layer DDoS attacks. **AWS Shield Advanced** (starting at $3,000/month) provides enhanced protections for EC2, Elastic Load Balancing, CloudFront, Route 53, and Global Accelerator. It also includes access to the AWS DDoS Response Team (DRT), real-time attack visibility, and financial protection against DDoS-related scaling costs.
+</Accordion>
+
+<Accordion title="Question 8: A company needs to demonstrate AWS compliance reports and certifications to their auditors for a SOC 2 assessment. Which AWS service provides access to these compliance documents?">
+  **Options:**
+  - A) AWS Config
+  - B) AWS Artifact
+  - C) AWS CloudTrail
+  - D) AWS Trusted Advisor
+
+  **Correct Answer: B) AWS Artifact**
+
+  **Explanation:** **AWS Artifact** is a self-service portal that provides on-demand access to AWS security and compliance documentation, including SOC reports, PCI DSS attestations, ISO certifications, and more. These documents can be downloaded and shared with auditors to demonstrate AWS's compliance posture. AWS Artifact also allows you to review, accept, and manage agreements such as the Business Associate Addendum (BAA) for HIPAA. It is free to use and available from the AWS Management Console.
+</Accordion>
+
+<Accordion title="Question 9: What is the primary purpose of AWS Key Management Service (KMS)?">
+  **Options:**
+  - A) To manage SSH key pairs for EC2 instance access
+  - B) To create and manage cryptographic keys used to encrypt and decrypt data across AWS services
+  - C) To store database passwords and API keys for applications
+  - D) To manage SSL/TLS certificates for web applications
+
+  **Correct Answer: B) To create and manage cryptographic keys used to encrypt and decrypt data across AWS services**
+
+  **Explanation:** **AWS Key Management Service (KMS)** is a managed service that makes it easy to create and control the cryptographic keys used to encrypt data. KMS integrates natively with most AWS services — S3, EBS, RDS, DynamoDB, Lambda, and more — allowing you to encrypt data at rest with customer-managed keys (CMKs). KMS provides centralized key management, automatic key rotation, and detailed audit logs via CloudTrail. For SSH key pairs, AWS uses EC2 Key Pairs. For secrets like database passwords, use AWS Secrets Manager.
+</Accordion>
+
+<Accordion title="Question 10: What are Service Control Policies (SCPs) in AWS Organizations, and what do they control?">
+  **Options:**
+  - A) SCPs are IAM policies automatically applied to all IAM users in an account
+  - B) SCPs are policies attached to Organizational Units (OUs) or accounts that define the maximum permissions available to accounts in the organization — they cannot grant permissions, only restrict them
+  - C) SCPs control which AWS services are available in each AWS Region
+  - D) SCPs are billing policies that set spending limits for member accounts
+
+  **Correct Answer: B) SCPs are policies attached to Organizational Units (OUs) or accounts that define the maximum permissions available to accounts in the organization — they cannot grant permissions, only restrict them**
+
+  **Explanation:** **Service Control Policies (SCPs)** are a type of organization policy in AWS Organizations used to manage permissions across multiple AWS accounts. They define the **guardrails** — the maximum permissions that IAM users and roles in member accounts can have. Importantly, SCPs do not grant permissions; they act as a ceiling. Even if an IAM policy in a member account allows an action, if the SCP denies it, the action is blocked. SCPs do not apply to the management (root) account itself.
+</Accordion>
+
+<Accordion title="Question 11: What is VPC Peering in AWS?">
+  **Options:**
+  - A) A way to connect a VPC to an on-premises data center using an encrypted VPN
+  - B) A networking connection between two VPCs that enables traffic to route between them using private IP addresses, as if they were in the same network
+  - C) A feature that automatically mirrors all VPC traffic to a security analysis tool
+  - D) A dedicated 1 Gbps fiber connection between two AWS Regions
+
+  **Correct Answer: B) A networking connection between two VPCs that enables traffic to route between them using private IP addresses, as if they were in the same network**
+
+  **Explanation:** **VPC Peering** creates a private network connection between two Amazon VPCs — in the same account, different accounts, or even different AWS Regions (inter-Region peering). Traffic between peered VPCs stays on the AWS private network and never traverses the public internet, providing low latency and enhanced security. VPC Peering is non-transitive: if VPC A is peered with VPC B, and VPC B is peered with VPC C, VPC A cannot communicate with VPC C through B. For transitive connectivity at scale, AWS Transit Gateway is the recommended solution.
+</Accordion>
+
+---
+
+## Domain 3: Technology & Services (7 Questions)
+
+<Accordion title="Question 12: A development team wants to deploy a web application without worrying about the underlying infrastructure, but still needs control over the application code and configuration. Which AWS service is best suited for this?">
+  **Options:**
+  - A) Amazon EC2 with manual configuration
+  - B) AWS Elastic Beanstalk
+  - C) AWS Lambda
+  - D) Amazon Lightsail
+
+  **Correct Answer: B) AWS Elastic Beanstalk**
+
+  **Explanation:** **AWS Elastic Beanstalk** is a Platform as a Service (PaaS) offering that automatically handles the deployment details — capacity provisioning, load balancing, auto scaling, and application health monitoring — while giving developers full control over the underlying AWS resources if needed. Developers simply upload their application code (in Java, .NET, PHP, Node.js, Python, Ruby, Go, or Docker), and Elastic Beanstalk does the rest. Unlike Lambda, it supports long-running applications and traditional web servers. The underlying EC2 instances are still accessible, unlike with fully managed services.
+</Accordion>
+
+<Accordion title="Question 13: Which of the following accurately describes the difference between Amazon EBS, Amazon S3, and Amazon EFS?">
+  **Options:**
+  - A) EBS is object storage; S3 is block storage; EFS is file storage
+  - B) EBS is block storage attached to a single EC2 instance; S3 is object storage for unstructured data accessed via HTTP; EFS is a shared file system that can be mounted by multiple EC2 instances simultaneously
+  - C) All three services provide the same type of storage, differing only in price
+  - D) S3 can only be accessed from within a VPC; EBS and EFS are both publicly accessible
+
+  **Correct Answer: B) EBS is block storage attached to a single EC2 instance; S3 is object storage for unstructured data accessed via HTTP; EFS is a shared file system that can be mounted by multiple EC2 instances simultaneously**
+
+  **Explanation:** These three services serve fundamentally different storage needs: **Amazon EBS** (Elastic Block Store) provides persistent block storage volumes that attach to a single EC2 instance at a time — like a virtual hard drive. **Amazon S3** (Simple Storage Service) is object storage for any amount of unstructured data, accessed via REST API/HTTP, with no limit on the number of objects. **Amazon EFS** (Elastic File System) is a managed NFS file system that can be mounted concurrently by thousands of EC2 instances across multiple AZs, ideal for shared content and big data workloads.
+</Accordion>
+
+<Accordion title="Question 14: An application processes orders by placing messages in a queue so that downstream services can process them independently. Which AWS service provides this managed message queuing capability?">
+  **Options:**
+  - A) Amazon SNS (Simple Notification Service)
+  - B) Amazon SQS (Simple Queue Service)
+  - C) Amazon Kinesis Data Streams
+  - D) AWS EventBridge
+
+  **Correct Answer: B) Amazon SQS (Simple Queue Service)**
+
+  **Explanation:** **Amazon SQS** is a fully managed message queuing service that enables decoupling of application components. Producers place messages into a queue; consumers poll the queue and process messages independently. SQS guarantees at-least-once delivery and supports standard queues (best-effort ordering, high throughput) and FIFO queues (exactly-once processing, strict order). **Amazon SNS** is a pub/sub notification service (push-based, one-to-many fan-out). SQS is pull-based and queue-based — ideal for decoupling asynchronous workflows like order processing.
+</Accordion>
+
+<Accordion title="Question 15: What is the purpose of an Amazon VPC NAT Gateway?">
+  **Options:**
+  - A) To allow instances in a public subnet to communicate with instances in a private subnet
+  - B) To enable EC2 instances in private subnets to initiate outbound connections to the internet while preventing inbound connections from the internet
+  - C) To translate DNS names to IP addresses for resources inside the VPC
+  - D) To create a secure site-to-site VPN connection from the VPC to an on-premises network
+
+  **Correct Answer: B) To enable EC2 instances in private subnets to initiate outbound connections to the internet while preventing inbound connections from the internet**
+
+  **Explanation:** A **NAT Gateway** (Network Address Translation) allows EC2 instances in private subnets to initiate outbound traffic to the internet (for downloading software updates, calling external APIs, etc.) while blocking unsolicited inbound connections from the internet — keeping the private instances unexposed. The NAT Gateway is placed in a public subnet and has an Elastic IP address. Traffic from private subnet instances flows through the NAT Gateway, which translates the private source IP to the NAT Gateway's public IP for the return journey.
+</Accordion>
+
+<Accordion title="Question 16: A company needs to migrate 200TB of data from its on-premises data center to Amazon S3. Their internet connection is too slow and unreliable for an online transfer. Which AWS service should they use?">
+  **Options:**
+  - A) AWS DataSync over the internet
+  - B) AWS Snowball Edge
+  - C) AWS Storage Gateway
+  - D) Amazon S3 Transfer Acceleration
+
+  **Correct Answer: B) AWS Snowball Edge**
+
+  **Explanation:** The **AWS Snow Family** provides physical devices for offline data transfer when network bandwidth is insufficient, expensive, or unreliable. **AWS Snowball Edge** is a rugged, suitcase-sized device that can hold up to 80TB (Storage Optimized) of data. AWS ships the device to your location, you load your data onto it, then ship it back to AWS where the data is uploaded to S3. For 200TB, using two Snowball Edge devices would accomplish the migration in days rather than weeks over a slow internet connection. AWS Snowmobile handles petabyte-scale migrations.
+</Accordion>
+
+<Accordion title="Question 17: What distinguishes Amazon Aurora from a standard Amazon RDS database instance?">
+  **Options:**
+  - A) Aurora only supports NoSQL workloads; RDS supports both SQL and NoSQL
+  - B) Aurora is AWS's cloud-native relational database engine that offers up to 5x throughput of standard MySQL and 3x of PostgreSQL, with automatic storage scaling and up to 15 read replicas
+  - C) Aurora is a data warehousing solution optimized for analytics queries
+  - D) Aurora requires manual backups; RDS provides automated backups
+
+  **Correct Answer: B) Aurora is AWS's cloud-native relational database engine that offers up to 5x throughput of standard MySQL and 3x of PostgreSQL, with automatic storage scaling and up to 15 read replicas**
+
+  **Explanation:** **Amazon Aurora** is a MySQL and PostgreSQL-compatible relational database built by AWS from the ground up for the cloud. It provides up to 5x the throughput of standard MySQL and 3x PostgreSQL on the same hardware. Aurora storage automatically grows in 10GB increments up to 128TB, supports up to 15 low-latency read replicas, and stores 6 copies of your data across 3 Availability Zones. Aurora is part of the RDS family but is a separate, higher-performance engine — not a standard RDS instance type. Both support automated backups.
+</Accordion>
+
+<Accordion title="Question 18: Which AWS service allows you to define and provision your entire cloud infrastructure as code using templates, enabling repeatable and consistent deployments?">
+  **Options:**
+  - A) AWS CodePipeline
+  - B) AWS OpsWorks
+  - C) AWS CloudFormation
+  - D) AWS Systems Manager
+
+  **Correct Answer: C) AWS CloudFormation**
+
+  **Explanation:** **AWS CloudFormation** is AWS's native Infrastructure as Code (IaC) service. You write templates in JSON or YAML that declare the AWS resources you want (EC2 instances, VPCs, RDS databases, IAM roles, etc.), and CloudFormation provisions and configures them in the correct order, managing dependencies automatically. Templates can be versioned in source control and reused across environments (dev, staging, production) for consistent deployments. Stacks can be created, updated, or deleted as a unit. This eliminates manual configuration drift and enables reproducible infrastructure.
+</Accordion>
+
+---
+
+## Domain 4: Billing & Support (2 Questions)
+
+<Accordion title="Question 19: What is the difference between AWS Cost Explorer and AWS Budgets?">
+  **Options:**
+  - A) Cost Explorer sets spending limits and sends alerts; Budgets visualizes historical spending
+  - B) Cost Explorer provides interactive visualizations and reports of your historical and forecasted AWS costs and usage; Budgets allows you to set custom cost or usage thresholds and receive alerts when they are exceeded or forecasted to be exceeded
+  - C) They are the same tool accessed from different sections of the AWS console
+  - D) Cost Explorer is only available on the Enterprise Support plan; Budgets is available to all customers
+
+  **Correct Answer: B) Cost Explorer provides interactive visualizations and reports of your historical and forecasted AWS costs and usage; Budgets allows you to set custom cost or usage thresholds and receive alerts when they are exceeded or forecasted to be exceeded**
+
+  **Explanation:** **AWS Cost Explorer** is a visualization tool that lets you analyze your AWS spending over time. You can filter by service, region, account, or tag, and view forecasts for future costs based on historical trends. **AWS Budgets** is an alerting and threshold-setting tool — you define a monthly budget (cost, usage, or Savings Plans/Reserved Instance utilization) and configure alerts to be sent via email or SNS when actual or forecasted spending crosses your defined threshold. They complement each other: Cost Explorer for analysis, Budgets for proactive cost control.
+</Accordion>
+
+<Accordion title="Question 20: Which AWS service provides a recommendation engine that analyzes your EC2 usage and recommends the optimal instance types or Reserved Instance purchases to reduce costs?">
+  **Options:**
+  - A) AWS Trusted Advisor
+  - B) AWS Cost Explorer Reserved Instance Recommendations
+  - C) AWS Pricing Calculator
+  - D) AWS Compute Optimizer
+
+  **Correct Answer: B) AWS Cost Explorer Reserved Instance Recommendations**
+
+  **Explanation:** Within **AWS Cost Explorer**, there is a dedicated Reserved Instance (RI) Recommendations feature. It analyzes your On-Demand usage patterns over a specified time period and recommends specific Reserved Instance purchases that would reduce your costs. It shows the estimated monthly savings, upfront cost, break-even period, and recommended terms (1-year vs. 3-year, Standard vs. Convertible). **AWS Compute Optimizer** (option D) also recommends optimal instance types, but focuses on rightsizing performance rather than RI purchasing strategy. Both are valid tools but serve different recommendation purposes.
+</Accordion>
+
+---
+
+<Tip>
+  **Score Yourself:** 18–20 correct = Excellent; 15–17 = Good, review weak areas; 12–14 = Fair, revisit relevant domains; Below 12 = Spend more time with the study guide before attempting Practice Exam 3.
+</Tip>

@@ -1,0 +1,219 @@
+---
+title: "AWS Global Infrastructure: Regions, AZs & Edge Locations"
+sidebarTitle: "AWS Infrastructure"
+description: "Explore AWS Regions, Availability Zones, Edge Locations, Local Zones, Wavelength, and Outposts — and learn how high availability is built into the AWS global network."
+---
+
+AWS operates one of the largest and most reliable global infrastructure networks in the world. Understanding how that infrastructure is organized — Regions, Availability Zones, Edge Locations, and extended infrastructure like Local Zones and Outposts — is fundamental to the CLF-C02 exam and to making good architectural decisions in AWS. Every major AWS service maps to this infrastructure model, and many exam questions test whether you understand the difference between each layer and when to use it.
+
+<Note>
+  **Key exam fact:** As of 2024, AWS operates **33+ geographic Regions**, **105+ Availability Zones**, and **600+ Edge Locations (Points of Presence)** worldwide. AWS continues to expand — expect numbers to grow. Know the conceptual hierarchy; do not memorize exact counts for the exam.
+</Note>
+
+## The Infrastructure Hierarchy
+
+Think of AWS global infrastructure like a network of interconnected cities:
+
+- **Regions** are like major metropolitan areas — large, independent, fully capable
+- **Availability Zones** are like distinct districts within each city — physically separate but closely connected
+- **Edge Locations** are like local delivery hubs — smaller, positioned close to end users for fast content delivery
+
+## AWS Regions
+
+A **Region** is a physical geographic area that contains multiple, isolated data centers. Each Region is completely independent of all other Regions — it has its own power grids, network connectivity, and facilities. Data stored in a Region does not leave that Region unless you explicitly move it.
+
+### How to Choose an AWS Region
+
+When deploying workloads on AWS, you choose which Region(s) to use. The decision typically comes down to four factors:
+
+<Accordion title="1. Compliance and Data Sovereignty">
+  Some regulations require that data remain within specific geographic or legal boundaries. For example:
+  - **GDPR** requires that EU citizen data remain within EU-controlled territory → use `eu-west-1` (Ireland), `eu-central-1` (Frankfurt), or other EU Regions
+  - **Chinese data regulations** → use `cn-north-1` (Beijing) or `cn-northwest-1` (Ningxia), which require separate account setup
+  - **US Government workloads** → use `us-gov-east-1` or `us-gov-west-1` (GovCloud Regions)
+
+  **Compliance must always be evaluated first.** Legal requirements override all other considerations.
+</Accordion>
+
+<Accordion title="2. Proximity and Latency">
+  Deploy your application in the Region geographically closest to the majority of your users for the best experience. Lower physical distance = lower round-trip latency.
+
+  - Users primarily in North America → `us-east-1` (N. Virginia) or `us-west-2` (Oregon)
+  - Users primarily in Asia → `ap-northeast-1` (Tokyo) or `ap-southeast-1` (Singapore)
+  - Users primarily in Europe → `eu-west-1` (Ireland) or `eu-central-1` (Frankfurt)
+  - Global user base → Multi-Region deployment with Amazon CloudFront CDN
+</Accordion>
+
+<Accordion title="3. Service Availability">
+  Not every AWS service is available in every Region. New services typically launch first in `us-east-1` (N. Virginia) and expand to other Regions over time. If your architecture depends on a specific newer service, confirm it's available in your target Region before committing.
+
+  Some services are **global** by design — they work across all Regions from a single control plane: **IAM**, **CloudFront**, **Route 53**, and **AWS WAF** are global services. There is no Region selector when you configure them.
+</Accordion>
+
+<Accordion title="4. Cost">
+  AWS pricing varies by Region — sometimes significantly. `us-east-1` (N. Virginia) generally has the lowest prices for most services because it was the first and largest Region. Newer Regions may have higher prices. When latency and compliance requirements are flexible, cost comparisons across Regions can produce meaningful savings at scale.
+</Accordion>
+
+### Regional Examples
+
+| Region Code | Location | Common Use Case |
+|---|---|---|
+| `us-east-1` | N. Virginia, USA | Most services launch here first; lowest US prices |
+| `us-west-2` | Oregon, USA | US West Coast applications, disaster recovery pairing |
+| `eu-west-1` | Ireland | EU compliance for many organizations |
+| `eu-central-1` | Frankfurt, Germany | German data protection laws (BDSG) |
+| `ap-northeast-1` | Tokyo, Japan | Japan and Northeast Asia workloads |
+| `ap-southeast-1` | Singapore | Southeast Asia hub |
+| `ap-south-1` | Mumbai, India | India market workloads |
+| `us-gov-east-1` | US East (GovCloud) | US federal government workloads |
+
+## Availability Zones (AZs)
+
+An **Availability Zone** is one or more discrete data centers within a Region. Each AZ has independent power, cooling, networking, and physical security. AZs within a Region are physically separated from each other — by meaningful distances — but connected with redundant, high-bandwidth, low-latency private fiber links.
+
+### Key Facts About AZs
+
+- **Minimum 3 AZs per Region** (most Regions have 3–6)
+- **Each AZ** consists of one or more physical data centers
+- **Sub-millisecond latency** between AZs in the same Region — fast enough for synchronous data replication
+- **Separate flood plains, seismic zones, and power grids** — a natural disaster or power failure affecting one AZ is very unlikely to affect another in the same Region
+
+### How AZs Enable High Availability
+
+The core pattern for high availability in AWS is to **distribute your workload across multiple AZs**. If one AZ has a problem — power failure, hardware issue, network disruption — your application continues running in the other AZs.
+
+<Steps>
+  <Step title="Single AZ (Not Recommended for Production)">
+    All resources in one AZ. If that AZ experiences an outage, your application goes down entirely. This is a single point of failure and should be avoided for any production workload.
+  </Step>
+  <Step title="Multi-AZ Deployment (Recommended)">
+    Deploy application servers in at least two AZs behind a load balancer. Deploy your database in Multi-AZ mode (e.g., Amazon RDS Multi-AZ), with a primary in one AZ and a standby replica in another. If AZ-1 fails, traffic is automatically routed to AZ-2 and the database fails over to the standby.
+  </Step>
+  <Step title="Multi-Region Deployment (for Disaster Recovery)">
+    For maximum resilience, replicate critical workloads to a second Region entirely. This protects against Region-level events (extremely rare) and satisfies disaster recovery requirements with Recovery Time Objectives (RTOs) measured in minutes.
+  </Step>
+</Steps>
+
+**Example: Multi-AZ Architecture in `us-east-1`**
+
+```
+Region: us-east-1
+├── AZ: us-east-1a
+│   ├── EC2 App Server
+│   └── RDS Primary Database
+├── AZ: us-east-1b
+│   ├── EC2 App Server
+│   └── RDS Standby Database (auto-failover)
+└── AZ: us-east-1c
+    └── EC2 App Server (optional additional capacity)
+
+Load Balancer: distributes traffic across all AZs
+```
+
+If `us-east-1a` goes down, the load balancer stops sending traffic to it and the RDS standby in `us-east-1b` is automatically promoted to primary — typically within 1–2 minutes, with no manual intervention.
+
+## Edge Locations
+
+**Edge Locations** (also called Points of Presence) are infrastructure nodes deployed in or near major population centers around the world. They are smaller than full Regions and do not support the full catalog of AWS services — their primary purpose is **content caching and content delivery**, reducing the latency users experience when accessing your application.
+
+### Why Edge Locations Exist
+
+When a user in São Paulo requests content from an application hosted in `us-east-1` (Virginia), the data has to travel approximately 7,000 km. At the speed of light through fiber, that journey adds real latency — typically 150–200ms round trip.
+
+With an Edge Location in São Paulo, the content (images, videos, static assets) is cached locally. Subsequent requests from Brazilian users are served from the São Paulo edge at sub-10ms latency.
+
+**Over 600 Edge Locations** are distributed across 90+ cities globally — far more than the number of Regions.
+
+### AWS Services That Use Edge Locations
+
+<CardGroup cols={2}>
+  <Card title="Amazon CloudFront" icon="globe" href="https://aws.amazon.com/cloudfront/">
+    AWS's Content Delivery Network (CDN). Caches copies of your content at edge locations worldwide. Distributes static files, videos, APIs, and dynamic content with dramatically reduced latency. Integrated with S3, EC2, Elastic Load Balancing, and Lambda@Edge.
+  </Card>
+  <Card title="Amazon Route 53" icon="route" href="https://aws.amazon.com/route53/">
+    AWS's global DNS service. Uses edge locations to answer DNS queries with extremely low latency from anywhere in the world. Supports health checks, failover routing, and geolocation-based DNS policies.
+  </Card>
+  <Card title="AWS Shield" icon="shield" href="https://aws.amazon.com/shield/">
+    Managed DDoS protection. Uses AWS's global edge network to absorb and filter attack traffic before it reaches your origin infrastructure — protecting all customers automatically at the Standard tier.
+  </Card>
+  <Card title="AWS WAF" icon="lock" href="https://aws.amazon.com/waf/">
+    Web Application Firewall. Deployed at edge locations to inspect and filter HTTP/HTTPS requests before they reach your application — blocking SQL injection, XSS, and custom rule violations at the edge.
+  </Card>
+</CardGroup>
+
+## Extended Infrastructure
+
+Beyond Regions, AZs, and Edge Locations, AWS offers three specialized infrastructure options that extend AWS capabilities to specific scenarios:
+
+<Accordion title="AWS Local Zones">
+  **What they are:** Extensions of an AWS Region placed in or near specific large metropolitan areas, providing AWS compute, storage, and database services with **single-digit millisecond latency** to end users in that city.
+
+  **Use cases:**
+  - Real-time gaming (frame-by-frame responsiveness)
+  - Live video streaming and broadcasting
+  - Augmented Reality (AR) and Virtual Reality (VR) applications
+  - High-frequency financial trading systems
+
+  **How they work:** A Local Zone extends your VPC to a new location. You place compute resources in the Local Zone and your users in that city connect with ultra-low latency. The Local Zone is still connected to and managed through the parent Region.
+
+  **Example:** `us-east-1-atl-1` is a Local Zone in Atlanta that lets users in Atlanta access your application with under 10ms latency, even though your primary Region is Northern Virginia.
+</Accordion>
+
+<Accordion title="AWS Wavelength">
+  **What it is:** AWS compute and storage infrastructure embedded directly inside telecommunications companies' **5G networks** — at the edge of the mobile carrier's network.
+
+  **The key difference from Local Zones:** Wavelength eliminates the need for mobile traffic to leave the 5G network to reach AWS. Traffic from a 5G device goes directly to the Wavelength Zone within the carrier network, processes there, and returns — without ever traversing the public internet.
+
+  **Use cases:**
+  - Connected and autonomous vehicles requiring real-time data processing
+  - Industrial IoT with millisecond response requirements
+  - Smart city infrastructure and applications
+  - Mobile augmented reality and interactive live streaming
+  - Real-time machine learning inference at the 5G edge
+
+  **Result:** Ultra-low latency (typically under 10ms) for mobile and 5G applications.
+</Accordion>
+
+<Accordion title="AWS Outposts">
+  **What it is:** Fully managed racks of AWS infrastructure — servers, storage, and networking — that AWS ships to and installs in **your own data center or colocation facility**.
+
+  **The value:** You run native AWS services (EC2, EBS, RDS, EKS, S3 on Outposts) using the same AWS console, APIs, and tools you use in the cloud — but the hardware is physically in your building. AWS manages and maintains the hardware remotely.
+
+  **Use cases:**
+  - Data residency requirements that prohibit data leaving a physical location
+  - Low-latency workloads that must process data on-premises (manufacturing plant sensors, hospital imaging equipment)
+  - Hybrid cloud architectures where on-premises and cloud workloads use identical APIs and tooling
+  - Edge computing in remote locations with limited or unreliable internet connectivity
+
+  **Outposts form factors:** Available as full 42U racks or smaller "Outposts servers" for space-constrained environments.
+</Accordion>
+
+## Infrastructure Summary
+
+| Component | Scale | Primary Purpose | Key Fact |
+|---|---|---|---|
+| **Region** | Geographic area | Full AWS services, data sovereignty | 33+ Regions; choose based on compliance + latency + cost |
+| **Availability Zone** | Data center(s) in a Region | High availability and fault isolation | 3+ AZs per Region; always deploy across multiple AZs |
+| **Edge Location** | City-level node | CDN caching and DNS resolution | 600+ worldwide; more than any other layer |
+| **Local Zone** | Metro area extension | Ultra-low latency to a city | Under 10ms to end users in that city |
+| **Wavelength** | Inside 5G network | Mobile/5G ultra-low latency | Latency stays within carrier network |
+| **Outposts** | Your data center | On-premises AWS hardware | AWS manages the rack; you own the location |
+
+<CardGroup cols={2}>
+  <Card title="Amazon CloudFront" icon="globe" href="https://aws.amazon.com/cloudfront/">
+    Uses 600+ Edge Locations to deliver content globally with low latency. The primary CDN service built on AWS's edge infrastructure.
+  </Card>
+  <Card title="Amazon EC2" icon="server" href="https://aws.amazon.com/ec2/">
+    Virtual servers launched within specific Regions and AZs. The foundation of compute across AWS infrastructure.
+  </Card>
+  <Card title="Amazon Route 53" icon="route" href="https://aws.amazon.com/route53/">
+    Global DNS service operating at edge locations. Enables latency-based routing, geolocation routing, and health-check-based failover.
+  </Card>
+  <Card title="AWS Outposts" icon="building" href="https://aws.amazon.com/outposts/">
+    Bring native AWS infrastructure on-premises. The bridge between the AWS cloud and your own data center for hybrid architectures.
+  </Card>
+</CardGroup>
+
+<Note>
+  **CLF-C02 Exam Focus:** The three most important concepts in this section are **Region**, **Availability Zone**, and **Edge Location**. Know the difference clearly: Regions are geographic areas for deploying services; AZs are isolated data centers within a Region that enable high availability; Edge Locations are caching nodes for CloudFront and Route 53. Questions about "low latency content delivery globally" point to Edge Locations and CloudFront. Questions about "surviving a data center failure" point to Multi-AZ deployments.
+</Note>

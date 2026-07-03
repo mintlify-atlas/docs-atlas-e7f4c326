@@ -1,0 +1,290 @@
+---
+title: "AWS Cloud Practitioner Practice Exam 3: Scenario Questions"
+sidebarTitle: "Practice Exam 3"
+description: "Challenge yourself with 20 scenario-based AWS CLF-C02 questions. Real-world company situations test your ability to choose the right service every time."
+---
+
+This third and final practice exam uses **scenario-based questions** — the format most commonly seen on the real AWS CLF-C02 exam. Each question describes a real-world business situation and asks you to identify the most appropriate AWS service or solution. The exam contains **20 questions** across all four exam domains and should take approximately **30 minutes**. Scenario questions require you to understand *why* a service is used, not just *what* it does. Challenge yourself: answer all 20 before expanding a single accordion.
+
+<Note>
+  Scenario questions are the most common question style on the AWS CLF-C02 exam. They test your ability to map business requirements to the correct AWS service. The key skill is identifying the single most-specific, most-appropriate service — eliminate answers that are technically possible but not the best fit.
+</Note>
+
+## Exam Instructions
+
+<Steps>
+  <Step title="Read Each Scenario Carefully">
+    Scenario questions contain important keywords. Look for clues like "without managing servers," "lowest cost," "highest availability," "dedicated connection," or "automatically scale." These keywords point to specific AWS services.
+  </Step>
+  <Step title="Use the Process of Elimination">
+    If a scenario describes a specific requirement, eliminate services that don't directly address it. Often two answers seem close — pick the one that most precisely matches the stated requirement.
+  </Step>
+  <Step title="Answer All 20 Before Checking">
+    Commit to answers for all 20 questions before opening any accordion. This simulates real exam conditions and gives you a true score.
+  </Step>
+  <Step title="Review Every Explanation">
+    Even for questions you answered correctly, read the explanation. Scenario questions often contain nuances about *why* other options are wrong — that reasoning is equally valuable exam knowledge.
+  </Step>
+</Steps>
+
+---
+
+## Domain 1: Cloud Concepts (5 Questions)
+
+<Accordion title="Question 1: A small startup is launching their first web application and wants a simple, straightforward cloud platform with pre-configured virtual servers, storage, and networking — without the complexity of configuring a full VPC. Which AWS service is designed for this use case?">
+  **Options:**
+  - A) Amazon EC2 with a custom VPC configuration
+  - B) AWS Elastic Beanstalk
+  - C) Amazon Lightsail
+  - D) AWS Fargate
+
+  **Correct Answer: C) Amazon Lightsail**
+
+  **Explanation:** **Amazon Lightsail** is designed for developers, small businesses, and startups that need a simple, cost-predictable way to run virtual private servers, databases, and applications without the complexity of configuring EC2, VPCs, security groups, and load balancers from scratch. Lightsail bundles compute, SSD-based storage, DNS management, and a static IP into low, flat monthly pricing plans (starting under $5/month). It is the AWS answer to providers like DigitalOcean or Heroku. As the startup grows, they can migrate workloads to the full AWS service suite.
+</Accordion>
+
+<Accordion title="Question 2: A company wants to run a web server that experiences traffic spikes during business hours but near-zero traffic overnight. They want to avoid paying for unused capacity during off-peak hours while ensuring the application always has sufficient resources during peak times. Which solution best addresses this need?">
+  **Options:**
+  - A) Purchase Reserved Instances sized for peak traffic
+  - B) Deploy EC2 On-Demand instances with an Auto Scaling group that scales based on CPU utilization
+  - C) Use a single large On-Demand EC2 instance large enough for peak traffic
+  - D) Use AWS Lambda for the web server application
+
+  **Correct Answer: B) Deploy EC2 On-Demand instances with an Auto Scaling group that scales based on CPU utilization**
+
+  **Explanation:** An **EC2 Auto Scaling group** with On-Demand Instances automatically launches additional EC2 instances when CPU utilization (or other CloudWatch metrics) exceeds a threshold and terminates instances when demand drops. This directly addresses the requirement: you pay only for running instances, so overnight costs are minimal while daytime performance scales to meet demand. A single large instance wastes money at night. Reserved Instances for peak capacity still charge you 24/7. Lambda is not designed for long-running web server processes with persistent connections.
+</Accordion>
+
+<Accordion title="Question 3: A company currently owns two aging on-premises data centers. They want to migrate some workloads to AWS while keeping others on-premises due to regulatory requirements, creating a seamlessly connected mixed environment. What is this type of architecture called?">
+  **Options:**
+  - A) Multi-cloud deployment
+  - B) Private cloud deployment
+  - C) Hybrid cloud deployment
+  - D) Community cloud deployment
+
+  **Correct Answer: C) Hybrid cloud deployment**
+
+  **Explanation:** A **hybrid cloud** deployment model integrates on-premises infrastructure with public cloud resources, treating them as a unified, interconnected environment. Organizations use hybrid cloud when regulations require certain data to remain on-premises, or when migrating to the cloud incrementally. AWS services like AWS Direct Connect, AWS VPN, AWS Outposts, and AWS Storage Gateway are designed specifically to bridge on-premises data centers with the AWS cloud. This is one of the three main deployment models tested on CLF-C02: Public, Private, and Hybrid.
+</Accordion>
+
+<Accordion title="Question 4: A company is evaluating cloud adoption. Their CTO says the biggest benefit is not having to forecast infrastructure needs three years in advance. Which cloud computing advantage does this refer to?">
+  **Options:**
+  - A) Increase speed and agility
+  - B) Trade capital expense for variable expense
+  - C) Stop guessing about infrastructure capacity
+  - D) Go global in minutes
+
+  **Correct Answer: C) Stop guessing about infrastructure capacity**
+
+  **Explanation:** One of AWS's six advantages of cloud computing is "**Stop guessing about capacity.**" Traditionally, companies had to predict infrastructure needs 1–3 years ahead and purchase accordingly — often over-provisioning (wasting money) or under-provisioning (causing poor performance). Cloud computing solves this by allowing you to scale up or down in minutes based on actual demand, with no minimum commitment. You can start small and grow as needed. This is a core value proposition of the cloud that appears frequently in CLF-C02 conceptual questions.
+</Accordion>
+
+<Accordion title="Question 5: A financial services company wants to build a new application following AWS best practices. Their architect mentions the application should be designed so that a single component failure does not cause the entire system to fail. Which AWS Well-Architected Framework pillar is guiding this design decision?">
+  **Options:**
+  - A) Cost Optimization
+  - B) Performance Efficiency
+  - C) Reliability
+  - D) Operational Excellence
+
+  **Correct Answer: C) Reliability**
+
+  **Explanation:** The **Reliability pillar** of the AWS Well-Architected Framework focuses on building workloads that can recover from infrastructure or service disruptions, dynamically acquire resources, and mitigate disruptions like misconfigurations or transient network failures. Designing for failure — assuming components will fail and ensuring the system remains functional — is a core Reliability principle. This includes using multiple Availability Zones, implementing health checks, using Auto Scaling, and decoupling components. The scenario directly describes a Reliability concern: no single point of failure.
+</Accordion>
+
+---
+
+## Domain 2: Security & Compliance (6 Questions)
+
+<Accordion title="Question 6: A company needs to give an EC2 instance permission to read objects from a specific S3 bucket. A junior developer suggests creating an IAM User, generating access keys, and storing them in the application. What is the AWS-recommended approach instead?">
+  **Options:**
+  - A) Store the IAM User access keys in the EC2 instance's environment variables
+  - B) Attach an IAM Role to the EC2 instance with a policy that grants read access to the specific S3 bucket
+  - C) Make the S3 bucket publicly readable so the EC2 instance doesn't need credentials
+  - D) Create an IAM Group for EC2 instances and add the EC2 instance as a member
+
+  **Correct Answer: B) Attach an IAM Role to the EC2 instance with a policy that grants read access to the specific S3 bucket**
+
+  **Explanation:** The AWS-recommended approach is to use an **IAM Role** assigned as an **EC2 Instance Profile**. The role provides temporary, automatically rotating credentials to the EC2 instance — the AWS SDK retrieves them automatically from the instance metadata service. This eliminates the security risk of hardcoded or environment variable-stored static access keys that could be exposed via code commits, logs, or process inspection. Making the bucket public is a serious security violation. IAM Groups cannot be assigned to EC2 instances — only to IAM Users.
+</Accordion>
+
+<Accordion title="Question 7: A security team wants to detect if anyone in their AWS account is making unusual API calls — for example, if a compromised IAM user is attempting to enumerate S3 buckets or disable CloudTrail logging. Which AWS service provides this type of intelligent threat detection?">
+  **Options:**
+  - A) AWS Config
+  - B) AWS CloudTrail
+  - C) Amazon GuardDuty
+  - D) Amazon Inspector
+
+  **Correct Answer: C) Amazon GuardDuty**
+
+  **Explanation:** **Amazon GuardDuty** is a managed threat detection service that uses machine learning and threat intelligence to continuously monitor your AWS account for malicious activity and unauthorized behavior. It analyzes CloudTrail management events, VPC Flow Logs, and DNS query logs to identify threats such as: compromised credentials making unusual API calls, EC2 instances communicating with known malicious IPs, cryptocurrency mining activity, and reconnaissance attempts like S3 bucket enumeration. CloudTrail records API calls but does not analyze or alert on them. AWS Config tracks resource compliance. Inspector scans for vulnerabilities.
+</Accordion>
+
+<Accordion title="Question 8: A company processes credit card transactions and needs to provide their compliance team with documentation proving that AWS meets PCI DSS requirements for the infrastructure components AWS manages. Which service provides this documentation?">
+  **Options:**
+  - A) Amazon GuardDuty compliance reports
+  - B) AWS Trusted Advisor security checks
+  - C) AWS Artifact compliance reports
+  - D) AWS Config conformance packs
+
+  **Correct Answer: C) AWS Artifact compliance reports**
+
+  **Explanation:** **AWS Artifact** is the go-to self-service portal for AWS compliance documentation. It provides on-demand access to AWS's security and compliance reports, including PCI DSS Attestation of Compliance (AOC), SOC 1/2/3 reports, ISO 27001/27017/27018 certifications, and more. These documents are downloadable NDAs that auditors and compliance teams can use as evidence of AWS's compliance posture. Remember: AWS is responsible for the compliance of the infrastructure it manages; customers are responsible for how they configure and use that infrastructure.
+</Accordion>
+
+<Accordion title="Question 9: A company wants to archive records for exactly 7 years to comply with financial regulations. The data is never accessed during this period, and they need the absolute lowest storage cost available. Which S3 storage class should they use?">
+  **Options:**
+  - A) S3 Standard-IA
+  - B) S3 Glacier Flexible Retrieval
+  - C) S3 Glacier Deep Archive
+  - D) S3 One Zone-IA
+
+  **Correct Answer: C) S3 Glacier Deep Archive**
+
+  **Explanation:** **S3 Glacier Deep Archive** is the lowest-cost storage class in Amazon S3 — designed for data that is retained for 7–10 years and accessed at most once or twice per year. It is ideal for long-term compliance archiving of financial records, healthcare data, and backup copies. The trade-off is retrieval time: standard retrieval takes up to 12 hours, and bulk retrieval up to 48 hours. S3 Glacier Flexible Retrieval is slightly more expensive but offers faster retrieval options (minutes to hours). For 7-year archival with no access required, Deep Archive is the correct answer.
+</Accordion>
+
+<Accordion title="Question 10: A company has 20 AWS accounts across different business units. They want to ensure no account can create EC2 instances outside of the us-east-1 and eu-west-1 regions, regardless of the IAM permissions in those accounts. How can they enforce this?">
+  **Options:**
+  - A) Apply IAM boundary policies to every IAM user across all 20 accounts manually
+  - B) Use AWS Organizations with a Service Control Policy (SCP) that denies EC2 actions in all regions except us-east-1 and eu-west-1
+  - C) Enable AWS Config rules to detect and remediate EC2 instances launched in unapproved regions
+  - D) Use Amazon GuardDuty to block EC2 launches in unapproved regions
+
+  **Correct Answer: B) Use AWS Organizations with a Service Control Policy (SCP) that denies EC2 actions in all regions except us-east-1 and eu-west-1**
+
+  **Explanation:** **Service Control Policies (SCPs)** in AWS Organizations are the correct tool for enforcing guardrails across multiple accounts. An SCP attached to the root OU or specific OUs can use a Deny statement with a condition (`aws:RequestedRegion` condition key) to block EC2 actions in all regions except the approved ones. Because SCPs act as the maximum permission boundary, no IAM policy in any member account can override them. AWS Config can detect violations after the fact but cannot preventively block actions. GuardDuty detects threats but doesn't enforce resource policies.
+</Accordion>
+
+<Accordion title="Question 11: A company wants to identify which IAM users in their account do not have MFA enabled — a critical security oversight. Which AWS tool surfaces this information in a centralized dashboard without requiring custom scripts?">
+  **Options:**
+  - A) AWS CloudTrail — filter for MFA-related events
+  - B) AWS IAM Credential Report
+  - C) AWS Trusted Advisor — Security checks
+  - D) Amazon Inspector — IAM assessment
+
+  **Correct Answer: C) AWS Trusted Advisor — Security checks**
+
+  **Explanation:** **AWS Trusted Advisor** includes a dedicated Security check called "MFA on Root Account" and also provides "IAM Use" recommendations. More specifically, the IAM Credential Report (option B) is also a valid tool — it's a CSV downloadable from IAM that shows all users, their MFA status, last activity, and access key age. Both are valid, but the question asks specifically about a "centralized dashboard" — which points to Trusted Advisor. On Business and Enterprise support plans, Trusted Advisor provides a real-time dashboard with automated checks, including identifying users without MFA.
+</Accordion>
+
+---
+
+## Domain 3: Technology & Services (7 Questions)
+
+<Accordion title="Question 12: A startup wants to build a mobile app backend that automatically scales with user demand, handles HTTP requests, and runs custom business logic — all without provisioning or managing any servers. Which combination of AWS services best meets this requirement?">
+  **Options:**
+  - A) Amazon EC2 + Elastic Load Balancer
+  - B) AWS Lambda + Amazon API Gateway
+  - C) AWS Elastic Beanstalk + Amazon RDS
+  - D) Amazon ECS + AWS Fargate
+
+  **Correct Answer: B) AWS Lambda + Amazon API Gateway**
+
+  **Explanation:** **AWS Lambda + Amazon API Gateway** is the canonical serverless backend architecture. **API Gateway** creates a managed HTTP/HTTPS API endpoint that receives requests from mobile clients and routes them to the appropriate Lambda function. **Lambda** executes the business logic (authentication, data processing, database calls) in response to each request without any server provisioning. The combination scales automatically from zero to millions of requests with no idle costs. Elastic Beanstalk and ECS/Fargate still involve server/container management. EC2 + ELB requires manual scaling configuration.
+</Accordion>
+
+<Accordion title="Question 13: A company has 5TB of data on-premises that needs to be migrated to Amazon S3. Their internet connection is 100Mbps and is heavily used for daily business operations, making a large internet-based transfer impractical. Which AWS service is designed for this type of offline migration?">
+  **Options:**
+  - A) AWS DataSync via the internet
+  - B) Amazon S3 Transfer Acceleration
+  - C) AWS Snowball Edge
+  - D) AWS Storage Gateway
+
+  **Correct Answer: C) AWS Snowball Edge**
+
+  **Explanation:** **AWS Snowball Edge** (part of the AWS Snow Family) is a physical data transfer device shipped to your location. You load up to 80TB of data onto the device and ship it back to AWS, where the data is imported into S3. For 5TB over a 100Mbps connection that's shared with daily business traffic, an online transfer could take days and impact operations. Snowball completes the transfer in days via physical logistics without impacting network bandwidth. S3 Transfer Acceleration speeds up internet-based S3 uploads but doesn't help with bandwidth constraints. DataSync also uses the internet.
+</Accordion>
+
+<Accordion title="Question 14: A development team wants to store their application source code in a managed, version-controlled repository on AWS, and automatically build, test, and deploy the code to production whenever changes are pushed. Which AWS services should they use?">
+  **Options:**
+  - A) Amazon S3 + AWS Lambda
+  - B) AWS CodeCommit + AWS CodePipeline
+  - C) AWS CloudFormation + AWS OpsWorks
+  - D) Amazon ECR + AWS ECS
+
+  **Correct Answer: B) AWS CodeCommit + AWS CodePipeline**
+
+  **Explanation:** **AWS CodeCommit** is a fully managed, private Git repository service — the AWS equivalent of GitHub or GitLab. **AWS CodePipeline** is a fully managed continuous delivery (CI/CD) service that automates the build, test, and deployment phases whenever a code change is committed. Together, they form a native AWS DevOps pipeline: CodeCommit stores the code, CodePipeline detects changes and orchestrates the workflow (often adding AWS CodeBuild for compilation/testing and AWS CodeDeploy for deployment). This is the AWS developer tools suite for end-to-end CI/CD automation.
+</Accordion>
+
+<Accordion title="Question 15: A company's web application serves users across North America, Europe, and Asia-Pacific. Users in Asia are reporting significantly higher page load times compared to users in North America, where the origin servers are located. Which AWS service will most effectively reduce latency for the Asian users?">
+  **Options:**
+  - A) Deploy additional EC2 instances in the us-east-1 Region
+  - B) Use Amazon CloudFront with edge locations in Asia-Pacific
+  - C) Upgrade the origin EC2 instances to a larger instance type
+  - D) Enable Amazon Route 53 Latency-Based Routing
+
+  **Correct Answer: B) Use Amazon CloudFront with edge locations in Asia-Pacific**
+
+  **Explanation:** **Amazon CloudFront** is a global Content Delivery Network (CDN) that caches content at over 450 edge locations worldwide, including multiple locations in Japan, Singapore, Sydney, Mumbai, Seoul, and other Asia-Pacific cities. When Asian users request content, CloudFront serves it from the nearest edge location — dramatically reducing round-trip time compared to a request traveling to North America. Upgrading EC2 instance types doesn't reduce geographic latency. Route 53 Latency-Based Routing routes users to the closest Region but requires deploying infrastructure in multiple Regions — CloudFront is simpler and more cost-effective for static/cacheable content.
+</Accordion>
+
+<Accordion title="Question 16: A financial institution needs a consistent, low-latency, high-bandwidth private network connection between their on-premises data center and AWS — without data traveling over the public internet. Which AWS service provides this dedicated physical connection?">
+  **Options:**
+  - A) AWS Site-to-Site VPN
+  - B) Amazon CloudFront
+  - C) AWS Direct Connect
+  - D) AWS PrivateLink
+
+  **Correct Answer: C) AWS Direct Connect**
+
+  **Explanation:** **AWS Direct Connect** establishes a dedicated, private physical network connection from your on-premises data center to AWS through an AWS Direct Connect location. The connection bypasses the public internet entirely, providing consistent network performance, reduced bandwidth costs for high-volume transfers, and meeting compliance requirements for industries (finance, healthcare) that mandate private connectivity. AWS Site-to-Site VPN also connects on-premises to AWS but travels over the encrypted public internet and has variable latency. Direct Connect offers 1Gbps to 100Gbps link speeds and is the right answer for dedicated, consistent, private connectivity.
+</Accordion>
+
+<Accordion title="Question 17: A company runs a read-heavy application backed by Amazon DynamoDB. They are experiencing latency in the milliseconds range but need sub-millisecond response times for frequently accessed data. Which AWS service should they add to their architecture?">
+  **Options:**
+  - A) Amazon ElastiCache for Redis in front of DynamoDB
+  - B) Amazon DynamoDB Accelerator (DAX)
+  - C) Amazon RDS Read Replicas
+  - D) Amazon CloudFront with DynamoDB as the origin
+
+  **Correct Answer: B) Amazon DynamoDB Accelerator (DAX)**
+
+  **Explanation:** **Amazon DynamoDB Accelerator (DAX)** is a fully managed, highly available, in-memory cache specifically designed for DynamoDB. It delivers response times in **microseconds** (up to 10x performance improvement) for read-heavy workloads without requiring any application code changes — it uses the same DynamoDB API. DAX is the purpose-built solution for caching DynamoDB reads. While ElastiCache (Redis/Memcached) can also cache DynamoDB data, it requires additional application logic to manage the cache. For DynamoDB-specific caching, DAX is the preferred and most exam-correct answer.
+</Accordion>
+
+<Accordion title="Question 18: A company wants to run containerized applications at scale without managing the underlying EC2 instances or clusters. They want to define their containers and let AWS handle the infrastructure entirely. Which AWS service meets this requirement?">
+  **Options:**
+  - A) Amazon ECS with EC2 launch type
+  - B) Amazon ECR
+  - C) AWS Fargate
+  - D) Amazon EKS with self-managed node groups
+
+  **Correct Answer: C) AWS Fargate**
+
+  **Explanation:** **AWS Fargate** is a serverless compute engine for containers that works with both Amazon ECS (Elastic Container Service) and Amazon EKS (Elastic Kubernetes Service). With Fargate, you define the CPU and memory requirements for your containers, and AWS provisions and manages the underlying infrastructure automatically — no EC2 instances to provision, patch, or scale. You pay only for the vCPU and memory resources your containers consume. The ECS with EC2 launch type requires managing EC2 instances. Amazon ECR is a container image registry (stores images). EKS with self-managed nodes requires managing worker EC2 instances manually.
+</Accordion>
+
+---
+
+## Domain 4: Billing & Support (2 Questions)
+
+<Accordion title="Question 19: A company wants to receive an email notification as soon as their AWS monthly spend is forecasted to exceed $500. Which AWS service and feature should they configure?">
+  **Options:**
+  - A) AWS Cost Explorer — set a monthly report threshold
+  - B) AWS Budgets — create a cost budget with a forecasted spend alert at $500
+  - C) Amazon CloudWatch — create a billing alarm at $500
+  - D) AWS Trusted Advisor — enable cost optimization notifications
+
+  **Correct Answer: B) AWS Budgets — create a cost budget with a forecasted spend alert at $500**
+
+  **Explanation:** **AWS Budgets** allows you to create custom cost and usage budgets with automatic alert notifications. A **cost budget** can be configured to send SNS/email alerts when actual OR forecasted costs exceed your defined threshold — in this case, $500. The forecasted alert is key: it notifies you *before* the threshold is breached, based on current spending trends projected to month-end. Amazon CloudWatch Billing Alarms (option C) is also technically valid but only triggers on actual spend, not forecasted spend. AWS Budgets supports both actual and forecasted thresholds, making it the superior answer here.
+</Accordion>
+
+<Accordion title="Question 20: A company with a complex, distributed microservices architecture on AWS is experiencing an intermittent production outage. They need to get on the phone with AWS support engineers within 15 minutes and have a designated Technical Account Manager (TAM). Which support plan do they require?">
+  **Options:**
+  - A) AWS Developer Support
+  - B) AWS Business Support
+  - C) AWS Enterprise On-Ramp Support
+  - D) AWS Enterprise Support
+
+  **Correct Answer: D) AWS Enterprise Support**
+
+  **Explanation:** Only the **AWS Enterprise Support** plan (starting at $15,000/month or 10% of monthly AWS spend) provides both a dedicated **Technical Account Manager (TAM)** and a **15-minute response time** for business/mission-critical system down cases via phone. Enterprise On-Ramp (option C) provides a 30-minute response time and access to a pool of TAMs rather than a dedicated one. Business Support provides a 1-hour response time for production system down, with no TAM. Developer Support has business-hours email access only. When a scenario requires both a TAM and a 15-minute SLA, the answer is Enterprise Support.
+</Accordion>
+
+---
+
+<Tip>
+  **Final Score Benchmark:** 18–20 correct = You are exam-ready! Schedule your CLF-C02 soon. 15–17 = Strong foundation — review the explanations for missed questions. 12–14 = Go back through the domain sections in this guide, then retake. Below 12 = Spend more time studying before attempting the real exam. Remember: the passing score is 700/1000 (roughly 70%).
+</Tip>

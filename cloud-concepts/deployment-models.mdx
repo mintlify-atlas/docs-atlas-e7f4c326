@@ -1,0 +1,185 @@
+---
+title: "AWS Cloud Deployment Models: Public, Private & Hybrid"
+sidebarTitle: "Deployment Models"
+description: "Compare public, private, and hybrid cloud deployment models — use cases, AWS services like Direct Connect and Outposts, and exam-ready decision frameworks."
+---
+
+A cloud deployment model describes *where* your infrastructure lives and *who* controls it. Understanding the three core models — public, private, and hybrid — is essential for the CLF-C02 exam, which regularly presents scenarios where you must select the appropriate deployment strategy based on regulatory requirements, cost sensitivity, latency constraints, or existing on-premises investments.
+
+<Tip>
+  **Exam shortcut:** Unless a question explicitly mentions on-premises requirements, regulatory data residency rules, or existing legacy infrastructure, the correct answer almost always involves the **public cloud**. Public cloud is the AWS default.
+</Tip>
+
+## The Three Deployment Models
+
+<Tabs>
+  <Tab title="☁️ Public Cloud">
+    ### What Is Public Cloud?
+    Public cloud resources are owned and operated by a third-party cloud provider — like AWS — and delivered over the internet. The infrastructure is **shared among multiple customers** (multi-tenancy), but each customer's data and workloads are **logically isolated** and secure.
+
+    Think of public cloud like staying in a hotel. The building and amenities are shared by all guests, but your room is private. You pay only for the nights you stay. Housekeeping and maintenance are handled for you.
+
+    ### Key Characteristics
+    - Infrastructure owned and managed entirely by AWS
+    - Resources shared across many customers via virtualization
+    - Accessed over the internet or AWS Direct Connect
+    - Pay-as-you-go or reserved pricing
+    - No capital expenditure — pure operational expense
+
+    ### Advantages
+    - ✅ **Lowest cost** — shared infrastructure dramatically reduces per-unit prices
+    - ✅ **Instant access** — provision resources in minutes, not months
+    - ✅ **Unlimited scale** — virtually infinite capacity on demand
+    - ✅ **Zero maintenance** — AWS handles all hardware, patches, and facilities
+    - ✅ **Global reach** — deploy in any of 30+ AWS Regions worldwide
+    - ✅ **Latest technology** — access new services as soon as AWS releases them
+
+    ### Potential Limitations
+    - Less direct control over underlying hardware
+    - Requires reliable internet connectivity for management
+    - Certain regulatory frameworks may restrict which data can leave a jurisdiction
+
+    ### Best Use Cases
+    - Web applications, mobile backends, and APIs
+    - Development, test, and staging environments
+    - Big data analytics and machine learning workloads
+    - Startups and businesses without existing data center investments
+    - Any workload where elasticity and speed-to-market are priorities
+
+    ### AWS Public Cloud Services (Examples)
+    Amazon EC2, Amazon S3, Amazon RDS, AWS Lambda — essentially every service in the AWS catalog when deployed in a standard Region.
+  </Tab>
+
+  <Tab title="🔒 Private Cloud">
+    ### What Is Private Cloud?
+    Private cloud resources are used **exclusively by a single organization**. The infrastructure may be physically located on-premises at the organization's own data center, hosted at a colocation facility, or run on dedicated hardware within a cloud provider's facility.
+
+    Think of private cloud like owning your own home. You have complete control — you can renovate any room, set your own rules, and no one else has a key. But you're also responsible for every repair, every utility bill, and every upgrade.
+
+    ### Types of Private Cloud
+    | Type | Location | Who Manages | Control Level |
+    |---|---|---|---|
+    | **On-Premises Private** | Your data center | Your IT team | Maximum |
+    | **Hosted Private** | Third-party colocation | Shared/outsourced | High |
+    | **Virtual Private (VPC)** | Inside AWS, isolated | You manage, AWS hosts | Medium-High |
+
+    ### Advantages
+    - ✅ **Maximum control** — full customization of hardware, OS, and networking
+    - ✅ **Dedicated resources** — no "noisy neighbor" performance variability
+    - ✅ **Strict data sovereignty** — data never leaves your facility or jurisdiction
+    - ✅ **Compliance-ready** — meet the most demanding regulatory frameworks
+    - ✅ **Legacy integration** — connect directly to existing on-premises systems
+
+    ### Potential Limitations
+    - High capital and operational costs
+    - Requires specialized IT staff for management
+    - Slower to provision new capacity
+    - Geographic reach limited to your own facilities
+    - Innovation speed constrained by hardware refresh cycles
+
+    ### Best Use Cases
+    - Financial institutions with strict data locality regulations
+    - Healthcare organizations handling protected health information (PHI/HIPAA)
+    - Government agencies managing classified or sensitive national data
+    - Large enterprises with existing data center investments they cannot abandon
+    - Industries with regulatory requirements that prohibit third-party data hosting
+
+    <Warning>
+      In the CLF-C02 context, "private cloud" often refers to an organization's own on-premises infrastructure. Don't confuse this with Amazon VPC (Virtual Private Cloud), which is a *networking isolation feature* within AWS's public cloud.
+    </Warning>
+  </Tab>
+
+  <Tab title="🌉 Hybrid Cloud">
+    ### What Is Hybrid Cloud?
+    Hybrid cloud combines public and private cloud environments, connected in a way that allows data and applications to move between them. It's a deliberate architecture that uses each environment for what it does best.
+
+    Think of hybrid cloud like owning a home in the suburbs (private cloud) while also having a membership at a coworking space downtown (public cloud). You do focused, sensitive work at home where you have full control and privacy. You use the coworking space when you need to scale up quickly, meet collaborators, or access facilities you can't afford to own.
+
+    ### How Hybrid Connectivity Works
+    AWS provides two primary mechanisms to connect your on-premises environment to the AWS cloud securely:
+
+    <CardGroup cols={2}>
+      <Card title="AWS Direct Connect" icon="plug" href="https://aws.amazon.com/directconnect/">
+        A dedicated, private network connection from your data center to AWS. Bypasses the public internet for consistent, low-latency performance. Ideal for large data transfers and latency-sensitive workloads.
+      </Card>
+      <Card title="AWS VPN" icon="shield" href="https://aws.amazon.com/vpn/">
+        An encrypted tunnel over the public internet connecting your on-premises network to your AWS VPC. Lower cost than Direct Connect, quick to set up, suitable for moderate data volumes.
+      </Card>
+    </CardGroup>
+
+    ### Common Hybrid Scenarios
+
+    **Cloud Bursting:** Run normal operations on-premises. When demand spikes beyond private capacity, automatically "burst" overflow workloads to AWS. Example: a retailer handling Black Friday traffic surges.
+
+    **Data Tiering:** Keep frequently accessed, sensitive data on-premises. Archive cold data to Amazon S3 Glacier. Process analytics workloads in the cloud where compute is cheaper.
+
+    **Gradual Migration:** Migrate one application or workload at a time to AWS while keeping the rest on-premises. Reduce risk and pace the transition to match organizational readiness.
+
+    **Regulatory Compliance:** Store regulated data (e.g., patient records, financial transactions) on-premises while running customer-facing applications in AWS for global performance.
+
+    ### Advantages
+    - ✅ **Best of both worlds** — combine the control of private with the scale of public
+    - ✅ **Gradual migration** — move to cloud at your own pace
+    - ✅ **Cost optimization** — use public cloud for variable/non-sensitive workloads
+    - ✅ **Compliance flexibility** — meet varied regulatory requirements simultaneously
+
+    ### AWS Services That Enable Hybrid Cloud
+
+    <CardGroup cols={3}>
+      <Card title="AWS Outposts" icon="building" href="https://aws.amazon.com/outposts/">
+        AWS-managed racks of hardware installed in your data center. Run native AWS services on-premises with the same APIs, tools, and console as the cloud.
+      </Card>
+      <Card title="AWS Direct Connect" icon="network-wired" href="https://aws.amazon.com/directconnect/">
+        Dedicated private fiber connection between your facility and AWS. Up to 100 Gbps, bypasses the internet, provides consistent latency.
+      </Card>
+      <Card title="AWS VPN" icon="lock" href="https://aws.amazon.com/vpn/">
+        Site-to-Site VPN creates encrypted IPSec tunnels from your network to AWS VPC. Easy to configure, cost-effective for lower-bandwidth needs.
+      </Card>
+    </CardGroup>
+  </Tab>
+</Tabs>
+
+## Comparison: Public vs. Private vs. Hybrid
+
+| Dimension | Public Cloud | Private Cloud | Hybrid Cloud |
+|---|---|---|---|
+| **Cost** | Low (pay-as-you-go) | High (CapEx + OpEx) | Medium (mixed model) |
+| **Control** | Low–Medium | Maximum | Medium |
+| **Scalability** | Near-unlimited | Limited by hardware | High (scales via public) |
+| **Security posture** | Shared responsibility | Full customer ownership | Complex (both models) |
+| **Time to provision** | Minutes | Weeks–Months | Mixed |
+| **Data sovereignty** | Provider-dependent | Full control | Selective |
+| **Compliance suitability** | Most industries | Strictest requirements | Multi-regulation scenarios |
+| **Management complexity** | Low | High | Highest |
+| **Innovation speed** | Fastest | Slowest | Medium |
+
+## When to Choose Each Model
+
+<Accordion title="Choose Public Cloud when…">
+  - You are a startup or small business without existing infrastructure
+  - Your workloads are variable and benefit from elastic scaling
+  - Speed-to-market is a priority
+  - Your compliance requirements are met by AWS's certifications (most industries are)
+  - You want to minimize operational burden on your IT team
+  - Your data has no strict geographic residency requirements
+</Accordion>
+
+<Accordion title="Choose Private Cloud when…">
+  - Regulations explicitly require data to remain on your own infrastructure
+  - Your industry has the strictest data privacy laws (certain government, defense, or financial use cases)
+  - You have significant existing data center investment that cannot be abandoned
+  - You need absolute control over hardware configuration and supply chain
+  - Network latency to any external provider is unacceptable for your workload
+</Accordion>
+
+<Accordion title="Choose Hybrid Cloud when…">
+  - You have legacy on-premises systems that cannot be migrated immediately
+  - You want to gradually move workloads to the cloud without a big-bang migration
+  - Different workloads have different compliance requirements (some can be in AWS, some cannot)
+  - You want cloud bursting — using AWS for demand overflow beyond on-premises capacity
+  - You are in a regulated industry that allows cloud for non-sensitive data but requires on-premises for sensitive data
+</Accordion>
+
+<Note>
+  For the CLF-C02 exam, **multi-cloud** (using multiple cloud providers like AWS + Azure + GCP simultaneously) is not one of the three primary deployment models you need to know, but it may appear as a distractor. Focus your study on Public, Private, and Hybrid.
+</Note>

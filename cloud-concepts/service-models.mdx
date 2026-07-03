@@ -1,0 +1,200 @@
+---
+title: "IaaS, PaaS, and SaaS: AWS Cloud Service Models"
+sidebarTitle: "Service Models"
+description: "Learn IaaS, PaaS, and SaaS with AWS examples like EC2, Elastic Beanstalk, and WorkMail — including who manages what in each model's shared responsibility split."
+---
+
+Cloud service models define **how much of the technology stack** a cloud provider manages for you — and how much remains your responsibility. The three models are IaaS (Infrastructure as a Service), PaaS (Platform as a Service), and SaaS (Software as a Service). Understanding where each model sits on the control-vs-convenience spectrum, which AWS services belong to which category, and how the shared responsibility model shifts across them is essential knowledge for the CLF-C02 exam.
+
+## The Pizza Analogy
+
+The easiest way to remember the three models is with a pizza analogy. Imagine you want pizza for dinner:
+
+| Approach | What You Do | What Someone Else Does | Cloud Equivalent |
+|---|---|---|---|
+| **Make at home** | Everything — buy ingredients, prep, bake, serve | Nothing | Traditional IT (On-Premises) |
+| **Grocery kit** | Add toppings, bake, serve | Dough, sauce, packaging | **IaaS** |
+| **Take-and-bake** | Just bake and serve | All prep work | **PaaS** |
+| **Delivery** | Just eat | Everything | **SaaS** |
+
+As you move from IaaS → PaaS → SaaS, **you control less and manage less** — but the provider handles more of the heavy lifting.
+
+## The Three Service Models
+
+<Tabs>
+  <Tab title="🏗️ IaaS">
+    ### Infrastructure as a Service
+
+    IaaS provides virtualized computing resources over the internet. You get the raw infrastructure — compute, storage, and networking — and retain full control over everything above the hypervisor: the operating system, middleware, runtime, application code, and data.
+
+    Think of it like **renting an unfurnished apartment**. The building exists, the plumbing and electricity work, but you furnish it, decorate it, and maintain the interior. You have maximum flexibility but also maximum responsibility.
+
+    ### What AWS Manages vs. What You Manage
+
+    | **You Manage** | **AWS Manages** |
+    |---|---|
+    | Operating System (patches, updates) | Physical servers and hardware |
+    | Application runtime and middleware | Data center facilities |
+    | Application code and configuration | Network infrastructure |
+    | Data and backups | Virtualization layer (hypervisor) |
+    | Identity and access (IAM policies) | Power, cooling, physical security |
+    | Network security groups and firewall rules | — |
+
+    ### Key AWS IaaS Services
+
+    <CardGroup cols={2}>
+      <Card title="Amazon EC2" icon="server" href="https://aws.amazon.com/ec2/">
+        Virtual servers in the cloud. You choose the OS (Windows or Linux), instance type, storage, and networking. Full root/administrator access. The flagship IaaS service on AWS.
+      </Card>
+      <Card title="Amazon VPC" icon="network-wired" href="https://aws.amazon.com/vpc/">
+        Virtual Private Cloud — your own isolated network in AWS. You configure subnets, route tables, internet gateways, and security groups. Full control over network topology.
+      </Card>
+      <Card title="Amazon EBS" icon="hard-drive" href="https://aws.amazon.com/ebs/">
+        Elastic Block Store — persistent block storage volumes for EC2 instances. You manage what's stored on the volumes and define backup/snapshot strategies.
+      </Card>
+      <Card title="AWS Direct Connect" icon="plug" href="https://aws.amazon.com/directconnect/">
+        Dedicated private network connection from your on-premises environment to AWS. You manage routing and connectivity configuration on your end.
+      </Card>
+    </CardGroup>
+
+    ### Best For
+    - Migrating existing applications from on-premises to cloud without rewriting them ("lift and shift")
+    - Workloads that require a specific OS version or custom configuration
+    - High-performance computing, scientific simulations, and big data processing
+    - Teams with strong infrastructure expertise who need maximum control
+  </Tab>
+
+  <Tab title="🛠️ PaaS">
+    ### Platform as a Service
+
+    PaaS provides a managed platform for developing, deploying, and running applications. AWS handles the operating system, runtime, middleware, and infrastructure — you focus exclusively on **your application code and data**.
+
+    Think of it like a **fully equipped commercial kitchen**. The ovens, prep stations, refrigeration, and ventilation are all provided and maintained. You just bring your recipes and cook. You don't worry about whether the oven needs a repair — that's handled for you.
+
+    ### What AWS Manages vs. What You Manage
+
+    | **You Manage** | **AWS Manages** |
+    |---|---|
+    | Application code | Operating System |
+    | Application configuration | Runtime environment |
+    | Data | Middleware and frameworks |
+    | User access to your app | Infrastructure (compute, storage, networking) |
+    | — | OS patches and security updates |
+    | — | Scaling and availability |
+
+    ### Key AWS PaaS Services
+
+    <CardGroup cols={2}>
+      <Card title="AWS Elastic Beanstalk" icon="leaf" href="https://aws.amazon.com/elasticbeanstalk/">
+        Upload your application code and Elastic Beanstalk automatically handles deployment, capacity provisioning, load balancing, and health monitoring. Supports Node.js, Python, Java, .NET, PHP, Ruby, Go, and Docker.
+      </Card>
+      <Card title="Amazon RDS" icon="database" href="https://aws.amazon.com/rds/">
+        Managed relational database service. AWS handles automated backups, software patching, failover, and scaling. You manage your schema, queries, and application connectivity. Supports MySQL, PostgreSQL, Oracle, SQL Server, and Aurora.
+      </Card>
+      <Card title="AWS Lambda" icon="bolt" href="https://aws.amazon.com/lambda/">
+        Serverless compute — run code without provisioning or managing servers. You write functions; AWS handles execution infrastructure, automatic scaling, and availability. Pay only per invocation and compute duration.
+      </Card>
+      <Card title="Amazon API Gateway" icon="arrows-split-up-and-left" href="https://aws.amazon.com/api-gateway/">
+        Fully managed service to create, publish, maintain, and monitor APIs at any scale. AWS manages the underlying infrastructure; you define your API endpoints and integrate with backend services.
+      </Card>
+    </CardGroup>
+
+    ### Best For
+    - Development teams who want to focus on building features, not managing servers
+    - Rapid application prototyping and deployment
+    - Startups and teams without dedicated DevOps infrastructure expertise
+    - Standardized workloads that don't require custom OS configuration
+  </Tab>
+
+  <Tab title="📱 SaaS">
+    ### Software as a Service
+
+    SaaS delivers fully functional software applications over the internet. The provider manages everything — infrastructure, platform, application code, security patches, and updates. You consume the application as a service, typically via a web browser.
+
+    Think of it like **ordering pizza for delivery**. You call, pay, and eat. You don't interact with the oven, the ingredients, the delivery vehicle, or the cook. Everything is handled end-to-end.
+
+    ### What AWS Manages vs. What You Manage
+
+    | **You Manage** | **AWS (or Provider) Manages** |
+    |---|---|
+    | User accounts and permissions within the app | Application code and updates |
+    | Your data and content | Security patching |
+    | How you use the application | Infrastructure |
+    | — | Platform and runtime |
+    | — | Everything technical |
+
+    ### Key AWS SaaS Services
+
+    <CardGroup cols={2}>
+      <Card title="Amazon WorkMail" icon="envelope" href="https://aws.amazon.com/workmail/">
+        Managed business email and calendar service. Compatible with Microsoft Outlook and any IMAP client. AWS handles servers, storage, security, and availability — you just manage users and mailboxes.
+      </Card>
+      <Card title="Amazon Chime" icon="video" href="https://aws.amazon.com/chime/">
+        Business communications service for video conferencing, online meetings, chat, and business calling. No infrastructure to manage — available via browser or client app.
+      </Card>
+      <Card title="Amazon WorkDocs" icon="file" href="https://aws.amazon.com/workdocs/">
+        Fully managed document storage and collaboration service. Teams can create, edit, and share documents without managing any backend storage infrastructure.
+      </Card>
+      <Card title="AWS Marketplace SaaS" icon="store" href="https://aws.amazon.com/marketplace/">
+        Thousands of third-party SaaS products (e.g., Salesforce, Datadog, Splunk) can be purchased and billed through your AWS account. All the benefits of SaaS with consolidated AWS billing.
+      </Card>
+    </CardGroup>
+
+    ### Best For
+    - Standard business functions where custom software isn't needed (email, communication, HR, CRM)
+    - Organizations without technical IT staff
+    - Use cases where speed of deployment matters more than customization
+    - Any workflow where "we just need the software to work" is the goal
+  </Tab>
+</Tabs>
+
+## Full Comparison: What Each Party Manages
+
+This table shows the full technology stack and who is responsible at each layer across all three models, plus traditional on-premises for comparison.
+
+| Stack Layer | On-Premises | IaaS | PaaS | SaaS |
+|---|---|---|---|---|
+| **Applications** | 🟦 You | 🟦 You | 🟦 You | 🟧 Provider |
+| **Data** | 🟦 You | 🟦 You | 🟦 You | 🟦 You* |
+| **Runtime** | 🟦 You | 🟦 You | 🟧 Provider | 🟧 Provider |
+| **Middleware** | 🟦 You | 🟦 You | 🟧 Provider | 🟧 Provider |
+| **Operating System** | 🟦 You | 🟦 You | 🟧 Provider | 🟧 Provider |
+| **Virtualization** | 🟦 You | 🟧 Provider | 🟧 Provider | 🟧 Provider |
+| **Servers** | 🟦 You | 🟧 Provider | 🟧 Provider | 🟧 Provider |
+| **Storage** | 🟦 You | 🟧 Provider | 🟧 Provider | 🟧 Provider |
+| **Networking** | 🟦 You | 🟧 Provider | 🟧 Provider | 🟧 Provider |
+| **Data Center** | 🟦 You | 🟧 Provider | 🟧 Provider | 🟧 Provider |
+
+*\*In SaaS, the provider stores your data — but you remain responsible for what you put into the system and how you configure access.*
+
+🟦 = Customer managed &nbsp;&nbsp; 🟧 = Provider managed
+
+## Decision Framework: Which Model to Choose?
+
+<Accordion title="Choose IaaS when…">
+  - You need to run a specific operating system version or custom configuration
+  - You are migrating existing on-premises applications without rewriting them
+  - Your team has strong infrastructure and system administration skills
+  - You need maximum control over security hardening and compliance configurations
+  - Your workload has performance requirements that need direct hardware tuning
+</Accordion>
+
+<Accordion title="Choose PaaS when…">
+  - You want to focus on writing application code, not managing servers
+  - You are building a new application from scratch and have no legacy constraints
+  - You want automatic scaling and high availability without configuring it yourself
+  - Your team is developer-heavy but lacks dedicated infrastructure/DevOps staff
+  - Time-to-market is critical and you want to reduce operational overhead
+</Accordion>
+
+<Accordion title="Choose SaaS when…">
+  - You need standard business functionality (email, collaboration, CRM, HR)
+  - The business need is solved by an existing application — no custom development required
+  - You want a predictable subscription cost with no infrastructure to maintain
+  - Your users need to be productive immediately with minimal IT setup
+  - You lack the technical resources to build or manage custom software
+</Accordion>
+
+<Tip>
+  For the CLF-C02 exam, you must be able to **categorize AWS services** into IaaS, PaaS, or SaaS, and identify which party is responsible for security at each layer. The most commonly tested examples: **EC2 = IaaS**, **Elastic Beanstalk = PaaS**, **WorkMail = SaaS**, **RDS = PaaS** (AWS patches the database engine), **Lambda = PaaS** (AWS manages the execution environment).
+</Tip>

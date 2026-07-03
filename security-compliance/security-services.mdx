@@ -1,0 +1,322 @@
+---
+title: "Key AWS Security Services for Cloud Practitioner Exam"
+sidebarTitle: "Security Services"
+description: "Survey the core AWS security services — GuardDuty, WAF, Shield, KMS, CloudTrail, and more — grouped by function with exam tips for the CLF-C02 certification."
+---
+
+AWS provides a layered suite of security services that work together to protect your infrastructure, detect threats, and help you meet compliance requirements. Rather than relying on a single control, a well-architected AWS environment stacks multiple services — a strategy called **defense in depth**. This page groups the most exam-relevant services by function so you can understand what each one does, when to use it, and how to distinguish between similar services on the exam.
+
+<Tip>
+  The most frequently confused services are **GuardDuty** (threat detection), **Inspector** (vulnerability assessment), and **Macie** (sensitive data discovery). Know the difference — the exam tests exactly this.
+</Tip>
+
+---
+
+## Threat Detection & Monitoring
+
+<Accordion title="Amazon GuardDuty — Intelligent Threat Detection">
+  **What it does:**
+  Amazon GuardDuty is a fully managed threat detection service that continuously analyzes your AWS environment using machine learning, anomaly detection, and threat intelligence feeds. It does not require you to deploy or manage agents — you simply enable it and it starts monitoring.
+
+  **Data sources GuardDuty analyzes:**
+  - **AWS CloudTrail logs** — API activity and management events
+  - **VPC Flow Logs** — network traffic patterns
+  - **DNS query logs** — suspicious domain lookups
+
+  **What it can detect:**
+  - Compromised EC2 instances communicating with known malware command-and-control servers
+  - Unusual API calls from unexpected geolocations
+  - Cryptocurrency mining activity
+  - Credential exfiltration attempts
+  - Port scanning and reconnaissance activity
+
+  **When to use it:** Enable GuardDuty on every AWS account as a baseline. It requires no configuration overhead and generates findings you can route to Security Hub or SNS for alerting.
+
+  **Exam tip:** GuardDuty detects **existing threats and unusual behavior**. It does not prevent attacks — it identifies them after they start. If a question asks "which service continuously monitors for malicious activity using ML," the answer is GuardDuty.
+</Accordion>
+
+<Accordion title="AWS Security Hub — Centralized Security Findings">
+  **What it does:**
+  AWS Security Hub aggregates, organizes, and prioritizes security findings from multiple AWS services and third-party tools into a single dashboard. Instead of checking GuardDuty, Inspector, Macie, and others separately, Security Hub pulls all findings into one place.
+
+  **Integrated services:**
+  - Amazon GuardDuty (threat detection)
+  - Amazon Inspector (vulnerability scanning)
+  - Amazon Macie (data classification findings)
+  - AWS IAM Access Analyzer
+  - AWS Firewall Manager
+
+  **Compliance standards it checks:**
+  - AWS Foundational Security Best Practices
+  - CIS AWS Foundations Benchmark
+  - PCI DSS
+  - NIST 800-53
+
+  **When to use it:** Use Security Hub as the central control plane for security posture across your account or AWS Organization. It gives you a consolidated compliance score and highlights the highest-priority issues.
+
+  **Exam tip:** If a question asks about a "centralized view of security findings" or "aggregating security alerts across services," the answer is Security Hub.
+</Accordion>
+
+<Accordion title="Amazon Detective — Security Investigation">
+  **What it does:**
+  Amazon Detective automatically collects log data from your AWS resources and uses ML, statistical analysis, and graph theory to help you rapidly investigate security findings. Where GuardDuty says "something suspicious happened," Detective helps you understand **why and how**.
+
+  **When to use it:** After GuardDuty surfaces a finding, use Detective to trace the chain of events — which user triggered the alert, which resources were accessed, and what happened before and after.
+
+  **Exam tip:** Detective is about **investigation** after a finding. GuardDuty finds the threat; Detective explains it.
+</Accordion>
+
+<Accordion title="Amazon Macie — Sensitive Data Discovery in S3">
+  **What it does:**
+  Amazon Macie uses machine learning to automatically discover, classify, and protect sensitive data stored in Amazon S3. It scans S3 buckets and alerts you when it finds data that looks like personally identifiable information (PII), financial records, health information, or credentials.
+
+  **Data types Macie identifies:**
+  - Names, email addresses, social security numbers (PII)
+  - Credit card numbers and bank account details
+  - Medical record identifiers
+  - AWS API keys and credentials accidentally stored in S3
+
+  **When to use it:** Enable Macie when you need to audit S3 buckets for sensitive data exposure, meet data privacy regulations (GDPR, HIPAA), or detect accidental data leakage from misconfigured buckets.
+
+  **Exam tip:** Macie is specifically about **data in S3**. If a question mentions finding sensitive data, protecting PII, or classifying S3 objects, the answer is Macie.
+</Accordion>
+
+---
+
+## Infrastructure Protection
+
+<Accordion title="AWS Shield — DDoS Protection">
+  **What it does:**
+  AWS Shield protects your applications against Distributed Denial of Service (DDoS) attacks — floods of traffic designed to overwhelm and take down your resources.
+
+  **Two tiers:**
+
+  | Feature | Shield Standard | Shield Advanced |
+  |---|---|---|
+  | **Cost** | Free (included for all customers) | $3,000/month per organization |
+  | **DDoS protection** | Layer 3 and 4 (network/transport) | Layer 3, 4, and 7 (application) |
+  | **Response team** | None | 24/7 AWS DDoS Response Team (DRT) access |
+  | **Cost protection** | None | Reimbursement for scaling costs during an attack |
+  | **Visibility** | Basic attack diagnostics | Advanced real-time attack metrics |
+
+  **When to use it:** Shield Standard is always on and protects all AWS resources automatically at no charge. Use Shield Advanced for internet-facing applications where high availability is critical and the cost of downtime exceeds the subscription price.
+
+  **Exam tip:** Know the two tiers. "Free" → Standard. "24/7 DRT support and cost protection" → Advanced.
+</Accordion>
+
+<Accordion title="AWS WAF — Web Application Firewall">
+  **What it does:**
+  AWS WAF filters HTTP/HTTPS traffic to your web applications before it reaches your servers. You create rules that inspect request contents — headers, body, URIs, query strings — and allow or block traffic based on patterns.
+
+  **Common attack types WAF blocks:**
+  - **SQL injection** — malicious SQL in form fields or URLs
+  - **Cross-site scripting (XSS)** — injected scripts targeting users
+  - **Bad bots** — scrapers, scanners, and credential stuffers
+  - **Geographic restrictions** — block traffic from specific countries
+  - **Rate limiting** — throttle IPs sending too many requests
+
+  **Deploys in front of:**
+  - Amazon CloudFront (CDN)
+  - Application Load Balancer (ALB)
+  - Amazon API Gateway
+  - AWS AppSync
+
+  **When to use it:** Anytime you expose a web application or API to the internet. WAF is especially important for e-commerce, login pages, and any endpoint accepting user-supplied input.
+
+  **Exam tip:** WAF protects against **application-layer (Layer 7) web exploits**. Shield protects against volumetric **DDoS attacks**. They are often used together.
+</Accordion>
+
+<Accordion title="AWS Firewall Manager — Centralized Firewall Rule Management">
+  **What it does:**
+  AWS Firewall Manager lets you centrally configure and manage firewall rules — WAF rules, Shield Advanced protections, Security Group policies, and Network Firewall policies — across multiple accounts in an AWS Organization from a single place.
+
+  **When to use it:** Use Firewall Manager when you operate multiple AWS accounts and need consistent security policies enforced across all of them without manually configuring each account.
+
+  **Exam tip:** Firewall Manager is about **centralized, cross-account management** of firewall rules. It is not a firewall itself — it manages other firewall services.
+</Accordion>
+
+<Accordion title="AWS Network Firewall — Managed Network Firewall Service">
+  **What it does:**
+  AWS Network Firewall is a managed firewall service that provides stateful and stateless packet inspection for traffic flowing in and out of your VPCs. It supports intrusion prevention rules, custom domain filtering, and TLS inspection.
+
+  **When to use it:** Use Network Firewall when you need deep packet inspection at the VPC perimeter — for example, blocking outbound connections to known malicious domains or enforcing strict ingress/egress filtering beyond what Security Groups and NACLs provide.
+</Accordion>
+
+---
+
+## Data Protection
+
+<Accordion title="AWS KMS — Key Management Service">
+  **What it does:**
+  AWS Key Management Service (KMS) creates and manages encryption keys used to protect your data. Nearly every AWS storage and database service can encrypt data using KMS keys — S3, EBS, RDS, DynamoDB, Secrets Manager, and more.
+
+  **Key types:**
+  - **AWS managed keys** — automatically created and rotated by AWS per service; free to use
+  - **Customer managed keys (CMK)** — you create and control rotation policies; $1/month per key
+  - **AWS owned keys** — fully managed by AWS, shared across customers, no visibility or control
+
+  **When to use it:** Use KMS whenever you need encryption at rest on AWS services. Use customer managed keys when you need control over key policies, auditing, or cross-service/cross-account access.
+
+  **Exam tip:** KMS is the go-to service for **encryption key management** in AWS. If a question asks how to encrypt S3 data, EBS volumes, or RDS databases, KMS is the answer.
+</Accordion>
+
+<Accordion title="AWS CloudHSM — Hardware Security Modules">
+  **What it does:**
+  AWS CloudHSM provides dedicated hardware security modules (HSMs) inside the AWS cloud. Unlike KMS (multi-tenant), CloudHSM gives you a **dedicated, single-tenant hardware device** that only you control. It meets FIPS 140-2 Level 3 certification.
+
+  **KMS vs. CloudHSM:**
+
+  | | KMS | CloudHSM |
+  |---|---|---|
+  | **Hardware** | Shared (multi-tenant) | Dedicated (single-tenant) |
+  | **Control** | AWS manages keys | You fully control keys |
+  | **FIPS level** | 140-2 Level 2 | 140-2 Level 3 |
+  | **Cost** | Low ($1/key/month) | Higher (~$1.60/hour/HSM) |
+  | **Use case** | General encryption | Strict compliance, custom crypto |
+
+  **When to use it:** CloudHSM is for organizations with strict regulatory requirements (e.g., government, financial services) that mandate dedicated hardware and full key custody.
+</Accordion>
+
+<Accordion title="AWS Certificate Manager (ACM) — SSL/TLS Certificates">
+  **What it does:**
+  ACM provisions, manages, and automatically renews SSL/TLS certificates for use with AWS services. Certificates are **free** for use on AWS resources like CloudFront distributions and Application Load Balancers.
+
+  **Key benefits:**
+  - Free public certificates (no more paying a CA per certificate)
+  - Automatic renewal — ACM renews certificates before they expire
+  - One-click deployment to CloudFront, ALB, and API Gateway
+  - Wildcard certificate support (`*.example.com`)
+
+  **When to use it:** Use ACM for any HTTPS endpoint on AWS. There is almost no reason to purchase third-party certificates for AWS-terminated traffic.
+</Accordion>
+
+<Accordion title="AWS Secrets Manager — Store and Rotate Secrets">
+  **What it does:**
+  AWS Secrets Manager stores, rotates, and retrieves sensitive credentials — database passwords, API keys, OAuth tokens, and other secrets. It integrates with RDS, Redshift, and DocumentDB to **automatically rotate credentials** on a schedule you define.
+
+  **Key benefits:**
+  - Automatic rotation for supported databases (no manual password changes)
+  - Encrypted at rest with KMS
+  - Fine-grained access via IAM policies
+  - Audited via CloudTrail
+
+  **When to use it:** Replace hardcoded credentials in application code. Instead of `password=mypassword123` in your config file, your app calls Secrets Manager at runtime to retrieve the current password.
+
+  **Exam tip:** Secrets Manager is for **storing and rotating application secrets**. KMS is for **encryption key management**. They are often used together: Secrets Manager stores the secret, KMS encrypts it.
+</Accordion>
+
+---
+
+## Auditing & Compliance
+
+<Accordion title="AWS CloudTrail — API Activity Logging">
+  **What it does:**
+  AWS CloudTrail records every API call made in your AWS account — who made it, when, from which IP, what was requested, and what the response was. This creates a complete audit trail of all activity.
+
+  **CloudTrail captures:**
+  - Console sign-ins and failed login attempts
+  - Resource creation, modification, and deletion
+  - IAM policy changes and role assumptions
+  - Security group and VPC configuration changes
+  - Any AWS CLI or SDK API call
+
+  **Example log entry:**
+  ```json
+  {
+    "eventTime": "2024-06-17T10:30:45Z",
+    "eventName": "CreateBucket",
+    "eventSource": "s3.amazonaws.com",
+    "userIdentity": {
+      "type": "IAMUser",
+      "userName": "john.developer"
+    },
+    "sourceIPAddress": "203.0.113.12",
+    "requestParameters": {
+      "bucketName": "company-data-bucket"
+    }
+  }
+  ```
+
+  **When to use it:** Enable CloudTrail in all regions on every account. It is the foundation of security auditing and forensic investigation in AWS. Logs are stored in S3 and can be analyzed with Athena.
+
+  **Exam tip:** CloudTrail answers **"who did what, when?"** It is the primary audit log service. If a question asks about tracking API activity, investigating a security incident, or meeting audit requirements, the answer is CloudTrail.
+</Accordion>
+
+<Accordion title="AWS Config — Resource Configuration Tracking">
+  **What it does:**
+  AWS Config continuously records the configuration state of your AWS resources and tracks how configurations change over time. It also lets you define **Config Rules** — automated compliance checks that evaluate whether resources meet your security standards.
+
+  **What Config tracks:**
+  - Configuration snapshots of EC2 instances, S3 buckets, security groups, RDS instances, and more
+  - A timeline of every configuration change for each resource
+  - Relationships between resources (e.g., which security group is attached to which instance)
+
+  **Example Config Rules:**
+  - `s3-bucket-public-access-prohibited` — flags any S3 bucket with public access enabled
+  - `encrypted-volumes` — flags unencrypted EBS volumes
+  - `root-mfa-enabled` — checks whether the root account has MFA enabled
+  - `rds-storage-encrypted` — verifies RDS instances use encryption at rest
+
+  **When to use it:** Use Config when you need continuous compliance monitoring, configuration change history, or automated drift detection.
+
+  **Exam tip:** Config answers **"what does this resource look like, and has it changed?"** It is about configuration state and compliance, not API activity logs (that's CloudTrail).
+</Accordion>
+
+<Accordion title="Amazon Inspector — Automated Vulnerability Assessment">
+  **What it does:**
+  Amazon Inspector automatically scans EC2 instances and container images for software vulnerabilities and unintended network exposure. It compares installed packages against a continuously updated CVE (Common Vulnerabilities and Exposures) database and generates prioritized findings.
+
+  **What Inspector scans:**
+  - EC2 instances — OS packages, network reachability, exposed ports
+  - Amazon ECR container images — vulnerabilities in image layers
+  - AWS Lambda functions — vulnerable function code and layer packages
+
+  **When to use it:** Use Inspector as part of a continuous security assessment workflow. It is especially valuable in environments where EC2 instances or containers change frequently and manual vulnerability scanning is not practical.
+
+  **Exam tip:** Inspector is about **vulnerability assessment** — finding known CVEs and security misconfigurations in your workloads. GuardDuty detects active threats; Inspector finds vulnerabilities before they are exploited.
+</Accordion>
+
+---
+
+## Service Comparison Quick Reference
+
+<Tabs>
+  <Tab title="Threat Detection vs. Assessment">
+    | Service | Purpose | What It Analyzes |
+    |---|---|---|
+    | **GuardDuty** | Detect active threats | CloudTrail, VPC Flow Logs, DNS logs |
+    | **Inspector** | Find vulnerabilities | EC2 OS packages, container images |
+    | **Macie** | Discover sensitive data | S3 bucket contents |
+    | **Detective** | Investigate findings | Historical log data + relationships |
+  </Tab>
+  <Tab title="Firewall & DDoS">
+    | Service | Layer | Protects Against |
+    |---|---|---|
+    | **Security Groups** | Instance (L4) | Unauthorized port/IP access |
+    | **Network ACLs** | Subnet (L4) | Additional subnet-level filtering |
+    | **WAF** | Application (L7) | SQL injection, XSS, bad bots |
+    | **Shield Standard** | Network (L3/4) | Volumetric DDoS attacks — free |
+    | **Shield Advanced** | Network + App (L3/4/7) | Advanced DDoS + DRT support |
+    | **Network Firewall** | VPC perimeter | Deep packet inspection, IDS/IPS |
+  </Tab>
+  <Tab title="Data Protection">
+    | Service | Primary Function | Key Differentiator |
+    |---|---|---|
+    | **KMS** | Manage encryption keys | Multi-tenant, FIPS 140-2 L2 |
+    | **CloudHSM** | Dedicated HSM hardware | Single-tenant, FIPS 140-2 L3 |
+    | **ACM** | SSL/TLS certificates | Free certs, auto-renewal |
+    | **Secrets Manager** | Store & rotate secrets | Automatic DB password rotation |
+  </Tab>
+  <Tab title="Auditing & Compliance">
+    | Service | Answers | Stores Results In |
+    |---|---|---|
+    | **CloudTrail** | Who did what, when? | S3 (logs) |
+    | **Config** | What is this resource configured as? | S3 + Config history |
+    | **Security Hub** | What is my overall security posture? | Security Hub dashboard |
+    | **GuardDuty** | Are there active threats right now? | GuardDuty findings |
+  </Tab>
+</Tabs>
+
+<Note>
+  **CloudTrail vs. Config:** These are commonly confused. CloudTrail logs **API actions** (events). Config records **resource configurations** (state). CloudTrail tells you "John deleted the security group at 3pm." Config tells you "that security group allowed port 22 from 0.0.0.0/0 before it was deleted."
+</Note>

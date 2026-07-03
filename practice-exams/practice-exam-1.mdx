@@ -1,0 +1,290 @@
+---
+title: "AWS Cloud Practitioner Practice Exam 1: Core Concepts"
+sidebarTitle: "Practice Exam 1"
+description: "Test your AWS CLF-C02 foundations with 20 multiple-choice questions covering cloud concepts, security, core services, and billing in ~30 minutes."
+---
+
+This first practice exam is designed to assess your understanding of AWS Cloud Practitioner fundamentals. It contains **20 questions** across all four exam domains and should take approximately **30 minutes** to complete. Questions mirror the style and difficulty of the real AWS CLF-C02 exam, testing both conceptual knowledge and applied understanding. Read each question carefully, select your best answer, then expand the accordion to check the correct answer and a detailed explanation.
+
+<Note>
+  The real AWS CLF-C02 exam has 65 questions with a 90-minute time limit. A passing score is 700 out of 1000. Use this 20-question set as a focused checkpoint — not a final readiness test.
+</Note>
+
+## Exam Instructions
+
+<Steps>
+  <Step title="Set Your Environment">
+    Find a quiet place free from distractions. Have a notepad ready to jot down any topics you need to review after the exam.
+  </Step>
+  <Step title="Answer All Questions First">
+    Work through all 20 questions **without** opening the accordions. Write or mentally note your answer choice (A, B, C, or D) for each question before checking.
+  </Step>
+  <Step title="Check Your Answers">
+    After completing all questions, expand each accordion to reveal the correct answer and explanation. Note which domains you struggled with most.
+  </Step>
+  <Step title="Review Weak Areas">
+    For any question you answered incorrectly, revisit the relevant domain section in this study guide before moving on to Practice Exam 2.
+  </Step>
+</Steps>
+
+---
+
+## Domain 1: Cloud Concepts (5 Questions)
+
+<Accordion title="Question 1: Which of the following best defines cloud computing according to AWS?">
+  **Options:**
+  - A) Renting physical servers in a third-party data center
+  - B) On-demand delivery of IT resources over the internet with pay-as-you-go pricing
+  - C) Storing all company data on external hard drives managed by a vendor
+  - D) Using virtualization software installed on local company hardware
+
+  **Correct Answer: B) On-demand delivery of IT resources over the internet with pay-as-you-go pricing**
+
+  **Explanation:** AWS defines cloud computing as the on-demand delivery of IT resources — including compute power, storage, databases, networking, and software — over the internet with pay-as-you-go pricing. This eliminates the need to buy and maintain physical hardware, allowing businesses to scale resources up or down as needed and pay only for what they consume.
+</Accordion>
+
+<Accordion title="Question 2: A company is using both an on-premises data center and AWS cloud services together for their workloads. Which cloud deployment model does this describe?">
+  **Options:**
+  - A) Public cloud
+  - B) Private cloud
+  - C) Hybrid cloud
+  - D) Community cloud
+
+  **Correct Answer: C) Hybrid cloud**
+
+  **Explanation:** A hybrid cloud deployment model combines on-premises infrastructure (or a private cloud) with public cloud resources, connected and orchestrated together. This allows organizations to keep sensitive workloads on-premises while leveraging the scalability and cost benefits of the public cloud for other workloads. It is one of the three main deployment models alongside public cloud and private cloud.
+</Accordion>
+
+<Accordion title="Question 3: Which of the following is one of the six advantages of cloud computing cited by AWS?">
+  **Options:**
+  - A) Increased capital expenditure for hardware procurement
+  - B) Trade variable expense for capital expense
+  - C) Stop guessing about infrastructure capacity needs
+  - D) Reduce the need for software patching entirely
+
+  **Correct Answer: C) Stop guessing about infrastructure capacity needs**
+
+  **Explanation:** One of AWS's six advantages of cloud computing is "Stop guessing about capacity." With cloud computing, you can scale resources up or down based on actual demand, eliminating the problem of either over-provisioning (wasting money) or under-provisioning (causing poor performance). The correct framing of the other advantage is actually "Trade **capital** expense for **variable** expense," which is the opposite of option B.
+</Accordion>
+
+<Accordion title="Question 4: Which AWS Well-Architected Framework pillar focuses on the ability of a system to recover from failures and meet business and customer demands?">
+  **Options:**
+  - A) Performance Efficiency
+  - B) Security
+  - C) Reliability
+  - D) Operational Excellence
+
+  **Correct Answer: C) Reliability**
+
+  **Explanation:** The Reliability pillar of the AWS Well-Architected Framework focuses on a workload's ability to perform its intended function correctly and consistently. It includes the ability to recover from failures, dynamically acquire computing resources to meet demand, and mitigate disruptions such as misconfigurations or transient network issues. The six pillars are: Operational Excellence, Security, Reliability, Performance Efficiency, Cost Optimization, and Sustainability.
+</Accordion>
+
+<Accordion title="Question 5: Which cloud service model provides the highest level of abstraction, where the vendor manages everything from infrastructure to the application itself?">
+  **Options:**
+  - A) IaaS (Infrastructure as a Service)
+  - B) PaaS (Platform as a Service)
+  - C) SaaS (Software as a Service)
+  - D) FaaS (Function as a Service)
+
+  **Correct Answer: C) SaaS (Software as a Service)**
+
+  **Explanation:** In the SaaS model, the cloud provider manages the entire stack — infrastructure, operating system, middleware, runtime, data, and the application itself. Users simply access and use the software, typically via a web browser. Examples include Gmail, Salesforce, and Microsoft 365. With IaaS, the customer manages the OS and above; with PaaS, the customer manages only the application and data. SaaS requires the least management from the customer.
+</Accordion>
+
+---
+
+## Domain 2: Security & Compliance (6 Questions)
+
+<Accordion title="Question 6: Under the AWS Shared Responsibility Model, who is responsible for patching the operating system on an Amazon EC2 instance?">
+  **Options:**
+  - A) AWS, because EC2 is a managed service
+  - B) The customer, because EC2 is Infrastructure as a Service
+  - C) Both AWS and the customer share this responsibility equally
+  - D) AWS patches the OS; the customer only patches the applications
+
+  **Correct Answer: B) The customer, because EC2 is Infrastructure as a Service**
+
+  **Explanation:** Amazon EC2 is an IaaS service. AWS is responsible for the security **of** the cloud — the physical infrastructure, hypervisor, and networking hardware. The customer is responsible for security **in** the cloud — which includes patching the guest operating system, configuring security groups, managing IAM permissions, and securing the application. Because the customer has full control over the EC2 instance's OS, they also carry the patching responsibility.
+</Accordion>
+
+<Accordion title="Question 7: What is the AWS best practice regarding the root account of an AWS account?">
+  **Options:**
+  - A) Use the root account for all daily administrative tasks for simplicity
+  - B) Share the root account credentials with the entire IT team
+  - C) Enable MFA on the root account and avoid using it for everyday tasks
+  - D) Delete the root account after creating an IAM admin user
+
+  **Correct Answer: C) Enable MFA on the root account and avoid using it for everyday tasks**
+
+  **Explanation:** AWS strongly recommends enabling Multi-Factor Authentication (MFA) on the root account and using it only for tasks that specifically require root-level access (like changing account settings or closing the account). For all day-to-day tasks, you should create IAM users or roles with only the permissions needed. The root account cannot be deleted — it is permanently associated with the AWS account. Sharing credentials violates least-privilege principles.
+</Accordion>
+
+<Accordion title="Question 8: A developer needs to allow an application to make API calls to AWS services. Which IAM entity should be used instead of embedding long-term access keys in the code?">
+  **Options:**
+  - A) IAM Group
+  - B) IAM Policy
+  - C) IAM Role
+  - D) IAM User with programmatic access
+
+  **Correct Answer: C) IAM Role**
+
+  **Explanation:** IAM Roles are designed for granting permissions to AWS services, applications, or users from other accounts without using long-term credentials. When an EC2 instance is assigned an IAM Role, the AWS SDK and CLI automatically retrieve temporary, rotating credentials. This is far more secure than embedding static access keys in application code, which can be accidentally exposed in version control or logs. IAM Roles follow the principle of least privilege and are the AWS-recommended approach.
+</Accordion>
+
+<Accordion title="Question 9: Which AWS service continuously monitors your AWS account for unusual or malicious activity, such as unauthorized API calls or compromised EC2 instances?">
+  **Options:**
+  - A) AWS Inspector
+  - B) Amazon GuardDuty
+  - C) AWS Shield
+  - D) AWS Config
+
+  **Correct Answer: B) Amazon GuardDuty**
+
+  **Explanation:** Amazon GuardDuty is a managed threat detection service that continuously analyzes AWS CloudTrail logs, VPC Flow Logs, and DNS logs to identify unexpected and potentially unauthorized or malicious activity. It uses machine learning and threat intelligence feeds to detect threats like cryptocurrency mining, unauthorized deployments, and credential compromise. AWS Inspector assesses EC2 vulnerabilities; AWS Shield protects against DDoS attacks; AWS Config tracks configuration changes.
+</Accordion>
+
+<Accordion title="Question 10: Which AWS service records API activity across your AWS account, providing a history of who called which API, from where, and when?">
+  **Options:**
+  - A) Amazon CloudWatch
+  - B) AWS CloudTrail
+  - C) AWS Config
+  - D) Amazon GuardDuty
+
+  **Correct Answer: B) AWS CloudTrail**
+
+  **Explanation:** AWS CloudTrail is a governance, compliance, and auditing service that records every API call made in your AWS account — whether through the AWS Management Console, CLI, SDK, or other services. Each log entry includes the identity of the caller, the time, the source IP address, and the request parameters. CloudTrail is essential for security auditing, detecting unauthorized access, and meeting compliance requirements. CloudWatch monitors metrics and logs; AWS Config tracks resource configurations.
+</Accordion>
+
+<Accordion title="Question 11: In the context of Amazon VPC security, what is the key difference between a Security Group and a Network Access Control List (NACL)?">
+  **Options:**
+  - A) Security Groups apply to subnets; NACLs apply to individual EC2 instances
+  - B) Security Groups are stateful; NACLs are stateless
+  - C) NACLs are stateful; Security Groups are stateless
+  - D) Security Groups support both allow and deny rules; NACLs only support allow rules
+
+  **Correct Answer: B) Security Groups are stateful; NACLs are stateless**
+
+  **Explanation:** Security Groups are **stateful** — if you allow inbound traffic, the response traffic is automatically allowed outbound, regardless of outbound rules. NACLs are **stateless** — you must explicitly create rules for both inbound AND outbound traffic. Security Groups operate at the instance (ENI) level; NACLs operate at the subnet level. Security Groups can only allow traffic (no explicit deny); NACLs support both allow and deny rules and are evaluated in rule number order.
+</Accordion>
+
+---
+
+## Domain 3: Technology & Services (7 Questions)
+
+<Accordion title="Question 12: A company has an application with highly unpredictable traffic spikes. Which EC2 pricing model is most appropriate for this use case?">
+  **Options:**
+  - A) Reserved Instances (1-year term)
+  - B) Dedicated Hosts
+  - C) On-Demand Instances
+  - D) Spot Instances
+
+  **Correct Answer: C) On-Demand Instances**
+
+  **Explanation:** On-Demand Instances are billed per second (or per hour for some instance types) with no long-term commitment, making them ideal for unpredictable or spiky workloads where you cannot predict usage patterns. Reserved Instances offer significant discounts (up to 72%) but require a 1- or 3-year commitment, making them better for steady-state workloads. Spot Instances are cheapest but can be interrupted. Dedicated Hosts are for compliance/licensing requirements and are the most expensive option.
+</Accordion>
+
+<Accordion title="Question 13: A company stores thousands of images that are accessed frequently for the first 30 days but rarely after that. Which combination of S3 storage classes is the most cost-effective?">
+  **Options:**
+  - A) S3 Standard for all objects
+  - B) S3 Standard initially, then S3 Standard-IA after 30 days using a lifecycle policy
+  - C) S3 Intelligent-Tiering for all objects
+  - D) S3 Glacier Instant Retrieval for all objects
+
+  **Correct Answer: B) S3 Standard initially, then S3 Standard-IA after 30 days using a lifecycle policy**
+
+  **Explanation:** S3 Standard is optimized for frequently accessed data with high availability and low latency. S3 Standard-IA (Infrequent Access) costs less for storage but has a retrieval fee, making it ideal for data accessed less than once a month. Using an S3 Lifecycle Policy to automatically transition objects from Standard to Standard-IA after 30 days is the most cost-effective solution here. S3 Intelligent-Tiering is also valid but incurs a small monitoring fee per object. Glacier is for archival and has longer retrieval times.
+</Accordion>
+
+<Accordion title="Question 14: Which AWS service allows you to run code in response to events without provisioning or managing any servers?">
+  **Options:**
+  - A) Amazon EC2 Auto Scaling
+  - B) AWS Elastic Beanstalk
+  - C) AWS Lambda
+  - D) Amazon ECS
+
+  **Correct Answer: C) AWS Lambda**
+
+  **Explanation:** AWS Lambda is a serverless compute service that runs your code in response to events (such as an S3 object upload, an API Gateway request, or a DynamoDB stream) without requiring you to provision, manage, or scale servers. You pay only for the compute time consumed — there is no charge when your code is not running. Lambda is ideal for event-driven architectures, microservices, and short-duration processing tasks. EC2 Auto Scaling adjusts EC2 capacity; Elastic Beanstalk still uses underlying EC2 instances.
+</Accordion>
+
+<Accordion title="Question 15: A company needs a relational database with automatic failover, read replicas, and support for MySQL compatibility. Which AWS service best fits this requirement?">
+  **Options:**
+  - A) Amazon DynamoDB
+  - B) Amazon Redshift
+  - C) Amazon RDS for MySQL
+  - D) Amazon ElastiCache
+
+  **Correct Answer: C) Amazon RDS for MySQL**
+
+  **Explanation:** Amazon RDS (Relational Database Service) is a managed relational database service that supports MySQL, PostgreSQL, MariaDB, Oracle, and SQL Server. It provides automated backups, Multi-AZ deployments for high availability and automatic failover, and read replicas for read scaling. DynamoDB is a NoSQL key-value and document database, not relational. Redshift is a data warehousing service for analytics. ElastiCache is an in-memory caching service (Redis/Memcached). For a relational, MySQL-compatible, highly available database, RDS is the right choice.
+</Accordion>
+
+<Accordion title="Question 16: Which AWS service is a global content delivery network (CDN) that caches content at edge locations to reduce latency for end users worldwide?">
+  **Options:**
+  - A) AWS Global Accelerator
+  - B) Amazon CloudFront
+  - C) Amazon Route 53
+  - D) AWS Direct Connect
+
+  **Correct Answer: B) Amazon CloudFront**
+
+  **Explanation:** Amazon CloudFront is AWS's Content Delivery Network (CDN). It distributes your content — static files, dynamic content, video streams, APIs — to a global network of over 450 edge locations. When a user requests content, CloudFront serves it from the nearest edge location, significantly reducing latency. It also integrates with AWS Shield for DDoS protection and AWS WAF for application security. Route 53 is a DNS service; Global Accelerator routes traffic over the AWS backbone network; Direct Connect is a dedicated physical connection to AWS.
+</Accordion>
+
+<Accordion title="Question 17: What is the primary purpose of Amazon Route 53?">
+  **Options:**
+  - A) To provide a virtual private network connection to AWS
+  - B) To distribute incoming application traffic across multiple EC2 instances
+  - C) To register domain names and route end users to internet applications using DNS
+  - D) To monitor the health and performance of AWS resources
+
+  **Correct Answer: C) To register domain names and route end users to internet applications using DNS**
+
+  **Explanation:** Amazon Route 53 is AWS's highly available and scalable Domain Name System (DNS) web service. It performs three main functions: domain registration, DNS routing (translating human-friendly domain names to IP addresses), and health checking of resources. Route 53 supports multiple routing policies including Simple, Weighted, Latency-Based, Failover, Geolocation, and Geoproximity. It is named after TCP/UDP port 53, the port used by DNS.
+</Accordion>
+
+<Accordion title="Question 18: Which AWS service provides an automated tool that checks your AWS environment against best practices across five categories: Cost Optimization, Performance, Security, Fault Tolerance, and Service Limits?">
+  **Options:**
+  - A) AWS Config
+  - B) AWS CloudFormation
+  - C) AWS Trusted Advisor
+  - D) Amazon Inspector
+
+  **Correct Answer: C) AWS Trusted Advisor**
+
+  **Explanation:** AWS Trusted Advisor is an online tool that provides real-time guidance to help you provision AWS resources following AWS best practices. It inspects your AWS environment and makes recommendations across five categories: Cost Optimization (identify idle resources), Performance (improve throughput), Security (close security gaps), Fault Tolerance (increase resiliency), and Service Limits (check if you're approaching quotas). The number of checks available depends on your AWS Support plan — Business and Enterprise plans unlock all checks.
+</Accordion>
+
+---
+
+## Domain 4: Billing & Support (2 Questions)
+
+<Accordion title="Question 19: Which AWS Support plan is the minimum tier that includes 24/7 access to Cloud Support Engineers via phone, chat, and email?">
+  **Options:**
+  - A) AWS Basic Support
+  - B) AWS Developer Support
+  - C) AWS Business Support
+  - D) AWS Enterprise Support
+
+  **Correct Answer: C) AWS Business Support**
+
+  **Explanation:** AWS Business Support is the minimum plan that provides 24/7 access to Cloud Support Engineers via phone, chat, and email for production system issues. Basic Support includes only billing and account support, plus access to documentation and Trusted Advisor's core checks. Developer Support (starting at $29/month) provides business-hours access via email only. Business Support (starting at $100/month) unlocks 24/7 phone/chat/email support, full Trusted Advisor checks, and a response time of under 1 hour for production system down cases.
+</Accordion>
+
+<Accordion title="Question 20: A company has multiple AWS accounts for different departments. Which AWS feature allows them to combine all accounts under a single payer account and receive a single monthly bill?">
+  **Options:**
+  - A) AWS Cost Explorer
+  - B) AWS Budgets
+  - C) Consolidated Billing via AWS Organizations
+  - D) AWS Pricing Calculator
+
+  **Correct Answer: C) Consolidated Billing via AWS Organizations**
+
+  **Explanation:** AWS Organizations allows you to centrally manage multiple AWS accounts. One of its key features is **Consolidated Billing**, which combines usage and charges from all member accounts into a single monthly invoice sent to the management (payer) account. Beyond simplifying billing, consolidated billing provides potential volume discounts — when multiple accounts' usage is combined, the organization may qualify for lower pricing tiers on services like S3 and EC2. AWS Cost Explorer and Budgets are cost analysis/alerting tools, not billing consolidation tools.
+</Accordion>
+
+---
+
+<Tip>
+  **Score Yourself:** 18–20 correct = Excellent; 15–17 = Good, review weak areas; 12–14 = Fair, revisit relevant domains; Below 12 = Spend more time with the study guide before attempting Practice Exam 2.
+</Tip>

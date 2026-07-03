@@ -1,0 +1,162 @@
+---
+title: "AWS Storage Services: S3, EBS, EFS, and Glacier"
+sidebarTitle: "Storage"
+description: "Explore AWS object, block, file, and archive storage services — S3 storage classes, EBS volume types, EFS shared storage, and Snow Family data migration devices."
+---
+
+AWS organizes cloud storage into four fundamental categories: **object storage** (S3) for unstructured data at any scale, **block storage** (EBS) for low-latency volumes attached to EC2 instances, **file storage** (EFS) for shared NFS workloads across multiple instances, and **archive storage** (Glacier) for long-term retention at the lowest possible cost. Knowing which category matches a given use case is a core skill tested throughout the CLF-C02 exam.
+
+<CardGroup cols={2}>
+  <Card title="Amazon S3" icon="bucket">
+    Unlimited object storage with 11 nines of durability and multiple storage class tiers
+  </Card>
+  <Card title="Amazon EBS" icon="hard-drive">
+    Persistent block storage volumes for EC2 with SSD and HDD options
+  </Card>
+  <Card title="Amazon EFS" icon="folder-open">
+    Fully managed NFS file system that scales automatically and supports concurrent access
+  </Card>
+  <Card title="AWS Snow Family" icon="truck">
+    Physical devices for migrating petabyte-scale data into AWS offline
+  </Card>
+</CardGroup>
+
+## AWS Storage Services in Depth
+
+<Accordion title="Amazon S3 (Simple Storage Service)">
+  Amazon S3 is AWS's flagship **object storage** service. It stores data as objects inside buckets and is designed for durability of **99.999999999% (11 nines)** — meaning that if you stored 10 million objects, you could expect to lose at most one object every 10,000 years.
+
+  ### Core Concepts
+  - **Bucket** — A container for objects, globally unique in name, tied to a specific AWS Region
+  - **Object** — Any file plus its metadata (up to 5 TB per object)
+  - **Key** — The unique identifier (path) for an object within a bucket
+
+  ### S3 Storage Classes
+
+  | Storage Class | Use Case | Retrieval | Availability |
+  |--------------|----------|-----------|--------------|
+  | **S3 Standard** | Frequently accessed data | Milliseconds | 99.99% |
+  | **S3 Intelligent-Tiering** | Unknown or changing access patterns | Milliseconds | 99.9% |
+  | **S3 Standard-IA** | Infrequently accessed, rapid retrieval needed | Milliseconds | 99.9% |
+  | **S3 One Zone-IA** | Infrequent access, single AZ (lower cost) | Milliseconds | 99.5% |
+  | **S3 Glacier Instant Retrieval** | Archive with millisecond access | Milliseconds | 99.9% |
+  | **S3 Glacier Flexible Retrieval** | Archive, retrieval in minutes to hours | 1 min – 12 hrs | 99.99% |
+  | **S3 Glacier Deep Archive** | Long-term archive, lowest cost | 12–48 hours | 99.99% |
+
+  ### S3 Key Features
+  - **Versioning** — Preserve, retrieve, and restore every version of every object. Protects against accidental deletes and overwrites.
+  - **Lifecycle Policies** — Automatically transition objects between storage classes or expire them after a set period.
+  - **Replication** — Cross-Region Replication (CRR) copies objects to another region; Same-Region Replication (SRR) copies within the same region.
+  - **Static Website Hosting** — Host a static website directly from an S3 bucket.
+
+  ### Common Use Cases
+  Data lakes, application backups, static website hosting, media storage and streaming, software distribution, and disaster recovery archives.
+</Accordion>
+
+<Accordion title="Amazon EBS (Elastic Block Store)">
+  Amazon EBS provides **persistent block storage volumes** that attach to EC2 instances like a virtual hard drive. Unlike instance store (ephemeral storage directly on the host), EBS volumes persist independently from the lifecycle of the EC2 instance they are attached to — if you stop or terminate the instance, your data remains.
+
+  ### EBS Volume Types
+
+  | Type | Category | Best For |
+  |------|----------|----------|
+  | **gp3** (General Purpose SSD) | SSD | Boot volumes, virtual desktops, low-latency apps |
+  | **io2** (Provisioned IOPS SSD) | SSD | Mission-critical databases requiring high IOPS |
+  | **st1** (Throughput Optimized HDD) | HDD | Big data, log processing, high-throughput sequential workloads |
+  | **sc1** (Cold HDD) | HDD | Infrequently accessed workloads requiring lowest cost |
+
+  ### Key Characteristics
+  - A single EBS volume can only be attached to **one EC2 instance at a time** (standard volumes)
+  - **EBS Multi-Attach** (io1/io2 only) allows one volume to attach to multiple instances in the same AZ
+  - **Snapshots** — Point-in-time backups of EBS volumes stored in S3. Incremental: only changed blocks are saved after the first snapshot.
+  - EBS volumes are tied to a **specific Availability Zone** — to move data, create a snapshot and restore it in another AZ or Region
+</Accordion>
+
+<Accordion title="Amazon EFS (Elastic File System)">
+  Amazon EFS is a fully managed **NFS (Network File System)** service that provides shared file storage for use with EC2 instances and Lambda functions. Unlike EBS, multiple instances can mount and read/write the same EFS file system simultaneously — making it ideal for shared workloads.
+
+  ### Key Characteristics
+  - **Automatically scales** — grows and shrinks as you add or remove files, with no capacity planning required
+  - **Multi-AZ access** — a single EFS file system can be accessed from instances across multiple Availability Zones
+  - **Storage classes**: EFS Standard and EFS Infrequent Access (EFS-IA) for cost optimization
+  - **Encryption** at rest and in transit is supported
+
+  ### Common Use Cases
+  - Shared content repositories for web servers
+  - Content Management Systems (CMS) like WordPress across multiple nodes
+  - Home directories for Linux users
+  - Big data and analytics workflows requiring shared access to data files
+  - Container storage (persistent volumes for ECS/EKS workloads)
+</Accordion>
+
+<Accordion title="Amazon S3 Glacier">
+  Amazon S3 Glacier is AWS's purpose-built **long-term archive storage** service, designed for data that is rarely accessed but must be retained for months, years, or decades. It offers the lowest storage cost in the S3 family.
+
+  ### Retrieval Options
+
+  | Retrieval Tier | Time | Best For |
+  |----------------|------|----------|
+  | **Expedited** | 1–5 minutes | Urgent retrieval of a subset of archives |
+  | **Standard** | 3–5 hours | Typical restore jobs with no urgency |
+  | **Bulk** | 5–12 hours | Large-volume restores at the lowest retrieval cost |
+
+  ### Vault Lock
+  Glacier Vault Lock enforces compliance controls through a lockable policy — for example, WORM (Write Once, Read Many) retention. Once locked, the policy cannot be changed, supporting regulatory compliance requirements.
+</Accordion>
+
+<Accordion title="AWS Storage Gateway">
+  AWS Storage Gateway is a **hybrid cloud storage** service that connects your on-premises environments to AWS cloud storage. It enables low-latency access to AWS storage from on-premises applications using standard storage protocols.
+
+  ### Gateway Types
+
+  | Type | Protocol | Backed By |
+  |------|----------|-----------|
+  | **File Gateway** | NFS / SMB | Amazon S3 |
+  | **Volume Gateway** | iSCSI | Amazon S3 + EBS snapshots |
+  | **Tape Gateway** | iSCSI VTL | S3 Glacier |
+
+  Storage Gateway is commonly used for backup and archiving, disaster recovery, and as a tiered storage solution to extend on-premises capacity into AWS.
+</Accordion>
+
+<Accordion title="AWS Snow Family">
+  The AWS Snow Family consists of **physical edge computing and data transfer devices** used to migrate large volumes of data into AWS when internet transfer is impractical due to time, bandwidth, or cost constraints.
+
+  ### Snow Family Devices
+
+  | Device | Usable Storage | Use Case |
+  |--------|----------------|----------|
+  | **Snowcone** | 8 TB HDD / 14 TB SSD | Edge computing, small data migrations |
+  | **Snowball Edge Storage Optimized** | 80 TB | Large data center migrations |
+  | **Snowball Edge Compute Optimized** | 28 TB + GPU | Edge ML and compute-intensive tasks |
+  | **Snowmobile** | Up to 100 PB | Exabyte-scale data center migrations |
+
+  ### How It Works
+  AWS ships a device to your location. You load your data onto the device, ship it back to AWS, and AWS uploads the data into S3. All data is encrypted with AWS KMS keys.
+
+  <Info>
+    As a rule of thumb: if transferring your data over the internet would take more than a week, the Snow Family is likely the faster and more cost-effective option.
+  </Info>
+</Accordion>
+
+## Storage Services Comparison
+
+| Service | Type | Durability | Latency | Key Use Case |
+|---------|------|-----------|---------|--------------|
+| **S3** | Object | 99.999999999% | Milliseconds | Data lakes, backups, static sites |
+| **EBS** | Block | 99.999% | Sub-millisecond | EC2 OS volumes, databases |
+| **EFS** | File (NFS) | High (multi-AZ) | Low | Shared workloads, CMS, home dirs |
+| **S3 Glacier Deep Archive** | Archive | 99.999999999% | 12–48 hours | Compliance archives, long-term retention |
+| **Instance Store** | Ephemeral Block | None (lost on stop) | Lowest | Temp buffers, cache |
+
+<Note>
+  The exam frequently tests whether you can distinguish between object, block, and file storage. Remember: **S3 is not a file system** and cannot be mounted like a drive — it is accessed via HTTP APIs (GET, PUT, DELETE).
+</Note>
+
+<Tip>
+  **Storage selection cheat sheet:**
+  - **S3** → Store any type or amount of unstructured data; object-level access via API
+  - **EBS** → Attach a virtual hard disk to a single EC2 instance; needs low-latency block I/O
+  - **EFS** → Multiple EC2 instances need shared, concurrent access to the same file system
+  - **Glacier / Glacier Deep Archive** → Data rarely accessed, must be kept for years, lowest cost matters most
+  - **Snow Family** → You need to physically move terabytes or petabytes into AWS offline
+</Tip>

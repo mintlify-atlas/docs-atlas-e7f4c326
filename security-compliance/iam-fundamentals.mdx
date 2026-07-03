@@ -1,0 +1,300 @@
+---
+title: "AWS IAM: Users, Groups, Roles & Policies Explained"
+sidebarTitle: "IAM"
+description: "Master AWS Identity and Access Management — users, groups, roles, policies, MFA, and least-privilege principles for the CLF-C02 exam and real-world security."
+---
+
+AWS Identity and Access Management (IAM) is the cornerstone of security in the cloud. It is the primary tool customers use to fulfill their side of the Shared Responsibility Model — controlling who can access which AWS resources, under what conditions, and with what level of permission. IAM is also one of the most heavily tested topics on the CLF-C02 exam.
+
+<Tip>
+  IAM is **global** — it is not tied to any specific AWS Region. Users, groups, roles, and policies you create are available across all regions in your account.
+</Tip>
+
+---
+
+## What Is IAM?
+
+IAM lets you manage **authentication** (who you are) and **authorization** (what you can do) for your AWS account. Every API call made to AWS — from the console, CLI, or SDK — is authenticated and authorized through IAM.
+
+Key facts for the exam:
+- IAM is free to use; you only pay for the AWS resources your users access.
+- The **root account** is created when you open an AWS account and has unrestricted access to everything.
+- IAM operates on the **principle of least privilege**: grant only the permissions needed to perform a task, and nothing more.
+
+<Warning>
+  **Never use the root account for day-to-day operations.** The root account cannot be restricted by IAM policies and should only be used for initial account setup and billing tasks. Enable MFA on root immediately.
+</Warning>
+
+---
+
+## Core IAM Components
+
+<Accordion title="Users — Individual Identities">
+  An **IAM User** represents a single person or application that interacts with AWS.
+
+  Each user has:
+  - A unique name within the account
+  - **Console access** via username + password (for humans)
+  - **Programmatic access** via Access Key ID + Secret Access Key (for applications and scripts)
+
+  **When to create users:**
+  - Individual developers or admins who need console access
+  - CI/CD pipelines or scripts that need long-term credentials (though roles are preferred)
+  - External contractors who need scoped, time-limited access
+
+  **Best practice:** Create one IAM user per person. Never share IAM user credentials between individuals.
+
+  ```
+  User: sarah.developer
+  ├── Console Access: Yes (MFA required)
+  ├── Programmatic Access: Yes
+  ├── Groups: Developers, CloudWatch-ReadOnly
+  └── Effective Permissions: EC2 read, S3 dev-bucket write
+  ```
+</Accordion>
+
+<Accordion title="Groups — Collections of Users">
+  An **IAM Group** is a collection of users who share the same job function or permission needs.
+
+  Groups make permission management scalable:
+  - Attach a policy to the group once; all members inherit it automatically.
+  - Adding a new developer to the team? Add them to the `Developers` group — done.
+  - Changing what developers can access? Update the group policy once, not 20 individual users.
+
+  **Common group examples:**
+  ```
+  Group: Developers
+  ├── Members: alice, bob, carol
+  └── Policies: EC2FullAccess, S3DeveloperAccess
+
+  Group: ReadOnlyUsers
+  ├── Members: manager-jane, external-auditor
+  └── Policies: ReadOnlyAccess
+
+  Group: DBAdmins
+  ├── Members: alice.dba
+  └── Policies: RDSFullAccess, CloudWatchFullAccess
+  ```
+
+  **Key rule:** Groups cannot be nested inside other groups. A group contains only users, not other groups.
+</Accordion>
+
+<Accordion title="Roles — Temporary Permissions for Services and Users">
+  An **IAM Role** is a set of permissions that can be **assumed temporarily** by a user, application, or AWS service.
+
+  Unlike users, roles do not have long-term credentials. When a service or user assumes a role, AWS issues short-lived temporary credentials automatically.
+
+  **The most important use case:** An **EC2 instance assuming a role to access S3**.
+
+  Without roles, you would have to hardcode an access key inside the EC2 instance — a serious security risk. With a role:
+
+  ```
+  Role: EC2-S3-Read-Role
+  ├── Trusted Entity: EC2 Service
+  ├── Policies: S3ReadOnlyAccess
+  └── Benefits: No hardcoded keys, automatic credential rotation
+  ```
+
+  **Other common role use cases:**
+  - Lambda functions accessing DynamoDB or SNS
+  - Cross-account access: a user in Account A assumes a role in Account B
+  - Federated users: employees logging in via Active Directory assume an IAM role
+
+  **Why roles beat users for services:**
+  - Temporary credentials rotate automatically — no manual key rotation
+  - No secret to store, rotate, or accidentally commit to GitHub
+  - Clean audit trail showing exactly which role was assumed and when
+</Accordion>
+
+<Accordion title="Policies — JSON Permission Documents">
+  An **IAM Policy** is a JSON document that defines what actions are allowed or denied on which AWS resources.
+
+  Policies are attached to users, groups, or roles — they do not stand alone.
+
+  **Policy structure:**
+  - **Version**: Always `"2012-10-17"` — the current policy language version
+  - **Statement**: An array of one or more permission rules
+  - **Effect**: `"Allow"` or `"Deny"`
+  - **Action**: The API operations being permitted or denied (e.g., `s3:GetObject`)
+  - **Resource**: The specific ARN(s) the statement applies to
+  - **Condition** (optional): Extra constraints like time of day, IP address, or MFA presence
+
+  **Critical rule:** An explicit `Deny` always overrides any `Allow`. If there is no explicit `Allow`, the default is deny.
+
+  **Three types of policies:**
+
+  | Type | Created By | Best For |
+  |---|---|---|
+  | AWS Managed | AWS | Common job functions (PowerUser, ReadOnly) |
+  | Customer Managed | You | Custom, reusable org-specific permissions |
+  | Inline | You | One-off policies tightly bound to a single entity |
+</Accordion>
+
+---
+
+## IAM Policy: Code Example
+
+Here is a minimal IAM policy that allows reading objects from a specific S3 bucket:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "s3:GetObject",
+      "Resource": "arn:aws:s3:::my-bucket/*"
+    }
+  ]
+}
+```
+
+This policy grants exactly one action (`s3:GetObject`) on exactly one bucket (`my-bucket`). A user attached to this policy can download files from `my-bucket` but cannot list the bucket, upload files, or access any other bucket.
+
+**A more complete example** — allowing read and list, requiring MFA:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject",
+        "s3:ListBucket"
+      ],
+      "Resource": [
+        "arn:aws:s3:::my-bucket",
+        "arn:aws:s3:::my-bucket/*"
+      ],
+      "Condition": {
+        "Bool": {
+          "aws:MultiFactorAuthPresent": "true"
+        }
+      }
+    }
+  ]
+}
+```
+
+---
+
+## Root Account vs. IAM Users
+
+<Tabs>
+  <Tab title="Root Account">
+    The root account is created automatically when you open an AWS account. It has **unrestricted access** to everything and cannot be limited by any IAM policy.
+
+    **Root account: only use it for:**
+    - Changing the account name or root email address
+    - Closing the account
+    - Restoring IAM admin access if locked out
+    - Modifying support plans or AWS Marketplace settings
+
+    **Protect root with:**
+    - A strong, unique password stored in a password manager
+    - MFA (virtual or hardware token) — required immediately after account creation
+    - No access keys — delete them if they exist
+  </Tab>
+  <Tab title="IAM Admin User">
+    For all daily operations — including creating resources, managing IAM, and billing review — create a dedicated IAM user with `AdministratorAccess` policy attached.
+
+    This user should also have MFA enabled. The difference: if this user's credentials are compromised, you can lock or delete the account. The root account cannot be locked.
+
+    ```
+    Recommended setup:
+    Root Account → Enable MFA → Never use again for daily tasks
+    IAM Admin User → Enable MFA → Use for all administrative work
+    ```
+  </Tab>
+</Tabs>
+
+---
+
+## Multi-Factor Authentication (MFA)
+
+MFA adds a second verification factor beyond just a password. Even if an attacker steals a password, they cannot access the account without the second factor.
+
+<CardGroup cols={3}>
+  <Card title="Virtual MFA" icon="mobile">
+    Apps like Google Authenticator, Authy, or Microsoft Authenticator. Free, convenient, and sufficient for most use cases.
+  </Card>
+  <Card title="Hardware Token" icon="key">
+    A physical key fob that generates a time-based code. More secure than a phone app because it is a dedicated, isolated device.
+  </Card>
+  <Card title="U2F Security Key" icon="usb">
+    Physical USB or NFC keys (e.g., YubiKey). Phishing-resistant and highly secure. Works with compatible browsers and the AWS console.
+  </Card>
+</CardGroup>
+
+**Who must have MFA:**
+- Root account — **mandatory, no exceptions**
+- All IAM users with console access — strongly recommended
+- Accounts with admin or billing access — required
+
+---
+
+## IAM Best Practices
+
+<Steps>
+  <Step title="Enable MFA on the root account immediately">
+    This is the first action you should take on a new AWS account. Go to the IAM dashboard and look for the security recommendations banner.
+  </Step>
+  <Step title="Create individual IAM users for every person">
+    Never share credentials. One person = one IAM user. This ensures accountability and makes it easy to revoke access when someone leaves.
+  </Step>
+  <Step title="Use groups to assign permissions, not individual policies">
+    Attach policies to groups, then add users to groups. This keeps permission management clean and consistent as your team grows.
+  </Step>
+  <Step title="Apply the principle of least privilege everywhere">
+    Start with no permissions and grant only what is explicitly needed. Avoid wildcard actions (`*`) on broad resources unless absolutely required.
+  </Step>
+  <Step title="Use IAM roles for applications and services">
+    Never hardcode access keys in application code. Use IAM roles on EC2 instances, Lambda functions, and ECS tasks for automatic credential management.
+  </Step>
+  <Step title="Rotate credentials regularly">
+    Rotate IAM access keys every 90 days. Enable a password policy that enforces rotation and complexity. Deactivate unused credentials.
+  </Step>
+  <Step title="Never share access keys">
+    Access keys are like passwords — each application or script gets its own. If a key is compromised, rotate it immediately and audit CloudTrail logs.
+  </Step>
+</Steps>
+
+---
+
+## IAM Evaluation Logic
+
+When you make an AWS API call, IAM evaluates policies in this order:
+
+<Steps>
+  <Step title="Explicit Deny">
+    If any attached policy contains an explicit `"Effect": "Deny"` for the action, access is **denied immediately**. No further evaluation occurs.
+  </Step>
+  <Step title="Explicit Allow">
+    If any attached policy contains an explicit `"Effect": "Allow"` for the action, and there is no conflicting deny, access is **allowed**.
+  </Step>
+  <Step title="Implicit Deny (default)">
+    If no explicit allow exists, the request is **denied by default**. Everything starts as denied until explicitly permitted.
+  </Step>
+</Steps>
+
+<Info>
+  **Remember:** Deny always wins. If Policy A allows `s3:DeleteObject` and Policy B denies `s3:DeleteObject`, the request is denied — regardless of the order the policies are attached.
+</Info>
+
+---
+
+## Quick Reference Cheat Sheet
+
+| Component | What It Is | Primary Use Case |
+|---|---|---|
+| **User** | Individual identity | Human access, long-term app credentials |
+| **Group** | Collection of users | Manage permissions by job role |
+| **Role** | Assumable temporary identity | Services accessing other services |
+| **Policy** | JSON permission document | Define allowed or denied actions |
+| **MFA** | Second authentication factor | Protect high-privilege accounts |
+| **Root** | Master account identity | Initial setup only — never daily use |
+
+<Tip>
+  **Exam tip:** Know the difference between users (long-term credentials for people), groups (permission assignment for collections of users), roles (temporary credentials for services or cross-account access), and policies (the JSON documents that define what is allowed). The exam frequently presents scenarios asking you to pick the right component.
+</Tip>

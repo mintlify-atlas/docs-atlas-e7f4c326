@@ -1,0 +1,131 @@
+---
+title: "AWS Cloud Practitioner CLF-C02 Study Progress Checklist"
+sidebarTitle: "Progress Checklist"
+description: "A complete topic-by-topic checklist for tracking your AWS CLF-C02 study progress across all four domains, practice exams, and final steps."
+---
+
+Use this checklist to track your study progress across every domain and topic tested on the AWS CLF-C02 exam. Work through it linearly if you're following one of the study schedules, or jump to specific sections to identify gaps as you get closer to exam day. The goal is to reach 100% before you sit for the real exam — but more importantly, to do it with genuine understanding, not just box-ticking.
+
+<Note>
+  Check off each item only when you can explain the concept in your own words or apply it to a scenario — not just when you've read about it once. Active recall beats passive recognition every time.
+</Note>
+
+---
+
+## Domain 1: Cloud Concepts (24%)
+
+- [ ] Can define cloud computing and its key characteristics (on-demand, broad access, resource pooling, elasticity, measured service)
+- [ ] Know all **six advantages of cloud computing** (TV-GAPS: Trade capital, Volume discounts, Guess capacity gone, Agility, Physical data centers managed by AWS, Speed to global)
+- [ ] Can explain **Public, Private, and Hybrid** cloud models and give a use case for each
+- [ ] Understand **IaaS, PaaS, and SaaS** with concrete AWS service examples (EC2 = IaaS, Elastic Beanstalk = PaaS, Chime = SaaS)
+- [ ] Know the difference between **Region, Availability Zone, and Edge Location** — and when each matters
+- [ ] Understand the scale and purpose of AWS global infrastructure
+
+---
+
+## Domain 2: Security & Compliance (30%)
+
+- [ ] Can explain the **Shared Responsibility Model** for EC2, RDS, and Lambda — know exactly where the AWS boundary ends and yours begins
+- [ ] Know **IAM Users, Groups, Roles, and Policies** — what each is and when to use it
+- [ ] Understand the **Principle of Least Privilege** and can apply it to a scenario
+- [ ] Know when to use **IAM Roles vs IAM Users** (roles for services and cross-account; users for humans with long-term credentials)
+- [ ] MFA: know what it is, when it's required, and which account types must have it enabled
+- [ ] Know the purpose of **GuardDuty** (threat detection), **Macie** (S3 data classification), **Inspector** (EC2/container vulnerability scanning), **Shield** (DDoS protection), and **WAF** (web application firewall)
+- [ ] Know what **AWS CloudTrail** does: records all API calls for auditing and compliance
+- [ ] Know what **AWS Config** does: tracks resource configuration history and evaluates compliance against rules
+- [ ] Know how to access compliance documents and audit reports through **AWS Artifact**
+- [ ] Know the major compliance frameworks covered by AWS: **PCI DSS, HIPAA, SOC 2**, ISO 27001
+
+---
+
+## Domain 3: Technology & Services (34%)
+
+### Compute
+- [ ] Know **EC2 instance types** (General Purpose, Compute Optimized, Memory Optimized, etc.) and their intended workloads
+- [ ] Know all **EC2 pricing options**: On-Demand, Reserved Instances, Spot, Savings Plans, Dedicated Hosts (O-R-S-S-D)
+- [ ] Understand when to use **Lambda vs EC2 vs Fargate** — event-driven/short tasks vs persistent servers vs containerized workloads
+
+### Storage
+- [ ] Know **S3 storage classes** and their use cases: Standard, Intelligent-Tiering, Standard-IA, One Zone-IA, Glacier Instant, Glacier Flexible, Glacier Deep Archive
+- [ ] Understand the difference between **S3** (object), **EBS** (block, EC2-attached), and **EFS** (file, shared across EC2)
+- [ ] Know **AWS Snow Family** use cases: Snowcone (edge/small), Snowball Edge (TB-scale migration), Snowmobile (EB-scale data center moves)
+
+### Networking
+- [ ] Understand **VPC** architecture: subnets (public vs private), security groups (stateful), NACLs (stateless), internet gateway, NAT gateway
+- [ ] Know **CloudFront**'s purpose: CDN that caches content at edge locations to reduce latency globally
+- [ ] Know **Route 53** routing policies: Simple, Weighted, Latency-based, Failover, Geolocation, Geoproximity, Multi-value
+
+### Databases
+- [ ] Understand when to use **RDS** (relational, structured, SQL) vs **DynamoDB** (NoSQL, key-value, millisecond latency at any scale)
+- [ ] Know **ElastiCache** use case: in-memory caching layer (Redis/Memcached) to reduce database read load
+
+### Additional Services
+- [ ] Know the difference between **SQS** (queue: decouples producers and consumers, messages pulled) and **SNS** (pub/sub: pushes notifications to multiple subscribers)
+- [ ] Know the difference between **CloudWatch** (metrics, logs, alarms, dashboards) and **CloudTrail** (API call history and audit trail)
+- [ ] Know **5 AWS AI/ML services**: Rekognition (image/video analysis), Comprehend (NLP/sentiment), Translate (language translation), Lex (chatbot/voice), SageMaker (build/train/deploy ML models)
+
+---
+
+## Domain 4: Billing & Support (12%)
+
+- [ ] Know all four EC2 and compute pricing models: **On-Demand, Reserved Instances, Spot, Savings Plans**
+- [ ] Understand the **AWS Free Tier** tiers: always-free (e.g., Lambda 1M requests/month), 12-months free (e.g., EC2 t2.micro), and short-term trials
+- [ ] Know **AWS Cost Explorer** (analyze past spend), **Budgets** (set spend/usage alerts), and **Cost and Usage Report** (detailed billing data for S3 export)
+- [ ] Understand **AWS Organizations** and how **consolidated billing** aggregates charges across member accounts for volume discounts
+- [ ] Know all **four support plans**: Basic (free), Developer (business-hours email), Business (24/7 phone, Production SLA), Enterprise (TAM, Mission-Critical SLA)
+- [ ] Know which plan includes **24/7 phone and chat access**: Business and above
+- [ ] Know which plan includes a **dedicated Technical Account Manager (TAM)**: Enterprise only
+
+---
+
+## Practice Exams
+
+Work through all three practice exams under timed, exam-like conditions (90 minutes, no notes).
+
+- [ ] Completed **Practice Exam 1** — Score: ___
+- [ ] Reviewed **all incorrect answers** from Exam 1 and re-studied those topics
+- [ ] Completed **Practice Exam 2** — Score: ___
+- [ ] Reviewed **all incorrect answers** from Exam 2 and re-studied those topics
+- [ ] Completed **Practice Exam 3** — Score: ___
+- [ ] Reviewed **all incorrect answers** from Exam 3 and re-studied those topics
+- [ ] Achieving **80% or higher** on practice exams consistently
+
+<Tip>
+  Aim for **80% or higher** on practice exams before scheduling your real exam. The passing score is 700/1000 (~70%), but a 10-point buffer accounts for exam-day nerves and questions that feel slightly different from practice material.
+</Tip>
+
+---
+
+## Final Steps
+
+Complete these in the days immediately before your exam.
+
+- [ ] Reviewed the **service cheat sheet** (quick-reference scan, not deep re-reading)
+- [ ] Read the **exam tips page** for strategy and question-elimination techniques
+- [ ] **Scheduled your exam date** on the AWS Certification portal
+- [ ] Confirmed **exam ID requirements** for your specific testing method (online or test center)
+- [ ] Set up your **exam environment**: quiet room, stable internet, cleared desk, tested camera and microphone
+- [ ] Planned for a **good night's sleep** the night before — no late-night cramming
+
+<Warning>
+  Don't schedule the real exam until you're consistently scoring **75% or higher** on practice exams. A short delay of one or two weeks costs much less — in time, money, and stress — than paying another $100 to retake. Better to be ready than to rush.
+</Warning>
+
+---
+
+## Keep Going
+
+<CardGroup cols={2}>
+  <Card title="Practice Exam 1" icon="pen-to-square" href="/practice-exams/practice-exam-1">
+    Start your timed practice runs here. Simulate real exam conditions — no notes, 90 minutes.
+  </Card>
+  <Card title="Exam Tips" icon="lightbulb" href="/quick-reference/exam-tips">
+    Time management strategies, question elimination techniques, and mental preparation for exam day.
+  </Card>
+  <Card title="Final Prep Overview" icon="calendar-check" href="/final-prep/overview">
+    The 7-day review plan, day-of checklist, and memory techniques to finish strong.
+  </Card>
+  <Card title="Service Cheat Sheet" icon="table-list" href="/quick-reference/service-cheatsheet">
+    A condensed reference of every major AWS service, its purpose, and when to choose it.
+  </Card>
+</CardGroup>

@@ -1,0 +1,187 @@
+---
+title: "AWS Pricing Models: Pay-As-You-Go, Reserved & Spot"
+sidebarTitle: "Pricing Models"
+description: "Master AWS EC2 pricing options, the Free Tier, S3/Lambda/RDS cost structures, and the AWS Pricing Calculator for the CLF-C02 exam."
+---
+
+AWS pricing is built on a simple promise: pay only for what you use, scale as you grow, and stop paying the moment you stop consuming a resource. There are no long-term contracts required by default, no minimum commitments, and no termination fees — a stark contrast to the upfront capital expenditure model of traditional on-premises IT. Understanding how pricing works across compute, storage, and outbound data transfer is foundational to both real-world cloud cost management and the CLF-C02 exam.
+
+<Note>
+  The three fundamental pricing drivers in AWS are **compute** (instance type, OS, hours/seconds used), **storage** (GB stored, storage class, I/O requests), and **outbound data transfer** (data leaving AWS to the internet). Inbound data transfer to AWS is always free.
+</Note>
+
+## EC2 Pricing Options
+
+Amazon EC2 offers six distinct purchasing models so you can match cost to the predictability and fault-tolerance of each workload.
+
+<Accordion title="On-Demand Instances">
+  Pay by the hour or by the second (with a one-minute minimum) with no upfront payment and no long-term commitment. On-Demand is the most flexible option and carries the highest per-unit cost.
+
+  **Best for:** Development and testing, unpredictable or spiky workloads, short-term projects, and new applications where usage patterns are still unknown.
+
+  - No capacity reservation required
+  - Start and stop at any time — no penalties
+  - Predictable pricing, billed per second (Linux/Ubuntu) or per hour (Windows)
+</Accordion>
+
+<Accordion title="Reserved Instances (RI)">
+  Commit to a specific instance type in a specific region for a **1-year or 3-year term** in exchange for a discount of up to **72% versus On-Demand** pricing. You can pay all upfront, partially upfront, or with no upfront payment (with the largest discount going to all-upfront 3-year terms).
+
+  **Standard RI:** Locked to a specific instance family, size, OS, and tenancy. Highest savings, least flexibility.
+
+  **Convertible RI:** Allows you to exchange the instance family, OS, tenancy, or size during the term. Up to ~54% savings — lower than Standard, but future-proof if requirements may change.
+
+  **Best for:** Steady-state, predictable workloads running 24/7 (e.g., production web servers, databases).
+</Accordion>
+
+<Accordion title="Savings Plans">
+  A flexible pricing model where you commit to a consistent amount of compute usage measured in **dollars per hour** for 1 or 3 years, regardless of instance family, size, OS, or region. Up to **66–72% savings** over On-Demand.
+
+  - **Compute Savings Plans:** Apply to EC2, AWS Lambda, and AWS Fargate. Most flexible — covers changes in instance family, region, OS, and tenancy.
+  - **EC2 Instance Savings Plans:** Apply only to EC2 within a specific instance family in a chosen region. Highest savings (up to 72%) but less flexible.
+
+  Savings Plans auto-apply to your highest On-Demand charges first, making billing management simple.
+
+  **Best for:** Mixed or evolving workloads across EC2, Lambda, and Fargate where instance-level RI flexibility is needed.
+</Accordion>
+
+<Accordion title="Spot Instances">
+  Purchase unused EC2 capacity at discounts of up to **90% off On-Demand** prices. The trade-off: AWS can reclaim Spot capacity with a **2-minute warning**, meaning your instance may be interrupted.
+
+  - Spot price fluctuates with supply and demand
+  - Instances are automatically terminated (or stopped/hibernated) when the Spot price exceeds your maximum bid
+  - Ideal for workloads that can checkpoint and resume
+
+  **Best for:** Batch processing, big data analytics, CI/CD pipelines, image/video rendering, machine learning training — any fault-tolerant, stateless, or interruptible workload.
+
+  <Warning>
+    Never run stateful production databases or applications that cannot tolerate interruption on Spot Instances. If the workload cannot survive a sudden 2-minute shutdown, choose On-Demand or Reserved.
+  </Warning>
+</Accordion>
+
+<Accordion title="Dedicated Hosts">
+  A **physical EC2 server** fully dedicated to your use. You get visibility into and control over the physical host, including the number of sockets and cores.
+
+  - Supports **Bring Your Own License (BYOL)** for software with server-bound licensing terms (e.g., Windows Server, SQL Server, Oracle)
+  - Can be purchased On-Demand or as a Reservation for additional savings
+  - Most expensive EC2 option per unit of compute
+
+  **Best for:** Regulatory compliance requirements, per-socket/per-core/per-VM software license compliance.
+</Accordion>
+
+<Accordion title="Dedicated Instances">
+  EC2 instances that run on **hardware dedicated to a single AWS account** — physically isolated at the host hardware level from instances belonging to other accounts. Unlike Dedicated Hosts, you do not have visibility or control over the underlying physical server.
+
+  - Hardware may shift between reboots (within the same account)
+  - Lower cost than Dedicated Hosts; no BYOL capability
+  - Available as an On-Demand or Reserved purchase
+
+  **Best for:** Workloads with compliance requirements that mandate single-tenant hardware without needing control over the physical host.
+</Accordion>
+
+## AWS Free Tier
+
+The AWS Free Tier lets you explore and use AWS services at no cost within defined limits. There are three distinct categories:
+
+<Tabs>
+  <Tab title="Always Free">
+    These offers do not expire — they are available to all AWS customers indefinitely.
+
+    | Service | Free Allowance |
+    |---|---|
+    | AWS Lambda | 1 million requests/month + 400,000 GB-seconds compute time |
+    | Amazon DynamoDB | 25 GB storage + 25 write/read capacity units |
+    | Amazon SNS | 1 million publishes/month |
+    | AWS CloudFormation | 1,000 handler operations/month |
+    | Amazon CloudWatch | 10 custom metrics + 10 alarms |
+
+  </Tab>
+  <Tab title="12 Months Free">
+    Available from the date your AWS account is created. After 12 months, standard rates apply.
+
+    | Service | Free Allowance |
+    |---|---|
+    | Amazon EC2 | 750 hours/month of t2.micro or t3.micro |
+    | Amazon S3 | 5 GB Standard storage + 20K GET + 2K PUT requests |
+    | Amazon RDS | 750 hours/month db.t2.micro or db.t3.micro |
+    | Amazon CloudFront | 50 GB data transfer out + 2M HTTP requests |
+    | Elastic Load Balancing | 750 hours/month |
+
+  </Tab>
+  <Tab title="Free Trials">
+    Short-term trials for specific services, starting from the date of first use.
+
+    | Service | Trial Length |
+    |---|---|
+    | Amazon GuardDuty | 30 days |
+    | Amazon Inspector | 90 days |
+    | Amazon Macie | 30 days |
+    | AWS Security Hub | 30 days |
+
+  </Tab>
+</Tabs>
+
+<Tip>
+  Always check Free Tier eligibility when experimenting with new AWS services — many have generous limits that cover typical development workloads. Set up Free Tier usage alerts in the Billing Console so you get an email if you approach 85% of any limit.
+</Tip>
+
+## Service-Specific Pricing Models
+
+Beyond EC2, three core services have their own distinct billing structures that appear frequently on the exam.
+
+<CardGroup cols={3}>
+  <Card title="Amazon S3" icon="database">
+    - Pay per **GB stored** (tiered by storage class)
+    - Pay per **API request** (PUT, GET, LIST, etc.)
+    - Pay for **data transfer out** to the internet (inbound is free)
+    - Lifecycle policies can auto-move objects to cheaper storage classes (e.g., S3 Glacier) to reduce costs
+  </Card>
+  <Card title="AWS Lambda" icon="bolt">
+    - Pay per **number of requests** (first 1M/month always free)
+    - Pay per **duration** in milliseconds (rounded up to nearest ms), based on memory allocated
+    - No charge when code is not running — truly serverless billing
+  </Card>
+  <Card title="Amazon RDS" icon="circle-nodes">
+    - Pay for **instance hours** (instance type, engine, Multi-AZ)
+    - Pay for **provisioned storage** (GB/month)
+    - Pay for **I/O requests** (for magnetic storage)
+    - Pay for **automated backup storage** beyond DB size
+    - Multi-AZ deployments roughly double instance costs
+  </Card>
+</CardGroup>
+
+## Pricing Model Comparison
+
+Use this table when a CLF-C02 question asks you to match a workload characteristic to the right EC2 pricing option.
+
+| Pricing Model | Commitment | Max Discount | Best Workload Fit |
+|---|---|---|---|
+| **On-Demand** | None | — | Unpredictable, short-term, dev/test |
+| **Reserved Instances** | 1 or 3 years | Up to 72% | Steady-state, predictable, 24/7 |
+| **Savings Plans** | 1 or 3 years ($/hr) | Up to 72% | Mixed compute (EC2 + Lambda + Fargate) |
+| **Spot Instances** | None | Up to 90% | Fault-tolerant, interruptible batch jobs |
+| **Dedicated Hosts** | On-Demand or RI | Varies | BYOL licensing compliance |
+| **Dedicated Instances** | On-Demand or RI | Varies | Single-tenant hardware compliance |
+
+## AWS Pricing Calculator
+
+Before you deploy any architecture, use the **AWS Pricing Calculator** at [calculator.aws](https://calculator.aws) to estimate monthly and annual costs.
+
+<Steps>
+  <Step title="Select Your Services">
+    Choose each AWS service you plan to use — EC2, S3, RDS, CloudFront, etc. The calculator supports hundreds of services.
+  </Step>
+  <Step title="Configure Usage Parameters">
+    For each service, enter the instance type, storage volume, request counts, data transfer estimates, and the pricing model (On-Demand, Reserved, Savings Plans).
+  </Step>
+  <Step title="Compare Pricing Models">
+    The calculator lets you toggle between On-Demand, 1-year RI, and 3-year RI side-by-side so you can quantify potential savings before committing.
+  </Step>
+  <Step title="Review and Export">
+    Review the per-service and total cost estimates. Export as CSV or share a link with your team or finance stakeholders.
+  </Step>
+</Steps>
+
+<Info>
+  The AWS Pricing Calculator is free to use and requires no AWS account. It is updated regularly to reflect current AWS pricing, including regional price differences. Prices vary by AWS Region — us-east-1 (N. Virginia) is typically the lowest-cost region.
+</Info>

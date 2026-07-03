@@ -1,0 +1,199 @@
+---
+title: "AWS Cost Management Tools: Budgets, Explorer & More"
+sidebarTitle: "Cost Management"
+description: "Learn AWS Cost Explorer, Budgets, CUR, Organizations, Compute Optimizer, and tagging strategies to monitor and optimize cloud spending for CLF-C02."
+---
+
+One of the most common surprises for teams new to the cloud is an unexpectedly large AWS bill. AWS provides a purpose-built suite of tools to monitor, analyze, alert on, and optimize cloud spending before costs spiral out of control. Understanding these tools — and knowing which one to reach for in a given scenario — is a key component of Domain 4 on the CLF-C02 exam.
+
+<Info>
+  Cost management is a continuous cycle: **Monitor** what you spend → **Analyze** where it goes → **Optimize** to reduce waste → **Govern** with policies and alerts → and repeat. Each tool in this section maps to one or more phases of that cycle.
+</Info>
+
+## AWS Cost Explorer
+
+AWS Cost Explorer is an interactive visualization and analysis tool that lets you understand your AWS spending over time.
+
+<CardGroup cols={2}>
+  <Card title="Visualize Costs and Usage" icon="chart-line">
+    Explore spending as line charts, bar charts, and stacked area graphs. Switch between daily or monthly granularity, and look back up to 12 months of historical data.
+  </Card>
+  <Card title="Filter and Group" icon="filter">
+    Slice your data by **service** (EC2, S3, RDS), **account** (for Organizations), **region**, **instance type**, **purchase option**, or **resource tag** to isolate cost drivers.
+  </Card>
+  <Card title="Forecast Future Costs" icon="crystal-ball">
+    Cost Explorer uses machine learning to project spending up to 12 months into the future based on your historical usage patterns, including seasonality and growth trends.
+  </Card>
+  <Card title="Savings Plan & RI Recommendations" icon="tags">
+    Based on your On-Demand usage history, Cost Explorer generates specific Savings Plan or Reserved Instance purchase recommendations with projected savings amounts.
+  </Card>
+</CardGroup>
+
+<Tip>
+  Cost Explorer must be enabled before it can display data — historical data is not retroactively backfilled before activation. Enable it early in an account's lifecycle so you always have context for analysis.
+</Tip>
+
+## AWS Budgets
+
+AWS Budgets allows you to set custom cost and usage thresholds, then receive alerts via email or Amazon SNS when actual or **forecasted** spending is on track to exceed them.
+
+<Tabs>
+  <Tab title="Cost Budgets">
+    Monitor total spending against a dollar amount. Example: alert the engineering manager when the production account is forecast to exceed $8,000 in the current month.
+
+    - Set a monthly, quarterly, or annual budget
+    - Alert on **actual** costs (already incurred) or **forecasted** costs (projected to be incurred by month-end)
+    - Multiple alert thresholds per budget (e.g., 50%, 80%, 100%, 120%)
+  </Tab>
+  <Tab title="Usage Budgets">
+    Monitor a specific unit of consumption rather than dollar amount. Example: alert when S3 storage exceeds 10 TB, or when EC2 instance-hours exceed a set quantity.
+
+    - Useful for enforcing resource quotas independent of pricing changes
+    - Granular enough to target a specific service and usage type
+  </Tab>
+  <Tab title="Reservation Budgets">
+    Track **Reserved Instance (RI) or Savings Plan utilization and coverage** to ensure you are getting full value from existing commitments.
+
+    - **Utilization budget:** Alert if your RI/Savings Plan is being used less than a target percentage (e.g., below 80%)
+    - **Coverage budget:** Alert if a percentage of your eligible usage is not being covered by an RI or Savings Plan
+  </Tab>
+</Tabs>
+
+<Note>
+  AWS Budgets is **free for your first two budgets per month**. Each additional budget costs $0.02 per day (approximately $0.60/month). Budget Actions — automated responses that can stop EC2/RDS instances or apply IAM policies when a threshold is breached — are available with Business and Enterprise Support.
+</Note>
+
+## AWS Cost and Usage Report (CUR)
+
+The Cost and Usage Report (CUR) is the most granular billing dataset AWS provides — a line-item breakdown of every charge for every AWS service.
+
+<Accordion title="What is in the CUR?">
+  The CUR contains hundreds of columns including:
+  - **Cost dimensions:** unblended cost, blended cost (for Organizations), amortized cost (RIs and Savings Plans spread over the term), and net cost after credits
+  - **Usage dimensions:** instance-hours, GB-hours, API request counts, data transfer volumes
+  - **Resource-level detail:** ARN-level granularity so you can trace cost to a specific EC2 instance or S3 bucket
+  - **Tag values:** all user-defined and AWS-generated tags you have activated for cost allocation
+</Accordion>
+
+<Accordion title="How is the CUR delivered and analyzed?">
+  AWS delivers the CUR as compressed CSV files to an Amazon S3 bucket you specify — daily or hourly. From there you can:
+
+  - **Amazon Athena:** Query the CUR with SQL directly from S3 for ad-hoc analysis
+  - **Amazon QuickSight:** Build interactive dashboards and share them across your organization
+  - **AWS Glue + Redshift:** Load CUR data into a data warehouse for custom BI tooling
+
+  The CUR is the go-to data source for detailed chargebacks, custom billing dashboards, and reconciling billing anomalies.
+</Accordion>
+
+## AWS Organizations and Consolidated Billing
+
+AWS Organizations lets you manage multiple AWS accounts under a single umbrella, with centralized governance and billing.
+
+<Steps>
+  <Step title="Create an Organization">
+    Designate one AWS account as the **management (payer) account**. All other accounts become **member accounts** that report their usage and receive a single consolidated bill.
+  </Step>
+  <Step title="Enable Consolidated Billing">
+    All member account charges roll up into the management account's monthly bill. This unlocks **volume discount sharing** — aggregate usage across all accounts qualifies for tiered pricing (e.g., S3 storage tiers, data transfer tiers) faster than any single account would on its own.
+  </Step>
+  <Step title="Organize Accounts with OUs">
+    Group accounts into **Organizational Units (OUs)** that mirror your business structure — for example, separate OUs for Production, Development, and Sandbox environments, or by business unit (Finance, Engineering, Marketing).
+  </Step>
+  <Step title="Apply Service Control Policies (SCPs)">
+    Attach **Service Control Policies** to the root, an OU, or an individual account to define maximum permissions. SCPs act as guardrails — they cannot grant permissions, only restrict them. Use SCPs to prevent member accounts from launching resources in unapproved regions or disabling CloudTrail.
+  </Step>
+</Steps>
+
+<Warning>
+  SCPs in AWS Organizations operate as a deny-override mechanism: even if an IAM policy in a member account grants a permission, an SCP that denies it will always win. Carefully test SCPs before applying them broadly to avoid locking out accounts.
+</Warning>
+
+## AWS Compute Optimizer
+
+AWS Compute Optimizer uses machine learning to analyze your historical resource utilization and generate right-sizing recommendations.
+
+<CardGroup cols={2}>
+  <Card title="EC2 Instances" icon="server">
+    Identifies over-provisioned or under-provisioned instances based on CPU, memory, network, and disk I/O utilization. Recommends a specific instance type change with projected cost impact.
+  </Card>
+  <Card title="Auto Scaling Groups" icon="arrows-up-down">
+    Recommends optimal instance types and sizes for EC2 Auto Scaling Groups, helping you balance performance headroom against unnecessary compute spend.
+  </Card>
+  <Card title="AWS Lambda" icon="bolt">
+    Analyzes memory size versus actual memory used during function invocations and recommends memory configuration changes that reduce cost without degrading performance.
+  </Card>
+  <Card title="Amazon EBS Volumes" icon="hard-drive">
+    Identifies EBS volumes where provisioned IOPS or throughput significantly exceeds actual utilization, recommending a cheaper volume type or smaller provisioned capacity.
+  </Card>
+</CardGroup>
+
+## AWS Trusted Advisor — Cost Pillar
+
+AWS Trusted Advisor provides real-time guidance across five pillars. The **Cost Optimization** checks are especially relevant for the CLF-C02 exam.
+
+<Accordion title="Cost Optimization Checks (Business/Enterprise plans only for full access)">
+  - **Idle EC2 instances:** Flags instances with low CPU utilization (≤ 10%) over the past 14 days
+  - **Underutilized EBS volumes:** Identifies volumes with very low IOPS activity
+  - **Unassociated Elastic IP addresses:** Elastic IPs not attached to a running instance incur a small hourly charge — Trusted Advisor surfaces these so they can be released
+  - **Reserved Instance purchase recommendations:** Highlights On-Demand usage patterns that suggest RI purchases would reduce costs
+  - **Low-utilization RDS instances:** RDS instances with minimal database connections or CPU usage
+</Accordion>
+
+<Note>
+  The **7 core Trusted Advisor checks** (available on Basic and Developer support) are security-focused. The full cost optimization checks require **Business or Enterprise support**. See the Support Plans page for details.
+</Note>
+
+## Tagging for Cost Allocation
+
+Resource tags are key-value pairs you attach to AWS resources. When activated as **Cost Allocation Tags** in the Billing Console, they become filterable dimensions in Cost Explorer, AWS Budgets, and the CUR.
+
+<Tabs>
+  <Tab title="Recommended Tag Schema">
+    A consistent tagging strategy is the foundation of all cost attribution. Common tags include:
+
+    | Tag Key | Example Values | Purpose |
+    |---|---|---|
+    | `Environment` | `production`, `staging`, `dev` | Separate prod vs. non-prod costs |
+    | `Project` | `mobile-app`, `data-platform` | Track per-project spend |
+    | `Team` | `backend`, `frontend`, `devops` | Departmental chargebacks |
+    | `Owner` | `alice@company.com` | Identify resource owners |
+    | `CostCenter` | `CC-1042` | Finance alignment |
+
+  </Tab>
+  <Tab title="Activating Tags for Billing">
+    Applying a tag to a resource does not automatically include it in billing reports. You must **activate** tags in the Billing Console:
+
+    1. Navigate to **Billing → Cost Allocation Tags**
+    2. Select user-defined tags to activate
+    3. Allow up to 24 hours for the tag to appear in Cost Explorer and reports
+    4. Historical data before the activation date will not include the tag
+
+  </Tab>
+  <Tab title="Enforcing Tags with SCPs">
+    You can enforce tagging compliance using IAM Condition keys in SCPs or IAM policies. For example, deny `ec2:RunInstances` unless the request includes a `Project` tag. AWS Config rules can also audit tag compliance and flag non-compliant resources.
+  </Tab>
+</Tabs>
+
+## Setting Up Cost Monitoring: A Step-by-Step Workflow
+
+<Steps>
+  <Step title="Enable Cost Explorer">
+    In the AWS Billing Console, enable Cost Explorer. It typically takes 24 hours to display initial data, so activate it on day one of any new account.
+  </Step>
+  <Step title="Set Budget Alerts in AWS Budgets">
+    Create at minimum a monthly **Cost Budget** for each significant environment or project. Set alerts at 50%, 80%, and 100% of your expected spend — and add a **forecasted cost** alert so you are warned before the budget is breached, not after.
+  </Step>
+  <Step title="Tag All Resources">
+    Establish a mandatory tagging convention and apply it to every resource. Use `Environment`, `Project`, `Team`, and `Owner` as a starting baseline, then activate those tags for cost allocation in the Billing Console.
+  </Step>
+  <Step title="Review Trusted Advisor Recommendations Monthly">
+    Schedule a monthly review of Trusted Advisor's Cost Optimization checks. Idle resources and unassociated Elastic IPs accumulate quietly — a monthly sweep prevents unnecessary charges.
+  </Step>
+  <Step title="Enable Consolidated Billing via AWS Organizations">
+    If you operate multiple accounts, establish an AWS Organization to consolidate billing. This enables volume discounts across accounts and gives you a single pane of glass for organization-wide cost analysis in Cost Explorer.
+  </Step>
+</Steps>
+
+<Tip>
+  Use AWS Budgets to get **email alerts before you exceed your budget** — not after. A forecasted budget alert at 80% gives you days to take corrective action; discovering the overage on your month-end bill gives you nothing but regret.
+</Tip>

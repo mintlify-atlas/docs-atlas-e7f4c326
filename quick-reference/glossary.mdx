@@ -1,0 +1,333 @@
+---
+title: "AWS Cloud Practitioner Glossary: Key Terms Defined"
+sidebarTitle: "Glossary"
+description: "Plain-language definitions for all key terms in the CLF-C02 exam curriculum, from Availability Zone to Well-Architected Framework."
+---
+
+This glossary provides clear, exam-focused definitions for all key terms in the CLF-C02 exam curriculum. Each entry is written to reinforce how the concept is tested — not just what it means in isolation, but how AWS uses it and how it relates to other terms. Review this glossary during your final study days to sharpen your vocabulary and avoid common definitional mix-ups on exam day.
+
+---
+
+## A
+
+<AccordionGroup>
+  <Accordion title="Amazon Machine Image (AMI)" icon="copy">
+    A pre-configured template used to launch Amazon EC2 instances. An AMI includes the operating system, application server, and any applications needed. You can use AWS-provided AMIs, purchase from the AWS Marketplace, or create custom AMIs from existing EC2 instances. AMIs are region-specific but can be copied across regions.
+  </Accordion>
+
+  <Accordion title="Auto Scaling" icon="arrows-up-down">
+    The ability to automatically add or remove compute capacity (EC2 instances, for example) in response to changing demand. **Amazon EC2 Auto Scaling** maintains the desired number of instances and replaces unhealthy ones automatically. Auto Scaling supports elasticity and helps optimize costs by scaling down during low-demand periods.
+  </Accordion>
+
+  <Accordion title="Availability Zone (AZ)" icon="building">
+    One or more discrete, physically separate data centers within an AWS Region, each with independent power, cooling, and networking. AZs within the same Region are connected via low-latency links. Deploying resources across multiple AZs provides fault tolerance and high availability — if one AZ fails, others continue to serve traffic.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## B
+
+<AccordionGroup>
+  <Accordion title="Billing Alarm" icon="bell">
+    A CloudWatch alarm configured to notify you when your estimated AWS charges exceed a defined threshold. Billing alarms are created in the **us-east-1 (N. Virginia)** region regardless of where your resources are deployed. For more advanced cost controls, AWS Budgets provides additional alerting options based on actual or forecasted spend.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## C
+
+<AccordionGroup>
+  <Accordion title="CDN (Content Delivery Network)" icon="globe">
+    A geographically distributed network of servers that caches and delivers content to users from the nearest location, reducing latency. AWS's CDN service is **Amazon CloudFront**, which integrates with S3, EC2, and other origins to serve static and dynamic content through a global network of edge locations.
+  </Accordion>
+
+  <Accordion title="CloudFormation" icon="file-code">
+    An AWS Infrastructure as Code (IaC) service that lets you define and provision AWS resources using JSON or YAML template files called **stacks**. CloudFormation ensures consistent, repeatable deployments and enables version-controlling your infrastructure the same way you version-control application code.
+  </Accordion>
+
+  <Accordion title="CloudFront" icon="bolt">
+    Amazon's global Content Delivery Network (CDN) service. CloudFront distributes content through a worldwide network of **edge locations**, caching responses close to end users to minimize latency. It integrates natively with S3, ALB, EC2, and custom HTTP origins, and includes built-in DDoS protection via AWS Shield Standard.
+  </Accordion>
+
+  <Accordion title="CloudTrail" icon="magnifying-glass">
+    An AWS service that records every **API call** made in your account — who made the request, from which IP address, what resource was affected, and when it happened. CloudTrail is primarily an **auditing and compliance** tool. It is distinct from CloudWatch, which monitors performance metrics. CloudTrail is enabled by default and retains 90 days of management event history.
+  </Accordion>
+
+  <Accordion title="CloudWatch" icon="chart-line">
+    AWS's monitoring and observability service. CloudWatch collects **metrics, logs, and events** from AWS resources and applications, and allows you to set **alarms** that trigger notifications or Auto Scaling actions when thresholds are breached. CloudWatch monitors *performance*; CloudTrail records *activity*. This distinction is a common exam question.
+  </Accordion>
+
+  <Accordion title="Compliance" icon="clipboard-check">
+    Adherence to regulatory, legal, and organizational standards governing how data is handled and protected. AWS supports compliance with frameworks such as HIPAA, PCI-DSS, SOC 1/2/3, GDPR, FedRAMP, and ISO 27001 through its shared responsibility model. **AWS Artifact** provides on-demand access to AWS compliance reports and agreements.
+  </Accordion>
+
+  <Accordion title="Compute" icon="microchip">
+    In cloud computing, "compute" refers to processing power — the ability to run applications and execute workloads. AWS compute services include **Amazon EC2** (virtual servers), **AWS Lambda** (serverless functions), **Amazon ECS** and **EKS** (containers), and **AWS Fargate** (serverless containers). Compute is Domain 3's core category on the CLF-C02.
+  </Accordion>
+
+  <Accordion title="Cost Explorer" icon="chart-bar">
+    An AWS tool that provides visual graphs of your historical and forecasted AWS spending. Cost Explorer allows you to filter by service, linked account, region, or usage type. It helps identify cost drivers and optimize spending. Accessible through the AWS Billing Console at no additional charge.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## D
+
+<AccordionGroup>
+  <Accordion title="DDoS (Distributed Denial of Service)" icon="shield-virus">
+    A cyberattack in which a large volume of traffic from many sources overwhelms a target system, making it unavailable to legitimate users. AWS provides two tiers of DDoS protection: **AWS Shield Standard** (automatic, free, covers all AWS customers) and **AWS Shield Advanced** (paid, enhanced protection for EC2, CloudFront, Route 53, and ELB with 24/7 DRT access).
+  </Accordion>
+
+  <Accordion title="Dedicated Host" icon="server">
+    A physical EC2 server fully allocated to a single customer. Dedicated Hosts are used primarily for **software licensing compliance** (Bring Your Own License / BYOL) or regulatory requirements that mandate single-tenant hardware. They are not a standard cost-optimization tool — Reserved Instances or Savings Plans are more cost-effective for most workloads.
+  </Accordion>
+
+  <Accordion title="DynamoDB" icon="database">
+    Amazon's fully managed, serverless **NoSQL database** service offering key-value and document data models. DynamoDB delivers single-digit millisecond performance at any scale and automatically handles replication, provisioning, and patching. It is ideal for high-traffic applications with variable or unpredictable load patterns.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## E
+
+<AccordionGroup>
+  <Accordion title="Elastic IP" icon="network-wired">
+    A static, public IPv4 address designed for dynamic cloud computing. Unlike a standard public IP that changes when an instance stops, an Elastic IP remains associated with your AWS account until you release it. Elastic IPs can be quickly remapped to another instance, enabling fast failover for internet-facing services.
+  </Accordion>
+
+  <Accordion title="Elasticity" icon="arrows-left-right">
+    The ability to automatically scale computing resources **up or down** in near-real time to match current demand. Elasticity prevents over-provisioning (wasting money on idle resources) and under-provisioning (causing poor performance during traffic spikes). It is one of the core advantages of cloud computing and is enabled by services like EC2 Auto Scaling.
+  </Accordion>
+
+  <Accordion title="Encryption at Rest" icon="lock">
+    The protection of data stored on a disk or in a database through cryptographic encoding. Data is encrypted when written and decrypted when accessed by authorized users. AWS services including S3, EBS, RDS, and DynamoDB support encryption at rest, typically using **AWS KMS** to manage the encryption keys.
+  </Accordion>
+
+  <Accordion title="Encryption in Transit" icon="lock-open">
+    The protection of data as it travels across a network, typically using **TLS (Transport Layer Security)**. Encryption in transit prevents eavesdropping or man-in-the-middle attacks. AWS services enforce HTTPS/TLS for data moving between clients and services. Under the Shared Responsibility Model, enabling encryption in transit for application traffic is the **customer's responsibility**.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## F
+
+<AccordionGroup>
+  <Accordion title="Fault Tolerance" icon="heart-pulse">
+    The ability of a system to continue operating correctly — possibly at a reduced level — in the event of a component failure. Fault-tolerant architectures use redundancy: multiple Availability Zones, multi-region deployments, and automatic failover. Fault tolerance is more robust than high availability and implies the system continues functioning even during active failures.
+  </Accordion>
+
+  <Accordion title="Free Tier" icon="gift">
+    AWS offers a Free Tier that allows new and existing customers to use certain services within defined usage limits at no charge. There are three types: **Always Free** (no expiration, e.g., Lambda 1M requests/month), **12 Months Free** (available for 12 months after account creation, e.g., EC2 t2.micro), and **Trials** (short-term free trials for specific services). Monitoring Free Tier usage with Billing Alarms or AWS Budgets is recommended.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## G
+
+<AccordionGroup>
+  <Accordion title="GuardDuty" icon="shield">
+    Amazon GuardDuty is a **threat detection service** that continuously monitors AWS accounts and workloads for malicious activity using machine learning, anomaly detection, and integrated threat intelligence. It analyzes CloudTrail logs, VPC Flow Logs, and DNS logs. GuardDuty produces security findings that can be routed to AWS Security Hub or remediated with Lambda functions.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## H
+
+<AccordionGroup>
+  <Accordion title="High Availability" icon="arrows-spin">
+    A design principle that ensures a system remains operational and accessible for a very high percentage of time, minimizing planned and unplanned downtime. In AWS, high availability is achieved by deploying resources across **multiple Availability Zones** and using services like Elastic Load Balancing, RDS Multi-AZ, and Route 53 health checks. High availability typically targets 99.9% or greater uptime.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## I
+
+<AccordionGroup>
+  <Accordion title="IaaS (Infrastructure as a Service)" icon="building-columns">
+    A cloud service model in which the provider delivers fundamental compute, storage, and networking resources on-demand. The customer manages the operating system, middleware, and applications. AWS EC2 is a classic IaaS example — AWS provides the physical hardware and virtualization layer; you manage everything above it.
+  </Accordion>
+
+  <Accordion title="IAM (Identity and Access Management)" icon="user-shield">
+    AWS IAM is a **global service** that controls who (authentication) can do what (authorization) in your AWS account. Core components include: **Users** (individual identities), **Groups** (collections of users sharing permissions), **Roles** (temporary credentials for services or federated identities), and **Policies** (JSON documents defining allowed or denied actions). The guiding principle is **least privilege** — grant only the permissions required.
+  </Accordion>
+
+  <Accordion title="Instance" icon="server">
+    A virtual server running in the AWS cloud, typically referring to an **Amazon EC2 instance**. Instances come in multiple **instance types** (e.g., t3.micro, m5.large) that define their CPU, memory, storage, and network capacity. An instance is launched from an **AMI** and runs within a **VPC**.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## K
+
+<AccordionGroup>
+  <Accordion title="KMS (Key Management Service)" icon="key">
+    AWS Key Management Service is a managed service for creating and controlling **cryptographic keys** used to encrypt data across AWS services. KMS integrates with S3, EBS, RDS, Lambda, and many other services. It supports both **AWS-managed keys** and **customer-managed keys (CMKs)**. KMS is the primary encryption key management tool in the AWS shared responsibility model.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## L
+
+<AccordionGroup>
+  <Accordion title="Lambda" icon="bolt">
+    AWS Lambda is a **serverless compute service** that runs code in response to events without requiring you to provision or manage servers. You upload your function code, define a trigger (an S3 upload, an API Gateway call, a DynamoDB stream, etc.), and Lambda handles execution, scaling, and availability automatically. You are billed only for the compute time your function actually uses, measured in milliseconds.
+  </Accordion>
+
+  <Accordion title="Latency" icon="gauge">
+    The time delay between a user's request and the system's response, typically measured in milliseconds. In AWS, latency is reduced by deploying resources in Regions close to end users, using **Amazon CloudFront** to cache content at edge locations, and using **ElastiCache** to serve frequently accessed data from memory rather than hitting a database.
+  </Accordion>
+
+  <Accordion title="Load Balancer" icon="scale-balanced">
+    A service that automatically distributes incoming application traffic across multiple targets (such as EC2 instances) to ensure no single resource is overwhelmed. AWS offers **Elastic Load Balancing (ELB)** in three forms: **Application Load Balancer (ALB)** for HTTP/HTTPS layer 7 routing, **Network Load Balancer (NLB)** for high-performance TCP/UDP layer 4 routing, and **Gateway Load Balancer (GWLB)** for third-party virtual appliances.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## M
+
+<AccordionGroup>
+  <Accordion title="MFA (Multi-Factor Authentication)" icon="mobile-screen">
+    A security mechanism that requires users to provide **two or more verification factors** to authenticate. In AWS IAM, MFA combines something you know (password) with something you have (a virtual authenticator app, hardware token, or SMS code). AWS strongly recommends enabling MFA on the root account and all privileged IAM users. MFA adds a critical second layer of defense against compromised credentials.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## N
+
+<AccordionGroup>
+  <Accordion title="NACL (Network Access Control List)" icon="list-check">
+    A **stateless** network-level firewall that controls inbound and outbound traffic at the **subnet** level in a VPC. Because NACLs are stateless, both inbound and outbound rules must be explicitly defined — return traffic is not automatically allowed. Rules are evaluated in order by rule number. NACLs are commonly used to block specific IP addresses at the subnet boundary.
+  </Accordion>
+
+  <Accordion title="NAT Gateway" icon="arrow-right-arrow-left">
+    A managed AWS service that allows EC2 instances in a **private subnet** to initiate outbound connections to the internet (for software updates, for example) while preventing inbound connections from the internet from reaching those instances. NAT Gateways are placed in public subnets and are highly available within an AZ.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## O
+
+<AccordionGroup>
+  <Accordion title="On-Demand Instance" icon="play">
+    An EC2 pricing model where you pay for compute capacity **by the hour or second** with no long-term commitments or upfront costs. On-Demand is the most flexible option but also the most expensive. It is ideal for short-term, spiky, or unpredictable workloads where interruption is not acceptable. For steady-state workloads, Reserved Instances or Savings Plans offer significant savings.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## P
+
+<AccordionGroup>
+  <Accordion title="PaaS (Platform as a Service)" icon="layer-group">
+    A cloud service model where the provider manages the underlying infrastructure **and** the runtime platform, allowing customers to focus entirely on deploying and managing their applications. AWS Elastic Beanstalk is a PaaS example — AWS handles the OS, web server, and scaling while you provide the application code.
+  </Accordion>
+
+  <Accordion title="Principle of Least Privilege" icon="user-minus">
+    A security best practice that states every user, role, or service should be granted **only the minimum permissions required** to perform their intended function — nothing more. In AWS IAM, this means starting with no permissions and adding only what is explicitly needed. Least privilege limits the blast radius of compromised credentials or misconfigured services.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## R
+
+<AccordionGroup>
+  <Accordion title="Region" icon="map">
+    A geographic area containing **two or more Availability Zones**. AWS operates dozens of Regions worldwide (e.g., us-east-1, eu-west-1, ap-southeast-1). Most AWS services and data remain within the Region you select unless you explicitly configure cross-region replication. Choosing a Region close to your users reduces latency; choosing based on compliance requirements ensures data sovereignty.
+  </Accordion>
+
+  <Accordion title="Reserved Instance" icon="calendar-check">
+    An EC2 pricing commitment that offers up to **72% discount** compared to On-Demand pricing in exchange for a **1-year or 3-year** usage commitment. Reserved Instances can be Standard (fixed instance type, higher savings) or Convertible (can change instance type, lower savings). They are ideal for steady-state, predictable workloads. **Savings Plans** offer similar discounts with greater flexibility.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## S
+
+<AccordionGroup>
+  <Accordion title="S3 (Simple Storage Service)" icon="bucket">
+    Amazon S3 is an **object storage service** offering virtually unlimited storage capacity with 99.999999999% (11 nines) durability. S3 stores objects (files) in **buckets** and supports multiple storage classes (Standard, Intelligent-Tiering, Standard-IA, One Zone-IA, Glacier variants) with different cost/retrieval tradeoffs. S3 is commonly used for backups, static website hosting, data lakes, and media storage.
+  </Accordion>
+
+  <Accordion title="SaaS (Software as a Service)" icon="cloud">
+    A cloud delivery model where a fully functional application is hosted and managed by the provider and accessed over the internet — typically via a browser. The customer manages only their data and user settings. Examples: Gmail, Salesforce, Zoom. In the AWS ecosystem, services like **Amazon WorkMail** and **Amazon Chime** are SaaS offerings.
+  </Accordion>
+
+  <Accordion title="Scalability" icon="expand">
+    The ability of a system to handle growing amounts of workload by adding resources. **Vertical scaling** (scaling up) means increasing the size of an existing resource (e.g., upgrading to a larger EC2 instance). **Horizontal scaling** (scaling out) means adding more instances. AWS services like Auto Scaling, DynamoDB, and Lambda scale horizontally by default, making them inherently more elastic than vertically scaled systems.
+  </Accordion>
+
+  <Accordion title="Security Group" icon="shield">
+    A **stateful** virtual firewall that controls inbound and outbound traffic at the **EC2 instance** level. Stateful means that if you allow an inbound request, the corresponding outbound response is automatically allowed — you only need to define rules in one direction. Security Groups use **allow rules only** (there are no deny rules); traffic not explicitly allowed is implicitly denied.
+  </Accordion>
+
+  <Accordion title="Serverless" icon="cloud-bolt">
+    A cloud execution model where the cloud provider dynamically manages server provisioning, scaling, patching, and capacity planning. Developers write and deploy code without thinking about servers. AWS serverless services include **Lambda** (functions), **Fargate** (containers), **DynamoDB** (database), **S3** (storage), and **API Gateway** (APIs). Serverless typically follows a pay-per-use billing model.
+  </Accordion>
+
+  <Accordion title="Service Level Agreement (SLA)" icon="file-contract">
+    A formal commitment by a service provider (AWS) defining the minimum level of service — typically expressed as a percentage uptime — that will be delivered. If AWS fails to meet the SLA, customers may receive **service credits**. For example, Amazon EC2 commits to 99.99% monthly uptime. SLAs vary by service and are published in the AWS documentation.
+  </Accordion>
+
+  <Accordion title="Shared Responsibility Model" icon="handshake">
+    The foundational AWS security framework that divides security responsibilities between AWS and the customer. **AWS is responsible for security "of" the cloud** — physical hardware, global infrastructure, managed service patching, and AZ/Region isolation. **Customers are responsible for security "in" the cloud** — data classification, encryption, IAM configuration, OS patches on EC2, and application security. This model is tested extensively on the CLF-C02.
+  </Accordion>
+
+  <Accordion title="Spot Instance" icon="tag">
+    An EC2 pricing model that allows you to use unused AWS compute capacity at discounts of **up to 90%** compared to On-Demand prices. The tradeoff: AWS can reclaim Spot Instances with a **2-minute notice** when capacity is needed elsewhere. Spot Instances are ideal for fault-tolerant, interruptible workloads like batch processing, data analysis, and CI/CD pipelines — never for databases or critical production services that must run continuously.
+  </Accordion>
+
+  <Accordion title="Subnet" icon="network-wired">
+    A subdivision of a **VPC's IP address range** scoped to a single Availability Zone. Subnets can be **public** (have a route to an internet gateway, accessible from the internet) or **private** (no direct internet access, used for databases and internal services). Subnets are the primary mechanism for organizing and isolating resources within a VPC.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## T
+
+<AccordionGroup>
+  <Accordion title="Trusted Advisor" icon="star">
+    An AWS service that analyzes your account in real time and provides **best-practice recommendations** across five categories: Cost Optimization, Performance, Security, Fault Tolerance, and Service Limits. The number of checks available depends on your **Support Plan** — Basic and Developer plans have access to a limited set of core checks; Business and Enterprise plans unlock the full suite of checks plus programmatic access via API.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## V
+
+<AccordionGroup>
+  <Accordion title="VPC (Virtual Private Cloud)" icon="building">
+    A logically isolated virtual network within AWS that closely resembles a traditional on-premises network. A VPC spans all Availability Zones within a Region and contains **subnets, route tables, internet gateways, security groups, and NACLs**. Every AWS account comes with a default VPC in each Region. VPCs are the networking foundation for virtually all AWS deployments.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## W
+
+<AccordionGroup>
+  <Accordion title="Well-Architected Framework" icon="building-columns">
+    AWS's official set of best practices for designing cloud workloads, organized into **six pillars**: Operational Excellence, Security, Reliability, Performance Efficiency, Cost Optimization, and Sustainability. The **AWS Well-Architected Tool** (available in the console) helps you evaluate your architecture against these pillars and identify areas for improvement. Understanding the six pillars at a conceptual level is testable content on the CLF-C02.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+<Note>
+  This glossary covers the core vocabulary needed for the CLF-C02 exam. For a quick service-by-service reference, see the [Service Cheat Sheet](/quick-reference/service-cheatsheet). For exam strategy and common question patterns, see the [Exam Tips](/quick-reference/exam-tips) page.
+</Note>

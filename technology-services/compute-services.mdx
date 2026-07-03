@@ -1,0 +1,147 @@
+---
+title: "AWS Compute Services: EC2, Lambda, and More"
+sidebarTitle: "Compute"
+description: "Master AWS compute options including EC2, Lambda, ECS, EKS, and Fargate — covering instance types, pricing models, and serverless patterns for the CLF-C02 exam."
+---
+
+AWS compute services form the backbone of virtually every cloud workload. Whether you need full control over virtual servers, event-driven serverless functions, or managed container orchestration, AWS provides a purpose-built compute option to match. Understanding when to choose each service — and why — is one of the most tested skills in the CLF-C02 exam.
+
+<CardGroup cols={2}>
+  <Card title="Amazon EC2" icon="server">
+    Virtual servers with full control over OS, networking, and storage configuration
+  </Card>
+  <Card title="AWS Lambda" icon="bolt">
+    Serverless functions that run code in response to events with zero server management
+  </Card>
+  <Card title="Amazon ECS / EKS" icon="boxes-stacked">
+    Managed container orchestration using Docker, ECS, and Kubernetes
+  </Card>
+  <Card title="AWS Fargate" icon="cloud">
+    Serverless compute engine for containers — no EC2 instances to manage
+  </Card>
+</CardGroup>
+
+## Core Compute Services
+
+<Accordion title="Amazon EC2 (Elastic Compute Cloud)">
+  Amazon EC2 provides resizable virtual servers — called **instances** — in the cloud. You have full control over the operating system, networking configuration, and storage, making EC2 the most flexible compute option in AWS.
+
+  ### Instance Type Families
+
+  | Family | Examples | Optimized For |
+  |--------|----------|---------------|
+  | General Purpose | T3, M5 | Balanced compute, memory, and networking |
+  | Compute Optimized | C5 | High-performance processors; batch processing, gaming |
+  | Memory Optimized | R5 | Large in-memory datasets; databases, caches |
+  | Storage Optimized | I3 | High IOPS local storage; data warehousing, NoSQL |
+  | Accelerated Computing | P3, G4 | GPU workloads; ML training, video rendering |
+
+  ### EC2 Pricing Options
+
+  - **On-Demand** — Pay by the second with no commitments. Best for unpredictable workloads or short-term testing.
+  - **Reserved Instances** — 1- or 3-year commitment for up to **72% savings** over On-Demand. Best for steady-state workloads.
+  - **Spot Instances** — Use spare AWS capacity for up to **90% savings**. Can be interrupted with a 2-minute warning. Best for fault-tolerant batch jobs.
+  - **Dedicated Hosts** — Physical servers dedicated entirely to your use. Required for certain software licenses (e.g., per-socket, per-core).
+  - **Savings Plans** — Flexible pricing (Compute or EC2) in exchange for a $/hour spend commitment over 1 or 3 years.
+
+  ### AMI (Amazon Machine Image)
+  An AMI is a pre-configured template that packages the OS, application server, and any software required to launch an EC2 instance. You can use AWS-provided AMIs, community AMIs, or create your own custom AMIs.
+
+  ### EC2 Auto Scaling
+  EC2 Auto Scaling automatically adds or removes EC2 instances based on demand. You define minimum, desired, and maximum capacity. Scaling policies can be scheduled, metric-driven (CPU utilization), or predictive.
+</Accordion>
+
+<Accordion title="AWS Lambda">
+  AWS Lambda is a **serverless compute** service — you upload your function code and Lambda handles all provisioning, patching, and scaling automatically. You are only billed for the compute time your code actually uses, measured in milliseconds.
+
+  ### Key Characteristics
+  - **Event-driven triggers**: S3 object uploads, DynamoDB streams, API Gateway HTTP requests, SQS messages, CloudWatch Events, and many more
+  - **Pay-per-use**: Billing is based on the number of requests and the duration (GB-seconds) of execution
+  - **Max execution timeout**: 15 minutes per invocation
+  - **Supported runtimes**: Python, Node.js, Java, Go, Ruby, .NET (C#), and custom runtimes via Lambda Layers
+
+  ### When to Use Lambda
+  Lambda is ideal for short-lived, event-driven tasks such as image resizing after S3 uploads, processing SQS messages, or building REST API backends behind API Gateway. It is not suitable for workloads requiring more than 15 minutes of continuous execution.
+</Accordion>
+
+<Accordion title="AWS Elastic Beanstalk">
+  AWS Elastic Beanstalk is a **Platform-as-a-Service (PaaS)** offering. You upload your application code and Elastic Beanstalk automatically handles deployment, capacity provisioning, load balancing, and auto scaling — while still giving you full access to the underlying resources.
+
+  ### Supported Platforms
+  Java, .NET, PHP, Node.js, Python, Ruby, Go, and Docker
+
+  ### Key Points for the Exam
+  - You retain control of the underlying EC2 instances
+  - No additional charge for Elastic Beanstalk — you pay only for the AWS resources it provisions
+  - Best for developers who want simplicity without losing configurability
+</Accordion>
+
+<Accordion title="Amazon ECS (Elastic Container Service)">
+  Amazon ECS is a fully managed **container orchestration service** that makes it easy to deploy, manage, and scale Docker containerized applications on AWS.
+
+  ### Launch Types
+  - **EC2 Launch Type** — You provision and manage the underlying EC2 instances that host your containers
+  - **Fargate Launch Type** — AWS manages the underlying infrastructure; you only specify CPU and memory requirements
+
+  ### Key Integrations
+  ECS integrates natively with IAM for task-level permissions, CloudWatch for logging and monitoring, Application Load Balancer for traffic distribution, and ECR (Elastic Container Registry) for storing container images.
+</Accordion>
+
+<Accordion title="Amazon EKS (Elastic Kubernetes Service)">
+  Amazon EKS is a fully managed **Kubernetes** service that lets you run Kubernetes on AWS without needing to install, operate, or maintain the Kubernetes control plane. AWS manages the control plane availability and upgrades.
+
+  ### When to Choose EKS over ECS
+  - Your team already uses Kubernetes and wants to avoid vendor lock-in
+  - You need Kubernetes-native features (Helm charts, custom controllers, etc.)
+  - You are migrating an existing on-premises Kubernetes workload to AWS
+
+  EKS can run on EC2 instances or with Fargate for a fully serverless Kubernetes experience.
+</Accordion>
+
+<Accordion title="AWS Fargate">
+  AWS Fargate is a **serverless compute engine for containers** that works with both ECS and EKS. With Fargate, you never provision or manage EC2 instances — you simply define the CPU and memory your container needs, and AWS handles the rest.
+
+  ### Benefits
+  - No cluster capacity planning required
+  - Isolated compute environment per task for improved security
+  - Pay only for the vCPU and memory consumed by your containers
+  - Scales automatically to match demand
+
+  Fargate is ideal when you want the benefits of containers without the operational overhead of managing the underlying server fleet.
+</Accordion>
+
+<Accordion title="Amazon Lightsail">
+  Amazon Lightsail is the simplest way to get started with AWS for small-scale workloads. It provides virtual private servers (VPS), storage, databases, and networking at predictable low monthly prices.
+
+  ### Ideal Use Cases
+  - Simple websites and blogs (WordPress, Joomla)
+  - Development and test environments
+  - Small business applications
+  - Personal projects requiring a straightforward setup
+
+  Lightsail abstracts away most of the complexity of AWS and is designed for users who are new to the cloud or who need a simple, cost-effective solution without advanced configuration needs.
+</Accordion>
+
+## Compute Service Comparison
+
+| Feature | EC2 | Lambda | Fargate | Elastic Beanstalk |
+|---------|-----|--------|---------|-------------------|
+| **Server Management** | You manage | None | None | AWS manages |
+| **Scaling** | Manual / Auto Scaling | Automatic | Automatic | Automatic |
+| **Pricing Model** | Per second (while running) | Per ms of execution | Per vCPU/memory used | Underlying resources only |
+| **Max Runtime** | Unlimited | 15 minutes | Unlimited | Unlimited |
+| **Best For** | Full control workloads | Event-driven functions | Containerized apps | Web app deployment |
+| **Use Case** | Custom OS, legacy apps | APIs, triggers, automation | Microservices, Docker | Dev-friendly PaaS |
+
+<Note>
+  For the CLF-C02 exam, focus on recognizing the correct service for a given scenario. Questions often present a business requirement and ask which compute option is the best fit.
+</Note>
+
+<Tip>
+  **Choosing the right compute service:**
+  - **EC2** → You need full control over the operating system, networking, or must install custom software
+  - **Lambda** → Your workload is event-driven, short-lived (under 15 min), and you want zero server management
+  - **Fargate** → You are running Docker containers but don't want to manage the underlying EC2 fleet
+  - **Elastic Beanstalk** → You want PaaS simplicity with the ability to customize underlying infrastructure
+  - **Lightsail** → You need a simple, low-cost VPS for a small or personal project
+</Tip>

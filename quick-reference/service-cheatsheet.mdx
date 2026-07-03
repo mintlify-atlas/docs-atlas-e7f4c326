@@ -1,0 +1,148 @@
+---
+title: "AWS Services Cheat Sheet for Cloud Practitioner Exam"
+sidebarTitle: "Service Cheat Sheet"
+description: "A complete reference of every AWS service tested on the CLF-C02 exam, organized by category with key use cases for quick review."
+---
+
+This cheat sheet covers all major AWS services you need to know for the CLF-C02 exam. Each service is grouped by category so you can quickly locate what you need during study sessions or last-minute review. Focus on understanding the core purpose of each service — the exam tests recognition and situational judgment, not deep implementation details.
+
+<Tabs>
+  <Tab title="Compute">
+    Compute services provide the processing power behind your applications. For the exam, understand when to choose managed/serverless options over raw EC2 instances.
+
+    | Service | What It Does | Key Use Case |
+    |---|---|---|
+    | Amazon EC2 | Virtual servers in the cloud | Web servers, application hosting |
+    | AWS Lambda | Serverless function execution | Event-driven, short-duration functions |
+    | AWS Fargate | Serverless container runtime | Run containers without managing servers |
+    | Amazon ECS | Container orchestration service | Docker workload management |
+    | Amazon EKS | Managed Kubernetes service | Kubernetes workloads on AWS |
+    | AWS Elastic Beanstalk | PaaS application deployment | Web apps without infrastructure management |
+    | Amazon Lightsail | Simple virtual private server | Small websites and basic applications |
+
+    <Tip>
+      The exam frequently asks you to choose between EC2 and a managed/serverless option. When the scenario emphasizes reducing operational overhead, prefer Lambda, Fargate, or Elastic Beanstalk over raw EC2.
+    </Tip>
+  </Tab>
+
+  <Tab title="Storage">
+    Storage services span object, block, file, archive, and physical transfer. Know the differences between S3 storage classes and when to use EBS vs EFS.
+
+    | Service | Type | Key Use Case |
+    |---|---|---|
+    | Amazon S3 | Object storage | Files, backups, static website hosting |
+    | Amazon EBS | Block storage | EC2 boot volumes and persistent disks |
+    | Amazon EFS | File storage (NFS) | Shared filesystem across multiple EC2 instances |
+    | S3 Glacier | Archival object storage | Long-term, infrequent-access data archiving |
+    | AWS Storage Gateway | Hybrid storage bridge | Connecting on-premises systems to AWS storage |
+    | AWS Snow Family | Physical data transfer | Migrating large datasets to AWS offline |
+
+    <Note>
+      S3 Glacier is not the same as the S3 Glacier storage class inside S3. Glacier is a standalone archival service; the S3 Glacier storage classes (Instant, Flexible, Deep Archive) are tiered options within S3.
+    </Note>
+  </Tab>
+
+  <Tab title="Database">
+    AWS offers purpose-built databases for relational, NoSQL, in-memory, and analytical workloads. The exam tests your ability to match the right database type to a given scenario.
+
+    | Service | Type | Key Use Case |
+    |---|---|---|
+    | Amazon RDS | Managed relational database | MySQL, PostgreSQL, MariaDB, Oracle, SQL Server apps |
+    | Amazon Aurora | High-performance relational DB | MySQL/PostgreSQL-compatible, cloud-native performance |
+    | Amazon DynamoDB | Managed NoSQL (key-value/document) | Massive scale, single-digit millisecond latency |
+    | Amazon ElastiCache | In-memory caching | Redis/Memcached caching layer to reduce DB load |
+    | Amazon Redshift | Data warehouse | Analytics, business intelligence, large-scale queries |
+    | Amazon DocumentDB | Managed document database | MongoDB-compatible workloads |
+
+    <Tip>
+      DynamoDB is AWS's flagship NoSQL service and appears frequently. Remember: it is serverless, fully managed, and scales automatically — ideal when questions mention "millions of requests" or "variable traffic."
+    </Tip>
+  </Tab>
+
+  <Tab title="Networking">
+    Networking services control how your resources connect to each other, to the internet, and to your on-premises environments. VPC is the foundational building block.
+
+    | Service | What It Does |
+    |---|---|
+    | Amazon VPC | Creates an isolated, logically defined private network in AWS |
+    | Amazon CloudFront | Content Delivery Network (CDN) that caches content at edge locations |
+    | Amazon Route 53 | Scalable DNS service with domain registration and health checking |
+    | AWS Direct Connect | Dedicated private network connection from on-premises to AWS |
+    | Elastic Load Balancing | Automatically distributes incoming traffic across multiple targets |
+    | AWS VPN | Encrypted IPSec tunnel between your network and AWS over the internet |
+
+    <Note>
+      Direct Connect vs VPN is a common exam scenario. Direct Connect is a physical, dedicated line (more consistent, higher cost); VPN runs over the public internet (easier to set up, lower cost, variable performance).
+    </Note>
+  </Tab>
+
+  <Tab title="Security">
+    Security is the highest-weighted domain on the CLF-C02 exam at 30%. Know each service's specific function — especially how IAM, GuardDuty, Shield, WAF, and CloudTrail differ.
+
+    | Service | What It Does |
+    |---|---|
+    | AWS IAM | Manages users, groups, roles, and permissions for AWS resources |
+    | Amazon GuardDuty | Intelligent threat detection using ML and anomaly analysis |
+    | AWS Shield | DDoS protection (Standard is free; Advanced is paid) |
+    | AWS WAF | Web Application Firewall that filters malicious HTTP/S traffic |
+    | AWS KMS | Creates and manages cryptographic keys for data encryption |
+    | AWS CloudTrail | Records all API calls and account activity for auditing |
+    | AWS Config | Tracks resource configuration changes and evaluates compliance |
+    | Amazon Macie | Uses ML to discover and protect sensitive data stored in S3 |
+    | AWS Secrets Manager | Stores, rotates, and retrieves secrets like database credentials |
+    | AWS Artifact | Self-service portal for AWS compliance reports and agreements |
+
+    <Tip>
+      CloudTrail = **auditing** (who did what, when). CloudWatch = **monitoring** (metrics and alarms). This distinction appears on almost every exam attempt.
+    </Tip>
+  </Tab>
+
+  <Tab title="Management">
+    Management and governance services help you monitor, automate, and control your AWS environment. These are critical for cost control and operational excellence.
+
+    | Service | What It Does |
+    |---|---|
+    | Amazon CloudWatch | Collects metrics, logs, and events; sets alarms and dashboards |
+    | AWS CloudTrail | Logs all API activity across your AWS account for auditing |
+    | AWS Trusted Advisor | Analyzes your account and gives best-practice recommendations |
+    | AWS Cost Explorer | Visualizes historical and projected AWS spending |
+    | AWS Budgets | Creates alerts when costs or usage exceed defined thresholds |
+    | AWS Organizations | Centrally manages multiple AWS accounts with policy control |
+    | AWS CloudFormation | Deploys and manages infrastructure using JSON/YAML templates |
+    | AWS Systems Manager | Provides operational management across EC2 and on-premises servers |
+
+    <Note>
+      AWS Organizations enables **consolidated billing**, letting you aggregate charges from all member accounts into a single payer account. This can unlock volume pricing discounts.
+    </Note>
+  </Tab>
+
+  <Tab title="App Integration & AI">
+    Application integration services decouple components for resilient architectures. AI/ML services provide pre-built intelligence without requiring data science expertise.
+
+    | Service | What It Does |
+    |---|---|
+    | Amazon SQS | Managed message queue for decoupling distributed application components |
+    | Amazon SNS | Pub/sub messaging service for notifications and fan-out patterns |
+    | Amazon API Gateway | Creates, publishes, and manages REST and WebSocket APIs at scale |
+    | AWS Step Functions | Serverless workflow orchestration using visual state machines |
+    | Amazon Rekognition | Analyzes images and videos for objects, faces, and text |
+    | Amazon Comprehend | Natural language processing (NLP) for sentiment and entity detection |
+    | Amazon Polly | Converts text into lifelike speech audio |
+    | Amazon Transcribe | Converts speech audio into text transcriptions |
+    | Amazon Lex | Builds conversational chatbot interfaces using voice and text |
+    | Amazon SageMaker | End-to-end platform for building, training, and deploying ML models |
+
+    <Tip>
+      For the exam, SQS = **queue** (point-to-point, one consumer processes each message), SNS = **notifications** (one-to-many broadcast). Step Functions orchestrates multi-step workflows across Lambda functions and other services.
+    </Tip>
+  </Tab>
+</Tabs>
+
+<CardGroup cols={2}>
+  <Card title="Exam Domain 3: Technology & Services" icon="microchip">
+    This category carries **34%** of the CLF-C02 exam weight — the largest single domain. Prioritize compute, storage, database, and networking services.
+  </Card>
+  <Card title="Study Tip: Use Cases Over Features" icon="lightbulb">
+    The exam rarely asks implementation details. Focus on **when** to use a service, not **how** to configure it. Practice matching scenarios to the right service.
+  </Card>
+</CardGroup>

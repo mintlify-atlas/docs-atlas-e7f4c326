@@ -1,0 +1,308 @@
+---
+title: "AWS Application Integration, AI, and Developer Services"
+sidebarTitle: "Additional Services"
+description: "Survey AWS services for app integration, AI/ML, developer tools, and monitoring — SQS, SNS, SageMaker, CodePipeline, CloudWatch, and CloudTrail for the CLF-C02 exam."
+---
+
+Beyond the core compute, storage, networking, and database layers, AWS provides a rich ecosystem of services that help you connect application components, add intelligence to your workloads, automate deployments, and gain operational visibility. This page covers the four supporting categories most frequently tested in the CLF-C02 exam: application integration, AI and machine learning, developer and DevOps tools, and management and monitoring.
+
+<Tabs>
+  <Tab title="App Integration">
+    ## Application Integration Services
+
+    Modern cloud architectures rely on loosely coupled, asynchronous communication between components. AWS provides a set of managed messaging and orchestration services that let you build resilient, scalable, event-driven applications without managing the underlying messaging infrastructure.
+
+    <Accordion title="Amazon SQS (Simple Queue Service)">
+      Amazon SQS is a fully managed **message queuing** service that enables you to decouple and scale microservices, distributed systems, and serverless applications. Producers write messages to a queue; consumers poll the queue and process messages independently.
+
+      ### Queue Types
+
+      | Type | Behavior | Best For |
+      |------|----------|----------|
+      | **Standard Queue** | At-least-once delivery, best-effort ordering | Maximum throughput; order not critical |
+      | **FIFO Queue** | Exactly-once processing, strict ordering | Financial transactions, order processing |
+
+      ### Key Concepts
+      - **Visibility Timeout** — Time a message is hidden from other consumers after being received (prevents duplicate processing)
+      - **Dead-Letter Queue (DLQ)** — Captures messages that fail processing after a configurable number of retries
+      - **Message retention** — Up to 14 days
+      - **Max message size** — 256 KB
+
+      SQS is the foundational service for **decoupling producers from consumers** — if the downstream service is slow or temporarily unavailable, messages queue up safely rather than causing upstream failures.
+    </Accordion>
+
+    <Accordion title="Amazon SNS (Simple Notification Service)">
+      Amazon SNS is a fully managed **pub/sub (publish-subscribe) messaging** service. A publisher sends one message to an SNS **topic**, and SNS fans that message out to all subscribed endpoints simultaneously.
+
+      ### Supported Subscription Protocols
+      - SQS queues (fan out to queues for further processing)
+      - Lambda functions
+      - HTTP/HTTPS endpoints
+      - Email and Email-JSON
+      - SMS text messages
+      - Mobile push notifications (APNs, FCM, ADM)
+
+      ### Fan-Out Pattern
+      A common architecture combines SNS with SQS: publish one event to an SNS topic and fan out to multiple SQS queues. Each queue is processed independently — enabling parallel processing pipelines from a single event source.
+    </Accordion>
+
+    <Accordion title="Amazon EventBridge">
+      Amazon EventBridge is a **serverless event bus** that connects AWS services, SaaS applications, and your own custom applications using events. It routes events based on rules that you define, enabling event-driven architectures without custom integration code.
+
+      ### Key Concepts
+      - **Event Bus** — Receives events from sources (default AWS bus, custom buses, SaaS partner buses)
+      - **Rules** — Match incoming events and route them to one or more targets
+      - **Targets** — Lambda, SQS, SNS, Step Functions, EC2 Run Command, Kinesis, and more
+      - **Schema Registry** — Automatically discovers and documents event schemas
+
+      EventBridge is the evolution of Amazon CloudWatch Events and is the recommended service for building event-driven integrations between AWS services and third-party SaaS applications.
+    </Accordion>
+
+    <Accordion title="AWS Step Functions">
+      AWS Step Functions is a **serverless workflow orchestration** service that lets you coordinate multiple AWS services into serverless workflows using visual state machines. Each step in the workflow is a state; Step Functions manages retries, error handling, branching, and parallel execution automatically.
+
+      ### Use Cases
+      - Order fulfillment pipelines
+      - Data processing and ETL workflows
+      - Machine learning model training pipelines
+      - Microservice orchestration with conditional logic
+
+      ### Workflow Types
+      - **Standard Workflows** — Long-running (up to 1 year), exactly-once execution, full audit history
+      - **Express Workflows** — High-volume, short-duration (up to 5 min), at-least-once execution
+    </Accordion>
+
+    <Accordion title="Amazon API Gateway">
+      Amazon API Gateway is a fully managed service that makes it easy to **create, publish, maintain, monitor, and secure REST, HTTP, and WebSocket APIs** at any scale. It acts as the "front door" for applications to access data, business logic, or functionality from your backend services.
+
+      ### Key Features
+      - **Request throttling** — Protect backends from traffic spikes
+      - **Authorization** — Integrate with AWS IAM, Amazon Cognito, or custom Lambda authorizers
+      - **API Keys** — Control and meter access to your APIs
+      - **Caching** — Cache API responses to reduce backend load and improve latency
+      - **WebSocket APIs** — Two-way communication for real-time applications (chat, dashboards)
+
+      API Gateway is most commonly paired with **Lambda** to build fully serverless REST APIs — no EC2 instances required.
+    </Accordion>
+  </Tab>
+
+  <Tab title="AI & ML">
+    ## AI and Machine Learning Services
+
+    AWS provides a spectrum of AI/ML services — from high-level pre-built AI capabilities (no ML knowledge required) to full ML platform services for data scientists. The CLF-C02 exam focuses primarily on the pre-built AI services and SageMaker at a conceptual level.
+
+    <Accordion title="Pre-Built AI Services (No ML Experience Required)">
+      These services expose trained machine learning models via simple API calls — you don't need any ML expertise to use them.
+
+      ### Vision and Media
+      | Service | Capability |
+      |---------|-----------|
+      | **Amazon Rekognition** | Image and video analysis — object detection, facial recognition, content moderation, celebrity identification |
+      | **Amazon Textract** | Extract printed text, handwriting, forms, and tables from scanned documents |
+
+      ### Language and Speech
+      | Service | Capability |
+      |---------|-----------|
+      | **Amazon Comprehend** | Natural language processing (NLP) — sentiment analysis, entity recognition, key phrase extraction, language detection |
+      | **Amazon Polly** | Convert text to lifelike speech — supports 60+ voices in 30+ languages |
+      | **Amazon Transcribe** | Automatic speech recognition (ASR) — convert audio and video speech to text |
+      | **Amazon Translate** | Real-time neural machine translation between 75+ languages |
+      | **Amazon Lex** | Build conversational chatbots and voice interfaces (the technology behind Amazon Alexa); supports text and voice |
+
+      ### Search and Intelligence
+      | Service | Capability |
+      |---------|-----------|
+      | **Amazon Kendra** | Intelligent enterprise search powered by ML — understands natural language queries across diverse data sources |
+      | **Amazon Personalize** | Build real-time personalization and recommendation systems (same technology as Amazon.com) |
+      | **Amazon Forecast** | Time-series forecasting using ML — demand planning, inventory management |
+    </Accordion>
+
+    <Accordion title="Amazon SageMaker">
+      Amazon SageMaker is a fully managed **end-to-end machine learning platform** for data scientists and ML engineers to build, train, and deploy ML models at scale.
+
+      ### SageMaker Workflow
+      <Steps>
+        <Step title="Prepare Data">
+          Use SageMaker Data Wrangler and Processing Jobs to clean, transform, and prepare training datasets stored in S3.
+        </Step>
+        <Step title="Build & Train">
+          Author models in Jupyter notebooks (SageMaker Studio), then train using built-in algorithms or custom containers on managed compute infrastructure.
+        </Step>
+        <Step title="Tune">
+          Use SageMaker Automatic Model Tuning (hyperparameter optimization) to find the best model configuration automatically.
+        </Step>
+        <Step title="Deploy">
+          Deploy models to real-time inference endpoints (SageMaker Endpoints), batch transform jobs, or serverless inference.
+        </Step>
+        <Step title="Monitor">
+          Use SageMaker Model Monitor to detect data drift and model quality degradation in production.
+        </Step>
+      </Steps>
+
+      ### Key SageMaker Features for CLF-C02
+      - **SageMaker Studio** — Integrated IDE for ML development
+      - **SageMaker Canvas** — No-code ML model building for business analysts
+      - **SageMaker Pipelines** — MLOps CI/CD for machine learning workflows
+    </Accordion>
+  </Tab>
+
+  <Tab title="Developer Tools">
+    ## Developer and DevOps Services
+
+    AWS provides a suite of developer tools for source control, build automation, deployment pipelines, and infrastructure as code — enabling teams to implement CI/CD workflows entirely within AWS.
+
+    <Accordion title="AWS CI/CD Pipeline Services">
+      ### AWS CodeCommit
+      A fully managed **source control service** that hosts secure, private **Git repositories** in AWS. Integrates with IAM for access control and supports standard Git workflows. Note: AWS is transitioning new customers to third-party Git providers; CodeCommit is closed to new customers as of July 2024.
+
+      ### AWS CodeBuild
+      A fully managed **continuous integration** service that compiles source code, runs unit tests, and produces deployment-ready artifacts. You pay only for the build minutes consumed — no servers to manage.
+
+      ### AWS CodeDeploy
+      A fully managed **deployment service** that automates application deployments to EC2 instances, Lambda functions, and on-premises servers. Supports **in-place** and **blue/green** deployment strategies with automatic rollback on failure.
+
+      ### AWS CodePipeline
+      A fully managed **CI/CD pipeline orchestration** service that automates the steps required to release software changes. Pipelines can chain CodeCommit, CodeBuild, CodeDeploy, and third-party tools (GitHub, Jenkins) into a complete release workflow.
+
+      ### Complete CI/CD Flow
+      ```
+      CodeCommit (Source) → CodeBuild (Build & Test) → CodeDeploy (Deploy) 
+                       ↑ Orchestrated by CodePipeline ↑
+      ```
+    </Accordion>
+
+    <Accordion title="Infrastructure as Code (IaC)">
+      ### AWS CloudFormation
+      AWS CloudFormation lets you model and provision **all your AWS infrastructure resources** using JSON or YAML template files. A CloudFormation template describes the desired state of your infrastructure; CloudFormation handles creation, updates, and deletion in the correct dependency order.
+
+      - **Stack** — A collection of AWS resources managed as a single unit
+      - **Change Sets** — Preview the impact of a stack update before applying it
+      - **Drift Detection** — Identify resources that have been modified outside of CloudFormation
+
+      ### AWS CDK (Cloud Development Kit)
+      The AWS CDK lets you define cloud infrastructure using **familiar programming languages** — TypeScript, Python, Java, C#, and Go — and synthesizes CloudFormation templates. It provides higher-level constructs (L2/L3) that encode AWS best practices by default.
+
+      ### AWS Systems Manager
+      An **operational management hub** for AWS and on-premises resources. Key capabilities include:
+      - **Parameter Store** — Secure storage for configuration data and secrets
+      - **Session Manager** — Browser-based shell access to EC2 instances without SSH keys or open ports
+      - **Patch Manager** — Automate OS and software patching across your fleet
+      - **Run Command** — Execute scripts on fleets of instances without SSH access
+    </Accordion>
+  </Tab>
+
+  <Tab title="Monitoring & Management">
+    ## Management and Monitoring Services
+
+    Operational visibility is critical in cloud environments. AWS provides a layered monitoring and governance toolset — from real-time metrics and log analysis, to API-level audit trails and architectural best-practice reviews.
+
+    <Accordion title="Amazon CloudWatch">
+      Amazon CloudWatch is the **central monitoring and observability service** for AWS. It collects and tracks metrics, collects and monitors log files, sets alarms, and automatically reacts to changes in your AWS resources.
+
+      ### Core Capabilities
+
+      | Capability | Description |
+      |------------|-------------|
+      | **Metrics** | Collect and track numerical measurements from AWS services (CPU utilization, network traffic, etc.) |
+      | **Logs** | Centralize log ingestion from EC2, Lambda, ECS, and applications via the CloudWatch Agent |
+      | **Alarms** | Trigger notifications (SNS) or actions (Auto Scaling, EC2 actions) when metrics cross thresholds |
+      | **Dashboards** | Customizable visual displays of your key metrics and alarms |
+      | **Logs Insights** | Interactive log querying using a purpose-built query language |
+      | **Synthetics** | Canary scripts that simulate user flows to monitor APIs and URLs |
+      | **Container Insights** | Metrics and logs for ECS, EKS, and Kubernetes workloads |
+
+      CloudWatch is the answer whenever an exam question asks about **monitoring**, **metrics**, **logs**, or **alerts** for AWS resources.
+    </Accordion>
+
+    <Accordion title="AWS CloudTrail">
+      AWS CloudTrail provides **governance, compliance, operational auditing, and risk auditing** of your AWS account by recording all API calls made within the account — who made the call, from which IP address, at what time, and what the response was.
+
+      ### Key Characteristics
+      - Records API activity from the **AWS Management Console**, **CLI**, **SDKs**, and **AWS services**
+      - Events are delivered to an **S3 bucket** for long-term storage and analysis
+      - **CloudTrail Insights** — Detects unusual API activity (e.g., a sudden spike in IAM CreateUser calls)
+      - **Event history** — 90 days of management event history available in the console at no cost
+      - **Multi-region trails** — Capture activity across all regions in a single trail
+
+      <Note>
+        **CloudWatch vs CloudTrail:** CloudWatch monitors **what is happening** in your infrastructure (metrics, logs, performance). CloudTrail records **who did what** (API calls, user activity, changes to resources). Both are frequently tested together — know the distinction.
+      </Note>
+    </Accordion>
+
+    <Accordion title="AWS Trusted Advisor">
+      AWS Trusted Advisor is an online tool that provides **real-time guidance** across five categories to help you follow AWS best practices and optimize your environment:
+
+      | Category | Examples |
+      |----------|---------|
+      | **Cost Optimization** | Identify idle EC2 instances, underutilized EBS volumes, and Reserved Instance recommendations |
+      | **Performance** | Detect high-utilization EC2 instances, CloudFront content delivery optimization |
+      | **Security** | MFA on root account, unrestricted security group ports, public S3 buckets |
+      | **Fault Tolerance** | EC2 instances not in multiple AZs, RDS without Multi-AZ, missing EBS snapshots |
+      | **Service Limits** | Alert when you are approaching AWS service quotas |
+
+      <Info>
+        The number of Trusted Advisor checks available depends on your AWS Support plan. Basic and Developer plans include a limited set of core security and service limit checks. Business and Enterprise plans unlock all checks.
+      </Info>
+    </Accordion>
+
+    <Accordion title="AWS Well-Architected Tool">
+      The AWS Well-Architected Tool is a free service that helps you **review and improve your cloud workloads** based on the six pillars of the AWS Well-Architected Framework: Operational Excellence, Security, Reliability, Performance Efficiency, Cost Optimization, and Sustainability.
+
+      ### How It Works
+      <Steps>
+        <Step title="Define a Workload">
+          Describe the workload you want to review — its purpose, team, and associated AWS regions and accounts.
+        </Step>
+        <Step title="Answer Questions">
+          Work through a set of questions for each pillar, selecting the best-practice choices that apply to your workload.
+        </Step>
+        <Step title="Review Findings">
+          The tool generates a report identifying **High Risk** and **Medium Risk** issues with improvement recommendations.
+        </Step>
+        <Step title="Improve and Track">
+          Create improvement plans and track your progress over time as you address identified risks.
+        </Step>
+      </Steps>
+    </Accordion>
+
+    <Accordion title="AWS Health Dashboard">
+      The **AWS Health Dashboard** provides a personalized view of the health of AWS services and your specific account:
+
+      - **Service Health** (formerly Service Health Dashboard) — Displays the current status and history of all AWS services in all regions. Anyone can access it at [status.aws.amazon.com](https://health.aws.amazon.com/health/status).
+      - **Your Account Health** (formerly Personal Health Dashboard) — Provides **proactive notifications** about AWS events that may affect the specific resources in your account, along with remediation guidance and scheduled maintenance alerts.
+
+      The Account Health view is surfaced in the AWS Console and can send notifications via EventBridge or SNS so your operations team is alerted automatically.
+    </Accordion>
+  </Tab>
+</Tabs>
+
+## Key Service Relationships at a Glance
+
+<CardGroup cols={2}>
+  <Card title="SQS vs SNS" icon="arrows-split-up-and-left">
+    **SQS** is a pull-based queue — one consumer processes each message. **SNS** is push-based pub/sub — one message fans out to all subscribers simultaneously. They are often combined in the fan-out pattern.
+  </Card>
+  <Card title="CloudWatch vs CloudTrail" icon="eye">
+    **CloudWatch** monitors operational metrics and logs (what is happening). **CloudTrail** records API activity (who did what, when). Use CloudTrail for security audits and compliance; use CloudWatch for performance monitoring and alerting.
+  </Card>
+  <Card title="CloudFormation vs CDK" icon="file-code">
+    **CloudFormation** uses JSON/YAML templates for infrastructure as code. **CDK** uses programming languages (Python, TypeScript, etc.) and compiles down to CloudFormation. CDK offers higher-level abstractions; CloudFormation is the underlying engine.
+  </Card>
+  <Card title="Trusted Advisor vs Well-Architected" icon="shield-check">
+    **Trusted Advisor** gives real-time, automated checks against AWS best practices. **Well-Architected Tool** guides structured architectural reviews against the six Well-Architected pillars — more strategic and workload-specific.
+  </Card>
+</CardGroup>
+
+<Tip>
+  **SQS vs SNS — the exam's favorite distinction:**
+  - **SQS** decouples a producer from a consumer — messages wait in the queue until pulled. Perfect when you need to buffer requests or level out traffic spikes.
+  - **SNS** fans out one message to many subscribers at once — email, SMS, Lambda, and SQS queues can all receive the same notification simultaneously.
+  - When you see both used together, it is the classic **fan-out pattern**: SNS publishes → multiple SQS queues subscribe → independent consumers process in parallel.
+</Tip>
+
+<Tip>
+  **Monitoring vs auditing — never confuse these two:**
+  - **Amazon CloudWatch** → Performance metrics, application logs, resource utilization, alarms, dashboards
+  - **AWS CloudTrail** → API call history, user activity, who deleted that S3 bucket, which IAM user changed a security group
+  - If a question asks "how do you know who made a change in your AWS account?" — the answer is **CloudTrail**, every time.
+</Tip>

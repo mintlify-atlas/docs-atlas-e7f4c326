@@ -1,0 +1,119 @@
+---
+title: "What Is Cloud Computing? AWS Fundamentals Explained"
+sidebarTitle: "What Is Cloud"
+description: "Understand cloud computing from the ground up: on-demand IT resources, pay-as-you-go pricing, NIST characteristics, and how AWS defines the cloud."
+---
+
+Cloud computing is the on-demand delivery of IT resources — compute power, storage, databases, networking, and more — over the internet with pay-as-you-go pricing. Instead of buying, owning, and maintaining physical data centers and servers, you access technology services from a provider like AWS exactly when you need them, and pay only for what you use. This simple shift changes everything about how organizations think about, budget for, and build technology.
+
+<Note>
+  **Domain 1 — Cloud Concepts** accounts for **24% of the AWS CLF-C02 exam**. Understanding what cloud computing *is* and how it differs from traditional IT is the foundation for every question in this domain.
+</Note>
+
+## The Classic Analogy: The Electricity Grid
+
+Before cloud computing, every organization that needed compute power had to build its own infrastructure — much like generating your own electricity. You would buy generators, install them, hire people to maintain them, and hope you guessed your capacity requirements correctly.
+
+Cloud computing is the electricity grid for IT. You plug in and get power instantly. You pay only for the kilowatts you consume. The power company handles generation, maintenance, and scale. You never worry about building a power plant.
+
+- **Traditional IT** = owning and running your own generator
+- **Cloud Computing** = plugging into the grid — reliable, on-demand, metered
+
+## How AWS Defines Cloud Computing
+
+AWS defines cloud computing as:
+
+> *"The on-demand delivery of IT resources over the internet with pay-as-you-go pricing. Instead of buying, owning, and maintaining physical data centers and servers, you can access technology services, such as computing power, storage, and databases, on an as-needed basis from a cloud provider like Amazon Web Services (AWS)."*
+
+The core ideas are: **on-demand**, **over the internet**, and **pay for what you use**.
+
+## The NIST Five Essential Characteristics
+
+The National Institute of Standards and Technology (NIST) defines five essential characteristics that something must have to truly be "cloud." Every major AWS service satisfies all five.
+
+<CardGroup cols={2}>
+  <Card title="On-Demand Self-Service" icon="computer-mouse" href="https://aws.amazon.com/what-is-cloud-computing/">
+    Provision compute resources — such as server time and storage — automatically without requiring human interaction with the service provider. Click a button, get a server in minutes.
+  </Card>
+  <Card title="Broad Network Access" icon="wifi" href="https://aws.amazon.com/what-is-cloud-computing/">
+    Capabilities are available over the network and accessed through standard mechanisms by diverse client platforms: phones, tablets, laptops, and workstations anywhere in the world.
+  </Card>
+  <Card title="Resource Pooling" icon="server" href="https://aws.amazon.com/what-is-cloud-computing/">
+    The provider's computing resources are pooled to serve multiple consumers using a multi-tenant model. Physical and virtual resources are dynamically assigned and reassigned per demand.
+  </Card>
+  <Card title="Rapid Elasticity" icon="arrows-maximize" href="https://aws.amazon.com/what-is-cloud-computing/">
+    Capabilities can be elastically provisioned and released — in some cases automatically — to scale rapidly outward and inward commensurate with demand.
+  </Card>
+  <Card title="Measured Service" icon="chart-line" href="https://aws.amazon.com/what-is-cloud-computing/">
+    Resource usage is monitored, controlled, and reported, providing transparency for both provider and consumer. You pay per GB stored, per hour of compute used, per request made.
+  </Card>
+</CardGroup>
+
+## Traditional On-Premises vs. Cloud: Side by Side
+
+| Dimension | On-Premises (Traditional IT) | Cloud (AWS) |
+|---|---|---|
+| **Upfront cost** | High — buy servers, storage, networking | $0 — no capital expenditure required |
+| **Time to provision** | Weeks to months | Minutes |
+| **Capacity planning** | Guess 3–5 years in advance | Scale in real time based on actual demand |
+| **Maintenance** | Your team handles hardware, OS patches, firmware | AWS handles the physical layer; you manage what you deploy |
+| **Geographic reach** | Limited to your data centers | Global in minutes via AWS Regions |
+| **Fault tolerance** | Expensive to build redundancy | Built-in multi-AZ and multi-Region architectures |
+| **Innovation speed** | Slow — infrastructure is a bottleneck | Fast — spin up new services without hardware delays |
+| **Cost model** | CapEx (capital expenditure) | OpEx (operational expenditure) |
+
+## How Traditional IT Actually Worked
+
+<Steps>
+  <Step title="Plan Capacity">
+    Estimate compute and storage needs for the next 3–5 years — often resulting in either over-provisioning (wasted money) or under-provisioning (poor performance).
+  </Step>
+  <Step title="Purchase Hardware">
+    Buy servers, storage arrays, networking gear, and power/cooling equipment. Typical cost: hundreds of thousands to millions of dollars upfront.
+  </Step>
+  <Step title="Build the Data Center">
+    Install physical hardware in a facility with power redundancy, cooling systems, fire suppression, and physical security.
+  </Step>
+  <Step title="Configure and Maintain">
+    Install operating systems, networking software, and security patches. Staff a 24/7 operations team for monitoring and incident response.
+  </Step>
+  <Step title="Refresh Hardware">
+    Replace aging equipment every 3–5 years — starting the cycle over again.
+  </Step>
+</Steps>
+
+## Common Cloud Misconceptions — Cleared Up
+
+<Accordion title="'The cloud is just someone else's computer'">
+  This is a popular saying, but it undersells what cloud computing actually is. Yes, AWS runs physical servers — but the *value* is the software layer on top: instant provisioning, auto-scaling, self-healing, global distribution, and consumption-based billing. Cloud computing is a **service delivery model**, not just hardware.
+</Accordion>
+
+<Accordion title="'The cloud is less secure than on-premises'">
+  AWS invests billions of dollars annually in security. They employ world-class security engineers, hold hundreds of compliance certifications (PCI DSS, HIPAA, ISO 27001, SOC 1/2/3), and operate under the **Shared Responsibility Model** — AWS secures the infrastructure; you secure what you put on it. Most organizations cannot match this level of security investment independently.
+</Accordion>
+
+<Accordion title="'The cloud is always cheaper'">
+  The cost structure is *different*, not always lower. Cloud excels for variable workloads where you avoid paying for idle capacity. For steady, predictable workloads running 24/7, Reserved Instances or Savings Plans can optimize costs further. Total Cost of Ownership (TCO) analysis should include staffing, facilities, and opportunity costs — not just compute prices.
+</Accordion>
+
+<Accordion title="'You always need internet access to use the cloud'">
+  While internet access is required to *manage* cloud resources, deployed applications can operate with high resiliency. AWS also offers hybrid solutions like **AWS Outposts** (run AWS infrastructure on-premises) and **AWS Direct Connect** (private, dedicated network connection to AWS) for scenarios with strict connectivity requirements.
+</Accordion>
+
+## Key Terms to Know
+
+| Term | Definition |
+|---|---|
+| **On-Premises** | IT infrastructure owned and operated within your own data center |
+| **Public Cloud** | Shared infrastructure offered over the internet (e.g., AWS, Azure, GCP) |
+| **Private Cloud** | Cloud infrastructure dedicated exclusively to one organization |
+| **Hybrid Cloud** | Combination of on-premises and public cloud, connected together |
+| **Elasticity** | Automatic scaling up and down based on real-time demand |
+| **Scalability** | The ability to handle growth (may be manual or automatic) |
+| **Multi-Tenancy** | Multiple customers sharing the same physical infrastructure, isolated by software |
+| **CapEx** | Capital expenditure — upfront investment in physical assets |
+| **OpEx** | Operational expenditure — ongoing pay-as-you-go spending |
+
+<Tip>
+  For the exam, be ready to identify **which cloud characteristic applies to a given scenario**. For example: a website that automatically adds servers during a traffic spike → **Rapid Elasticity**. A developer who provisions a database in 2 minutes without calling IT → **On-Demand Self-Service**.
+</Tip>

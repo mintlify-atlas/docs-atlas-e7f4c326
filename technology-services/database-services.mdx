@@ -1,0 +1,183 @@
+---
+title: "AWS Database Services: RDS, DynamoDB & More"
+sidebarTitle: "Databases"
+description: "Understand AWS managed database services for the CLF-C02 exam — RDS engines, Aurora performance, DynamoDB NoSQL, ElastiCache, Redshift analytics, and specialty databases."
+---
+
+AWS offers a broad portfolio of fully managed database services designed to eliminate the undifferentiated heavy lifting of database administration — patching, backups, replication, and failover. Rather than forcing every workload into a single database engine, AWS provides purpose-built databases for relational, NoSQL, in-memory, graph, ledger, and analytics use cases. Knowing which database type matches a given workload is a consistently tested skill in the CLF-C02 exam.
+
+<CardGroup cols={2}>
+  <Card title="Amazon RDS" icon="database">
+    Managed relational databases supporting MySQL, PostgreSQL, Oracle, SQL Server, and Aurora
+  </Card>
+  <Card title="Amazon DynamoDB" icon="bolt">
+    Serverless NoSQL key-value database delivering single-digit millisecond performance at any scale
+  </Card>
+  <Card title="Amazon ElastiCache" icon="memory">
+    In-memory caching with Redis and Memcached for microsecond response times
+  </Card>
+  <Card title="Amazon Redshift" icon="chart-bar">
+    Managed petabyte-scale data warehouse for analytics and business intelligence
+  </Card>
+</CardGroup>
+
+## AWS Database Services in Depth
+
+<Accordion title="Amazon RDS (Relational Database Service)">
+  Amazon RDS is a fully managed service that makes it easy to set up, operate, and scale **relational databases** in the cloud. AWS handles time-consuming tasks including hardware provisioning, database setup, patching, and automated backups — so you can focus on your applications.
+
+  ### Supported Database Engines
+  - **Amazon Aurora** (AWS-native, covered separately below)
+  - **MySQL**
+  - **PostgreSQL**
+  - **MariaDB**
+  - **Oracle Database**
+  - **Microsoft SQL Server**
+
+  ### Key Features
+
+  | Feature | Description |
+  |---------|-------------|
+  | **Automated Backups** | Daily automated backups with point-in-time recovery (up to 35 days retention) |
+  | **Multi-AZ Deployment** | Synchronous standby replica in a different AZ for high availability and automatic failover |
+  | **Read Replicas** | Asynchronous copies to offload read traffic and improve read scalability (up to 15 replicas for Aurora) |
+  | **Automated Patching** | AWS handles OS and database engine patch management |
+  | **Encryption** | At-rest (AES-256) and in-transit (SSL/TLS) encryption |
+
+  ### What You Do NOT Manage with RDS
+  Operating system installation, database engine installation, hardware provisioning, and most patching tasks are handled by AWS. This is the key distinction between RDS (managed) and running a database on a self-managed EC2 instance.
+
+  ### Multi-AZ vs Read Replicas
+  - **Multi-AZ** — For **high availability** and **disaster recovery**. The standby does not serve read traffic; it exists only for failover.
+  - **Read Replicas** — For **read scalability**. They serve read traffic and can be promoted to standalone databases.
+</Accordion>
+
+<Accordion title="Amazon Aurora">
+  Amazon Aurora is an AWS-built relational database engine that is fully compatible with **MySQL and PostgreSQL** while delivering significantly higher performance and availability than standard community editions.
+
+  ### Performance Advantages
+  - Up to **5x faster** than standard MySQL
+  - Up to **3x faster** than standard PostgreSQL
+  - Distributed, fault-tolerant storage that automatically replicates data across 3 Availability Zones with 6 copies of your data
+
+  ### Key Features
+  - **Up to 15 read replicas** with sub-10ms replica lag
+  - **Aurora Serverless v2** — automatically scales compute capacity up and down based on application demand (ideal for unpredictable workloads)
+  - **Aurora Global Database** — spans multiple AWS Regions, with typically less than 1 second latency for cross-region replication
+  - **Backtrack** — Rewind your database to a previous point in time without restoring from a backup (MySQL-compatible only)
+
+  ### When to Choose Aurora over Standard RDS
+  Choose Aurora when you need higher throughput, more read replicas, global distribution, or want a serverless database option. Aurora is part of the RDS family but is listed separately in the exam because of its unique capabilities.
+</Accordion>
+
+<Accordion title="Amazon DynamoDB">
+  Amazon DynamoDB is a fully managed, **serverless NoSQL** database service that delivers consistent single-digit millisecond read and write performance at any scale — from a few requests per second to millions.
+
+  ### Data Model
+  - **Tables** — Collections of items (equivalent to rows in SQL)
+  - **Items** — Individual records (equivalent to rows)
+  - **Attributes** — Data fields within items; each item can have different attributes (schema-less)
+  - **Primary Key** — Either a Partition Key alone or a Partition Key + Sort Key combination
+
+  ### Key Capabilities
+
+  | Feature | Description |
+  |---------|-------------|
+  | **DynamoDB Accelerator (DAX)** | Fully managed in-memory cache for DynamoDB; reduces read latency from milliseconds to **microseconds** |
+  | **Global Tables** | Multi-region, multi-active replication for global applications with low-latency local reads and writes |
+  | **DynamoDB Streams** | Ordered stream of item-level changes for real-time processing with Lambda |
+  | **On-Demand Capacity** | Automatically scales to accommodate any traffic level; pay per request |
+  | **Provisioned Capacity** | Specify read/write capacity units in advance for cost predictability |
+  | **TTL (Time to Live)** | Automatically delete expired items to manage data volume and reduce costs |
+
+  ### When to Use DynamoDB
+  DynamoDB excels at workloads requiring high-throughput key-value or document lookups at massive scale: gaming leaderboards, IoT telemetry, session stores, shopping carts, and user profile stores.
+</Accordion>
+
+<Accordion title="Amazon ElastiCache">
+  Amazon ElastiCache is a fully managed **in-memory data store and caching** service. By caching frequently accessed data in memory, ElastiCache can reduce the latency and load on your primary databases from milliseconds to **microseconds**.
+
+  ### Supported Engines
+
+  | Engine | Best For |
+  |--------|----------|
+  | **Redis** | Complex data structures, persistence, Pub/Sub, geospatial indexing, sorted sets, multi-AZ replication |
+  | **Memcached** | Simple, high-performance caching; horizontal scaling with multi-threaded architecture |
+
+  ### Common Use Cases
+  - **Database query caching** — Cache results of expensive SQL queries
+  - **Session management** — Store user session data for distributed web applications
+  - **Real-time leaderboards** — Redis sorted sets for gaming or analytics rankings
+  - **Rate limiting** — Track API call counts per user using Redis atomic counters
+
+  <Note>
+    For the exam: if a scenario involves caching database results to reduce latency, ElastiCache is the answer. If the question is about reducing DynamoDB latency specifically, DAX (DynamoDB Accelerator) is the more targeted answer.
+  </Note>
+</Accordion>
+
+<Accordion title="Amazon Redshift">
+  Amazon Redshift is a fully managed, **petabyte-scale cloud data warehouse** designed for analytical queries against large datasets. It uses **columnar storage** and **massively parallel processing (MPP)** to deliver fast query performance across structured and semi-structured data.
+
+  ### Key Features
+  - **Columnar storage** — Stores each column separately, enabling efficient compression and fast aggregation queries
+  - **MPP architecture** — Distributes query execution across multiple nodes in parallel
+  - **Redshift Spectrum** — Query data directly in S3 without loading it into Redshift
+  - **Redshift Serverless** — Run analytics without managing cluster infrastructure
+  - **Concurrency Scaling** — Automatically adds capacity to handle query surges
+
+  ### BI Tool Integration
+  Redshift integrates with Amazon QuickSight, Tableau, Power BI, and other standard SQL-based business intelligence tools via JDBC/ODBC connections.
+
+  ### Redshift vs RDS
+  - **RDS** → Optimized for **transactional workloads (OLTP)** — many small read/write operations
+  - **Redshift** → Optimized for **analytical workloads (OLAP)** — complex queries scanning large volumes of historical data
+</Accordion>
+
+<Accordion title="Specialty Databases">
+  AWS offers additional managed databases for specific data models and use cases:
+
+  ### Amazon DocumentDB
+  A fully managed document database service that is **MongoDB-compatible**. Ideal for storing, querying, and indexing JSON-like documents. Use it when your application uses MongoDB APIs but you want a fully managed service with automatic scaling and Multi-AZ replication.
+
+  ### Amazon Neptune
+  A fully managed **graph database** service for applications that work with **highly connected datasets** — such as social networks, fraud detection, recommendation engines, and knowledge graphs. Neptune supports both the **Property Graph** (Gremlin) and **RDF** (SPARQL) graph models.
+
+  ### Amazon QLDB (Quantum Ledger Database)
+  A fully managed **ledger database** that provides a transparent, immutable, and cryptographically verifiable transaction log. Every change to your data is recorded and cannot be deleted or modified. Use QLDB for applications requiring an authoritative audit history: supply chain tracking, financial transactions, HR records.
+
+  ### Amazon Timestream
+  A fully managed **time-series database** optimized for IoT and operational applications that collect measurements over time. Automatically scales to handle trillions of events per day and includes built-in time-series analytics functions.
+</Accordion>
+
+## Relational vs NoSQL Comparison
+
+| Dimension | Relational (RDS / Aurora) | NoSQL (DynamoDB) |
+|-----------|--------------------------|------------------|
+| **Schema** | Fixed schema, predefined columns | Flexible, schema-less items |
+| **Query Language** | SQL — complex joins, aggregations | Key-based lookups; PartiQL (SQL-compatible) |
+| **Scaling Model** | Vertical (scale up instance) | Horizontal (scale out automatically) |
+| **Consistency** | ACID transactions | Eventually consistent by default; strongly consistent available |
+| **Latency** | Milliseconds | Single-digit milliseconds |
+| **Best For** | Complex relationships, reporting, ERP, CRM | High-throughput key-value, IoT, gaming, session data |
+
+## Database Selection Quick Reference
+
+| Use Case | Recommended Service |
+|----------|-------------------|
+| Traditional relational app (MySQL / PostgreSQL) | Amazon RDS |
+| High-performance relational with global reach | Amazon Aurora |
+| Key-value / document at massive scale | Amazon DynamoDB |
+| Reduce DynamoDB read latency to microseconds | DynamoDB DAX |
+| Cache database query results in memory | Amazon ElastiCache |
+| Analytics and business intelligence queries | Amazon Redshift |
+| MongoDB-compatible document storage | Amazon DocumentDB |
+| Highly connected graph data | Amazon Neptune |
+| Immutable audit log / ledger | Amazon QLDB |
+
+<Tip>
+  **Two most important database distinctions for CLF-C02:**
+  - **RDS** is for structured relational data where you need SQL, complex joins, and transactions — it manages the engine for you but is not serverless
+  - **DynamoDB** is for simple key-value or document lookups at any scale — it is serverless, fully managed, and ideal when you don't need complex SQL queries
+  - If the question mentions "caching" to speed up a database, think **ElastiCache** (general) or **DAX** (DynamoDB-specific)
+  - If the question mentions "data warehouse" or "analytics," think **Redshift**
+</Tip>
