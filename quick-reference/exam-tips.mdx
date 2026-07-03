@@ -1,5 +1,5 @@
 ---
-title: "AWS CLF-C02 Exam Strategy and Test-Taking Tips"
+title: "AWS CLF-C02 Exam Day Strategy and Test-Taking Tips"
 sidebarTitle: "Exam Tips"
 description: "Proven test-taking strategies, time management techniques, and high-value topic guidance to help you pass the AWS CLF-C02 on exam day."
 ---
@@ -11,16 +11,16 @@ Knowing the content is only half the battle — exam strategy is just as importa
 Before diving into strategy, make sure these numbers are locked in memory:
 
 <CardGroup cols={2}>
-  <Card title="65 Questions" icon="list-ol">
+  <Card title="65 Questions" icon="list-ol" href="/exam-overview">
     The exam contains 65 total questions. Some are unscored pilot questions that AWS uses to evaluate future exams — you won't know which ones they are, so treat every question as scored.
   </Card>
-  <Card title="90 Minutes" icon="clock">
+  <Card title="90 Minutes" icon="clock" href="/exam-overview">
     You have 90 minutes — roughly **83 seconds per question** on average. Pacing is critical; don't let a single difficult question consume your time budget.
   </Card>
-  <Card title="700 / 1000 to Pass" icon="check-circle">
+  <Card title="700 / 1000 to Pass" icon="check-circle" href="/exam-overview">
     The passing score is 700 out of 1000. You do not need a perfect score — strategic guessing on uncertain questions is far better than leaving blanks.
   </Card>
-  <Card title="Two Question Types" icon="circle-question">
+  <Card title="Two Question Types" icon="circle-question" href="/exam-overview">
     **Multiple choice** (one correct answer from four options) and **multiple response** (two or more correct answers from five or more options). Read each question carefully to know which type you're answering.
   </Card>
 </CardGroup>
@@ -70,7 +70,7 @@ These techniques apply directly to how AWS frames CLF-C02 questions. Master thes
   </Accordion>
 
   <Accordion title="Cost Optimization Hierarchy" icon="dollar-sign">
-    When asked which pricing option is most cost-effective for stable, predictable workloads, follow this order: **Reserved Instances / Savings Plans > On-Demand > Spot**. Reserved and Savings Plans offer up to 72% savings over On-Demand for committed usage. Spot is cheapest but can be interrupted — never recommend Spot for workloads that must run continuously.
+    When asked which pricing option is most cost-effective for stable, predictable workloads, follow this order: **Reserved Instances / Savings Plans > On-Demand > Spot**. Reserved and Savings Plans offer up to 72% savings over On-Demand for committed usage. Spot offers up to 90% savings but can be interrupted — never recommend Spot for workloads that must run continuously.
   </Accordion>
 
   <Accordion title="Answering 'MOST' and 'BEST' Questions" icon="arrow-up">
@@ -89,28 +89,28 @@ These techniques apply directly to how AWS frames CLF-C02 questions. Master thes
 Not all topics carry equal weight. These areas have the highest probability of appearing on your exam based on the official CLF-C02 domain weighting and publicly known question patterns.
 
 <CardGroup cols={2}>
-  <Card title="Shared Responsibility Model" icon="scale-balanced">
+  <Card title="Shared Responsibility Model" icon="scale-balanced" href="/security-compliance/shared-responsibility">
     Expect **3–5 questions** directly or indirectly testing this model. Know exactly which layer belongs to AWS (hardware, AZs, managed service patching) versus the customer (data encryption, IAM, OS patches on EC2).
   </Card>
-  <Card title="IAM Deep Dive" icon="user-lock">
+  <Card title="IAM Deep Dive" icon="user-lock" href="/security-compliance/iam-fundamentals">
     Know the difference between **users, groups, roles, and policies**. Understand that IAM is **global** (not region-specific), that MFA adds a second authentication factor, and that the principle of least privilege is the guiding policy design philosophy.
   </Card>
-  <Card title="EC2 Pricing Options" icon="server">
-    Master all four: **On-Demand** (flexible, full price), **Reserved** (1 or 3 year commitment, up to 72% savings), **Spot** (cheapest, interruptible), and **Savings Plans** (flexible commitment discount). Match each to the correct scenario type.
+  <Card title="EC2 Pricing Options" icon="server" href="/billing-support/pricing-models">
+    Master all four: **On-Demand** (flexible, full price), **Reserved** (1 or 3 year commitment, up to 72% savings), **Spot** (up to 90% savings, interruptible), and **Savings Plans** (flexible commitment discount). Match each to the correct scenario type.
   </Card>
-  <Card title="S3 Storage Classes" icon="database">
+  <Card title="S3 Storage Classes" icon="database" href="/technology-services/storage-services">
     Know the tradeoff between cost and retrieval time across **S3 Standard, S3 Intelligent-Tiering, S3 Standard-IA, S3 One Zone-IA, S3 Glacier Instant Retrieval, S3 Glacier Flexible Retrieval, and S3 Glacier Deep Archive**.
   </Card>
-  <Card title="Support Plans" icon="headset">
+  <Card title="Support Plans" icon="headset" href="/billing-support/support-plans">
     Be able to distinguish **Basic, Developer, Business, and Enterprise** plans by their key differentiators: access to a TAM (Enterprise only), response times, and Trusted Advisor check availability.
   </Card>
-  <Card title="Cloud Benefits & Deployment Models" icon="cloud">
+  <Card title="Cloud Benefits & Deployment Models" icon="cloud" href="/cloud-concepts/cloud-benefits">
     Know the **six advantages of cloud computing** and the difference between **public, private, and hybrid** cloud deployments. These appear in Domain 1 (Cloud Concepts, 24% weight).
   </Card>
-  <Card title="Region vs AZ vs Edge Location" icon="globe">
+  <Card title="Region vs AZ vs Edge Location" icon="globe" href="/cloud-concepts/aws-infrastructure">
     A **Region** contains multiple **Availability Zones** (isolated data centers). **Edge Locations** are used by CloudFront and Route 53 for low-latency content delivery. These are distinct and non-interchangeable concepts.
   </Card>
-  <Card title="CloudWatch vs CloudTrail" icon="eye">
+  <Card title="CloudWatch vs CloudTrail" icon="eye" href="/technology-services/additional-services">
     **CloudWatch** = monitoring, metrics, alarms, and logs for performance. **CloudTrail** = auditing, API call history, and who-did-what records. This distinction is tested directly and frequently.
   </Card>
 </CardGroup>

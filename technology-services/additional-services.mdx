@@ -1,7 +1,7 @@
 ---
 title: "AWS Application Integration, AI, and Developer Services"
 sidebarTitle: "Additional Services"
-description: "Survey AWS services for app integration, AI/ML, developer tools, and monitoring — SQS, SNS, SageMaker, CodePipeline, CloudWatch, and CloudTrail for the CLF-C02 exam."
+description: "Survey AWS integration and operations for CLF-C02 — SQS, SNS pub/sub, EventBridge, SageMaker AI/ML, CodePipeline CI/CD, CloudWatch, and CloudTrail."
 ---
 
 Beyond the core compute, storage, networking, and database layers, AWS provides a rich ecosystem of services that help you connect application components, add intelligence to your workloads, automate deployments, and gain operational visibility. This page covers the four supporting categories most frequently tested in the CLF-C02 exam: application integration, AI and machine learning, developer and DevOps tools, and management and monitoring.
@@ -279,16 +279,16 @@ Beyond the core compute, storage, networking, and database layers, AWS provides 
 ## Key Service Relationships at a Glance
 
 <CardGroup cols={2}>
-  <Card title="SQS vs SNS" icon="arrows-split-up-and-left">
+  <Card title="SQS vs SNS" icon="arrows-split-up-and-left" href="/technology-services/additional-services">
     **SQS** is a pull-based queue — one consumer processes each message. **SNS** is push-based pub/sub — one message fans out to all subscribers simultaneously. They are often combined in the fan-out pattern.
   </Card>
-  <Card title="CloudWatch vs CloudTrail" icon="eye">
+  <Card title="CloudWatch vs CloudTrail" icon="eye" href="/technology-services/additional-services">
     **CloudWatch** monitors operational metrics and logs (what is happening). **CloudTrail** records API activity (who did what, when). Use CloudTrail for security audits and compliance; use CloudWatch for performance monitoring and alerting.
   </Card>
-  <Card title="CloudFormation vs CDK" icon="file-code">
+  <Card title="CloudFormation vs CDK" icon="file-code" href="/technology-services/additional-services">
     **CloudFormation** uses JSON/YAML templates for infrastructure as code. **CDK** uses programming languages (Python, TypeScript, etc.) and compiles down to CloudFormation. CDK offers higher-level abstractions; CloudFormation is the underlying engine.
   </Card>
-  <Card title="Trusted Advisor vs Well-Architected" icon="shield-check">
+  <Card title="Trusted Advisor vs Well-Architected" icon="shield-check" href="/technology-services/additional-services">
     **Trusted Advisor** gives real-time, automated checks against AWS best practices. **Well-Architected Tool** guides structured architectural reviews against the six Well-Architected pillars — more strategic and workload-specific.
   </Card>
 </CardGroup>

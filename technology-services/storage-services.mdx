@@ -1,22 +1,22 @@
 ---
-title: "AWS Storage Services: S3, EBS, EFS, and Glacier"
+title: "AWS Storage Services Guide: S3, EBS, EFS, and Glacier"
 sidebarTitle: "Storage"
-description: "Explore AWS object, block, file, and archive storage services — S3 storage classes, EBS volume types, EFS shared storage, and Snow Family data migration devices."
+description: "Explore AWS storage for CLF-C02 — S3 storage classes and durability, EBS block volumes, EFS shared NFS, Glacier archive tiers, and Snow Family devices."
 ---
 
 AWS organizes cloud storage into four fundamental categories: **object storage** (S3) for unstructured data at any scale, **block storage** (EBS) for low-latency volumes attached to EC2 instances, **file storage** (EFS) for shared NFS workloads across multiple instances, and **archive storage** (Glacier) for long-term retention at the lowest possible cost. Knowing which category matches a given use case is a core skill tested throughout the CLF-C02 exam.
 
 <CardGroup cols={2}>
-  <Card title="Amazon S3" icon="bucket">
+  <Card title="Amazon S3" icon="bucket" href="/technology-services/storage-services">
     Unlimited object storage with 11 nines of durability and multiple storage class tiers
   </Card>
-  <Card title="Amazon EBS" icon="hard-drive">
+  <Card title="Amazon EBS" icon="hard-drive" href="/technology-services/storage-services">
     Persistent block storage volumes for EC2 with SSD and HDD options
   </Card>
-  <Card title="Amazon EFS" icon="folder-open">
+  <Card title="Amazon EFS" icon="folder-open" href="/technology-services/storage-services">
     Fully managed NFS file system that scales automatically and supports concurrent access
   </Card>
-  <Card title="AWS Snow Family" icon="truck">
+  <Card title="AWS Snow Family" icon="truck" href="/technology-services/storage-services">
     Physical devices for migrating petabyte-scale data into AWS offline
   </Card>
 </CardGroup>

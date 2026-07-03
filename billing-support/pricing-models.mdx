@@ -1,7 +1,7 @@
 ---
 title: "AWS Pricing Models: Pay-As-You-Go, Reserved & Spot"
 sidebarTitle: "Pricing Models"
-description: "Master AWS EC2 pricing options, the Free Tier, S3/Lambda/RDS cost structures, and the AWS Pricing Calculator for the CLF-C02 exam."
+description: "Master AWS EC2 pricing options, the Free Tier, S3/Lambda/RDS cost structures, and the AWS Pricing Calculator for CLF-C02 Domain 4 exam prep."
 ---
 
 AWS pricing is built on a simple promise: pay only for what you use, scale as you grow, and stop paying the moment you stop consuming a resource. There are no long-term contracts required by default, no minimum commitments, and no termination fees — a stark contrast to the upfront capital expenditure model of traditional on-premises IT. Understanding how pricing works across compute, storage, and outbound data transfer is foundational to both real-world cloud cost management and the CLF-C02 exam.
@@ -130,18 +130,18 @@ The AWS Free Tier lets you explore and use AWS services at no cost within define
 Beyond EC2, three core services have their own distinct billing structures that appear frequently on the exam.
 
 <CardGroup cols={3}>
-  <Card title="Amazon S3" icon="database">
+  <Card title="Amazon S3" icon="database" href="/technology-services/storage-services">
     - Pay per **GB stored** (tiered by storage class)
     - Pay per **API request** (PUT, GET, LIST, etc.)
     - Pay for **data transfer out** to the internet (inbound is free)
     - Lifecycle policies can auto-move objects to cheaper storage classes (e.g., S3 Glacier) to reduce costs
   </Card>
-  <Card title="AWS Lambda" icon="bolt">
+  <Card title="AWS Lambda" icon="bolt" href="/technology-services/compute-services">
     - Pay per **number of requests** (first 1M/month always free)
     - Pay per **duration** in milliseconds (rounded up to nearest ms), based on memory allocated
     - No charge when code is not running — truly serverless billing
   </Card>
-  <Card title="Amazon RDS" icon="circle-nodes">
+  <Card title="Amazon RDS" icon="circle-nodes" href="/technology-services/database-services">
     - Pay for **instance hours** (instance type, engine, Multi-AZ)
     - Pay for **provisioned storage** (GB/month)
     - Pay for **I/O requests** (for magnetic storage)

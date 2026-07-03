@@ -1,7 +1,7 @@
 ---
-title: "AWS Shared Responsibility Model: Who Secures What"
+title: "AWS Shared Responsibility Model Explained (CLF-C02)"
 sidebarTitle: "Shared Responsibility"
-description: "Understand how AWS and customers divide security duties — covering infrastructure, data, IAM, OS patches, and how responsibility shifts by service type."
+description: "Understand how AWS and customers divide security duties — infrastructure, data, IAM, OS patches, and how responsibility shifts by service type."
 ---
 
 The AWS Shared Responsibility Model is the single most important security concept for the CLF-C02 exam. It establishes a clear boundary between what AWS protects and what you, the customer, are responsible for securing. Getting this boundary wrong in production can leave critical gaps — and getting it wrong on the exam costs you points.
@@ -26,16 +26,16 @@ Think of it like renting an apartment in a luxury building. The building owner s
 AWS owns and operates the global infrastructure that underlies every service. Their responsibilities include:
 
 <CardGroup cols={2}>
-  <Card title="Physical Infrastructure" icon="building">
+  <Card title="Physical Infrastructure" icon="building" href="/security-compliance/shared-responsibility">
     Data centers with controlled physical access, environmental controls, power redundancy, fire suppression, and secure hardware disposal.
   </Card>
-  <Card title="Hardware & Networking" icon="server">
+  <Card title="Hardware & Networking" icon="server" href="/security-compliance/shared-responsibility">
     Physical servers, storage devices, network switches, routers, and the backbone connectivity between AWS regions and Availability Zones.
   </Card>
-  <Card title="Hypervisor & Host OS" icon="microchip">
+  <Card title="Hypervisor & Host OS" icon="microchip" href="/security-compliance/shared-responsibility">
     The virtualization layer beneath EC2 instances — AWS patches and secures the host operating system and hypervisor that your VMs run on.
   </Card>
-  <Card title="Managed Service Platforms" icon="gear">
+  <Card title="Managed Service Platforms" icon="gear" href="/security-compliance/shared-responsibility">
     For services like RDS, Lambda, and DynamoDB, AWS manages the underlying software stack, operating system, and runtime patching.
   </Card>
 </CardGroup>
@@ -47,22 +47,22 @@ AWS owns and operates the global infrastructure that underlies every service. Th
 Everything you deploy on top of AWS infrastructure is your responsibility:
 
 <CardGroup cols={2}>
-  <Card title="Customer Data" icon="database">
+  <Card title="Customer Data" icon="database" href="/security-compliance/shared-responsibility">
     Classifying, encrypting, and protecting your data — in transit and at rest. AWS does not encrypt your data by default.
   </Card>
-  <Card title="Identity & Access Management" icon="lock">
+  <Card title="Identity & Access Management" icon="lock" href="/security-compliance/iam-fundamentals">
     Creating IAM users, groups, and roles with least-privilege permissions. Managing MFA, access keys, and password policies.
   </Card>
-  <Card title="OS Patches (IaaS)" icon="shield">
+  <Card title="OS Patches (IaaS)" icon="shield" href="/security-compliance/shared-responsibility">
     On EC2, you own the guest operating system. Applying security patches, hardening the OS, and managing vulnerabilities is entirely your job.
   </Card>
-  <Card title="Application Security" icon="code">
+  <Card title="Application Security" icon="code" href="/security-compliance/shared-responsibility">
     Securing the code you deploy — protecting against SQL injection, XSS, and other application-level vulnerabilities.
   </Card>
-  <Card title="Network Configuration" icon="network-wired">
+  <Card title="Network Configuration" icon="network-wired" href="/security-compliance/shared-responsibility">
     Configuring Security Groups, Network ACLs, VPC routing, and firewall rules that control traffic to your resources.
   </Card>
-  <Card title="Encryption Choices" icon="key">
+  <Card title="Encryption Choices" icon="key" href="/security-compliance/security-services">
     Deciding what to encrypt, selecting encryption keys via KMS or CloudHSM, and managing certificate lifecycles.
   </Card>
 </CardGroup>

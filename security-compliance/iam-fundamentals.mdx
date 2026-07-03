@@ -1,7 +1,7 @@
 ---
 title: "AWS IAM: Users, Groups, Roles & Policies Explained"
 sidebarTitle: "IAM"
-description: "Master AWS Identity and Access Management — users, groups, roles, policies, MFA, and least-privilege principles for the CLF-C02 exam and real-world security."
+description: "Master AWS IAM — users, groups, roles, policies, MFA, and least-privilege principles tested on the CLF-C02 exam and applied in real-world cloud security."
 ---
 
 AWS Identity and Access Management (IAM) is the cornerstone of security in the cloud. It is the primary tool customers use to fulfill their side of the Shared Responsibility Model — controlling who can access which AWS resources, under what conditions, and with what level of permission. IAM is also one of the most heavily tested topics on the CLF-C02 exam.
@@ -44,7 +44,7 @@ Key facts for the exam:
 
   **Best practice:** Create one IAM user per person. Never share IAM user credentials between individuals.
 
-  ```
+  ```text
   User: sarah.developer
   ├── Console Access: Yes (MFA required)
   ├── Programmatic Access: Yes
@@ -62,7 +62,7 @@ Key facts for the exam:
   - Changing what developers can access? Update the group policy once, not 20 individual users.
 
   **Common group examples:**
-  ```
+  ```text
   Group: Developers
   ├── Members: alice, bob, carol
   └── Policies: EC2FullAccess, S3DeveloperAccess
@@ -88,7 +88,7 @@ Key facts for the exam:
 
   Without roles, you would have to hardcode an access key inside the EC2 instance — a serious security risk. With a role:
 
-  ```
+  ```text
   Role: EC2-S3-Read-Role
   ├── Trusted Entity: EC2 Service
   ├── Policies: S3ReadOnlyAccess
@@ -201,7 +201,7 @@ This policy grants exactly one action (`s3:GetObject`) on exactly one bucket (`m
 
     This user should also have MFA enabled. The difference: if this user's credentials are compromised, you can lock or delete the account. The root account cannot be locked.
 
-    ```
+    ```text
     Recommended setup:
     Root Account → Enable MFA → Never use again for daily tasks
     IAM Admin User → Enable MFA → Use for all administrative work
@@ -216,13 +216,13 @@ This policy grants exactly one action (`s3:GetObject`) on exactly one bucket (`m
 MFA adds a second verification factor beyond just a password. Even if an attacker steals a password, they cannot access the account without the second factor.
 
 <CardGroup cols={3}>
-  <Card title="Virtual MFA" icon="mobile">
+  <Card title="Virtual MFA" icon="mobile" href="/security-compliance/iam-fundamentals">
     Apps like Google Authenticator, Authy, or Microsoft Authenticator. Free, convenient, and sufficient for most use cases.
   </Card>
-  <Card title="Hardware Token" icon="key">
+  <Card title="Hardware Token" icon="key" href="/security-compliance/iam-fundamentals">
     A physical key fob that generates a time-based code. More secure than a phone app because it is a dedicated, isolated device.
   </Card>
-  <Card title="U2F Security Key" icon="usb">
+  <Card title="U2F Security Key" icon="usb" href="/security-compliance/iam-fundamentals">
     Physical USB or NFC keys (e.g., YubiKey). Phishing-resistant and highly secure. Works with compatible browsers and the AWS console.
   </Card>
 </CardGroup>

@@ -55,40 +55,40 @@ This third and final practice exam uses **scenario-based questions** — the for
   **Explanation:** An **EC2 Auto Scaling group** with On-Demand Instances automatically launches additional EC2 instances when CPU utilization (or other CloudWatch metrics) exceeds a threshold and terminates instances when demand drops. This directly addresses the requirement: you pay only for running instances, so overnight costs are minimal while daytime performance scales to meet demand. A single large instance wastes money at night. Reserved Instances for peak capacity still charge you 24/7. Lambda is not designed for long-running web server processes with persistent connections.
 </Accordion>
 
-<Accordion title="Question 3: A company currently owns two aging on-premises data centers. They want to migrate some workloads to AWS while keeping others on-premises due to regulatory requirements, creating a seamlessly connected mixed environment. What is this type of architecture called?">
+<Accordion title="Question 3: A global e-commerce company wants to expand their AWS footprint so that customers in South America experience lower latency when accessing their platform. Which AWS infrastructure concept should they leverage?">
   **Options:**
-  - A) Multi-cloud deployment
-  - B) Private cloud deployment
-  - C) Hybrid cloud deployment
-  - D) Community cloud deployment
+  - A) Deploy to additional Availability Zones within the us-east-1 Region
+  - B) Launch a new AWS Region in South America (e.g., sa-east-1)
+  - C) Use more Edge Locations in existing Regions
+  - D) Increase the instance size of existing EC2 servers in us-east-1
 
-  **Correct Answer: C) Hybrid cloud deployment**
+  **Correct Answer: B) Launch a new AWS Region in South America (e.g., sa-east-1)**
 
-  **Explanation:** A **hybrid cloud** deployment model integrates on-premises infrastructure with public cloud resources, treating them as a unified, interconnected environment. Organizations use hybrid cloud when regulations require certain data to remain on-premises, or when migrating to the cloud incrementally. AWS services like AWS Direct Connect, AWS VPN, AWS Outposts, and AWS Storage Gateway are designed specifically to bridge on-premises data centers with the AWS cloud. This is one of the three main deployment models tested on CLF-C02: Public, Private, and Hybrid.
+  **Explanation:** An **AWS Region** is a geographically distinct cluster of data centers that brings AWS infrastructure physically closer to end users in that area, reducing network round-trip time and latency. The South America (São Paulo) Region (`sa-east-1`) allows companies to serve South American customers from a local Region rather than routing traffic internationally to North America. Availability Zones are within the same Region — adding more AZs in us-east-1 does not reduce geographic latency for South American users. Edge Locations cache content via CloudFront but are not full compute Regions. Larger instances improve processing speed, not geographic network latency.
 </Accordion>
 
-<Accordion title="Question 4: A company is evaluating cloud adoption. Their CTO says the biggest benefit is not having to forecast infrastructure needs three years in advance. Which cloud computing advantage does this refer to?">
+<Accordion title="Question 4: A media company wants to launch their streaming service in five new countries simultaneously. Their on-premises infrastructure would take months and millions of dollars to expand globally. Which AWS advantage most directly addresses this business goal?">
   **Options:**
-  - A) Increase speed and agility
-  - B) Trade capital expense for variable expense
-  - C) Stop guessing about infrastructure capacity
-  - D) Go global in minutes
+  - A) Trade capital expense for variable expense
+  - B) Benefit from massive economies of scale
+  - C) Go global in minutes
+  - D) Stop guessing about infrastructure capacity
 
-  **Correct Answer: C) Stop guessing about infrastructure capacity**
+  **Correct Answer: C) Go global in minutes**
 
-  **Explanation:** One of AWS's six advantages of cloud computing is "**Stop guessing about capacity.**" Traditionally, companies had to predict infrastructure needs 1–3 years ahead and purchase accordingly — often over-provisioning (wasting money) or under-provisioning (causing poor performance). Cloud computing solves this by allowing you to scale up or down in minutes based on actual demand, with no minimum commitment. You can start small and grow as needed. This is a core value proposition of the cloud that appears frequently in CLF-C02 conceptual questions.
+  **Explanation:** One of AWS's six advantages of cloud computing is "**Go global in minutes.**" Because AWS has Regions distributed around the world, a company can deploy their application infrastructure in multiple geographic Regions with just a few clicks or API calls — dramatically faster and cheaper than building physical data centers abroad. This allows businesses to deliver low-latency experiences to international customers and comply with data residency requirements without the multi-year, multi-million-dollar investment that physical expansion would require. This advantage is distinct from economies of scale (lower per-unit costs) or variable pricing.
 </Accordion>
 
-<Accordion title="Question 5: A financial services company wants to build a new application following AWS best practices. Their architect mentions the application should be designed so that a single component failure does not cause the entire system to fail. Which AWS Well-Architected Framework pillar is guiding this design decision?">
+<Accordion title="Question 5: A cloud architect reviews an application and finds that it provisions large EC2 instances 24/7 even though CPU utilization rarely exceeds 10%. The architect recommends rightsizing to smaller instance types. Which AWS Well-Architected Framework pillar guides this recommendation?">
   **Options:**
-  - A) Cost Optimization
-  - B) Performance Efficiency
-  - C) Reliability
+  - A) Reliability
+  - B) Security
+  - C) Cost Optimization
   - D) Operational Excellence
 
-  **Correct Answer: C) Reliability**
+  **Correct Answer: C) Cost Optimization**
 
-  **Explanation:** The **Reliability pillar** of the AWS Well-Architected Framework focuses on building workloads that can recover from infrastructure or service disruptions, dynamically acquire resources, and mitigate disruptions like misconfigurations or transient network failures. Designing for failure — assuming components will fail and ensuring the system remains functional — is a core Reliability principle. This includes using multiple Availability Zones, implementing health checks, using Auto Scaling, and decoupling components. The scenario directly describes a Reliability concern: no single point of failure.
+  **Explanation:** The **Cost Optimization pillar** of the AWS Well-Architected Framework focuses on avoiding unnecessary costs and using resources efficiently. Key practices include rightsizing instances to match actual workload requirements, eliminating idle or underutilized resources, and selecting the most cost-effective pricing models (such as Reserved Instances or Spot Instances for predictable or flexible workloads). Running oversized EC2 instances at low utilization is a classic Cost Optimization problem. The six pillars are: Operational Excellence, Security, Reliability, Performance Efficiency, Cost Optimization, and Sustainability.
 </Accordion>
 
 ---
@@ -107,16 +107,16 @@ This third and final practice exam uses **scenario-based questions** — the for
   **Explanation:** The AWS-recommended approach is to use an **IAM Role** assigned as an **EC2 Instance Profile**. The role provides temporary, automatically rotating credentials to the EC2 instance — the AWS SDK retrieves them automatically from the instance metadata service. This eliminates the security risk of hardcoded or environment variable-stored static access keys that could be exposed via code commits, logs, or process inspection. Making the bucket public is a serious security violation. IAM Groups cannot be assigned to EC2 instances — only to IAM Users.
 </Accordion>
 
-<Accordion title="Question 7: A security team wants to detect if anyone in their AWS account is making unusual API calls — for example, if a compromised IAM user is attempting to enumerate S3 buckets or disable CloudTrail logging. Which AWS service provides this type of intelligent threat detection?">
+<Accordion title="Question 7: A security engineer needs to scan Amazon EC2 instances and container images in Amazon ECR for known software vulnerabilities and unintended network exposure. Which AWS service is purpose-built for this type of vulnerability assessment?">
   **Options:**
-  - A) AWS Config
-  - B) AWS CloudTrail
-  - C) Amazon GuardDuty
-  - D) Amazon Inspector
+  - A) Amazon GuardDuty
+  - B) AWS Macie
+  - C) Amazon Inspector
+  - D) AWS Shield Advanced
 
-  **Correct Answer: C) Amazon GuardDuty**
+  **Correct Answer: C) Amazon Inspector**
 
-  **Explanation:** **Amazon GuardDuty** is a managed threat detection service that uses machine learning and threat intelligence to continuously monitor your AWS account for malicious activity and unauthorized behavior. It analyzes CloudTrail management events, VPC Flow Logs, and DNS query logs to identify threats such as: compromised credentials making unusual API calls, EC2 instances communicating with known malicious IPs, cryptocurrency mining activity, and reconnaissance attempts like S3 bucket enumeration. CloudTrail records API calls but does not analyze or alert on them. AWS Config tracks resource compliance. Inspector scans for vulnerabilities.
+  **Explanation:** **Amazon Inspector** is an automated vulnerability management service that continuously scans AWS workloads — including EC2 instances and container images stored in Amazon ECR — for software vulnerabilities (CVEs) and unintended network exposure. It generates prioritized findings with severity scores so teams can remediate the most critical issues first. **Amazon GuardDuty** detects active threats and malicious behavior (runtime threat detection), not pre-existing software vulnerabilities. **AWS Macie** discovers sensitive data like PII stored in S3 buckets. **AWS Shield Advanced** protects against DDoS attacks. Inspector is the correct tool for proactive vulnerability scanning.
 </Accordion>
 
 <Accordion title="Question 8: A company processes credit card transactions and needs to provide their compliance team with documentation proving that AWS meets PCI DSS requirements for the infrastructure components AWS manages. Which service provides this documentation?">
@@ -183,16 +183,16 @@ This third and final practice exam uses **scenario-based questions** — the for
   **Explanation:** **AWS Lambda + Amazon API Gateway** is the canonical serverless backend architecture. **API Gateway** creates a managed HTTP/HTTPS API endpoint that receives requests from mobile clients and routes them to the appropriate Lambda function. **Lambda** executes the business logic (authentication, data processing, database calls) in response to each request without any server provisioning. The combination scales automatically from zero to millions of requests with no idle costs. Elastic Beanstalk and ECS/Fargate still involve server/container management. EC2 + ELB requires manual scaling configuration.
 </Accordion>
 
-<Accordion title="Question 13: A company has 5TB of data on-premises that needs to be migrated to Amazon S3. Their internet connection is 100Mbps and is heavily used for daily business operations, making a large internet-based transfer impractical. Which AWS service is designed for this type of offline migration?">
+<Accordion title="Question 13: A retail company needs to replicate terabytes of on-premises file server data to AWS on an ongoing basis over their existing internet connection, while keeping the local file server fully functional for their staff. Which AWS service provides this hybrid storage connectivity?">
   **Options:**
-  - A) AWS DataSync via the internet
-  - B) Amazon S3 Transfer Acceleration
-  - C) AWS Snowball Edge
-  - D) AWS Storage Gateway
+  - A) AWS Snowball Edge
+  - B) AWS DataSync
+  - C) AWS Storage Gateway
+  - D) Amazon S3 Transfer Acceleration
 
-  **Correct Answer: C) AWS Snowball Edge**
+  **Correct Answer: C) AWS Storage Gateway**
 
-  **Explanation:** **AWS Snowball Edge** (part of the AWS Snow Family) is a physical data transfer device shipped to your location. You load up to 80TB of data onto the device and ship it back to AWS, where the data is imported into S3. For 5TB over a 100Mbps connection that's shared with daily business traffic, an online transfer could take days and impact operations. Snowball completes the transfer in days via physical logistics without impacting network bandwidth. S3 Transfer Acceleration speeds up internet-based S3 uploads but doesn't help with bandwidth constraints. DataSync also uses the internet.
+  **Explanation:** **AWS Storage Gateway** is a hybrid cloud storage service that connects an on-premises environment to AWS cloud storage seamlessly. It presents standard storage interfaces (NFS, SMB, iSCSI) to on-premises applications while transparently storing data in Amazon S3, S3 Glacier, or EBS. This allows staff to continue using the local file server normally while the data is continuously and durably backed up to or replicated in AWS. **AWS DataSync** is designed for large, scheduled one-time or recurring data transfer tasks and requires a dedicated agent. **Snowball Edge** is for offline, physically shipped transfers. **S3 Transfer Acceleration** only speeds up direct internet-based S3 uploads, without on-premises integration.
 </Accordion>
 
 <Accordion title="Question 14: A development team wants to store their application source code in a managed, version-controlled repository on AWS, and automatically build, test, and deploy the code to production whenever changes are pushed. Which AWS services should they use?">
